@@ -1,6 +1,6 @@
 [submodule "api"]
 	path = api
-	url = git@github.com:noahziheng/freeiot-api.git
+	url = https://github.com/noahziheng/freeiot-api.git
 [submodule "web"]
 	path = web
 	url = ./web
