@@ -1,0 +1,3 @@
+build/*.js
+config/*.js
+static/ie-blocker/*.js
