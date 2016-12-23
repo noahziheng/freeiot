@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+  web:
+    command: npm start
+    build: .
+    volumes:
+      - ./:/app
+    expose:
+      - "8080"
+    links:
+      - mongo
+    environment:
+      - MONGO_DB_URI=mongodb://mongo:27017/freeiot-api
+      - VIRTUAL_HOST=api.iot.noahgao.net
+      - VIRTUAL_PROT=8080
+      - LETSENCRYPT_HOST=api.iot.noahgao.net
+      - LETSENCRYPT_EMAIL=noahgaocn@gmail.com
+      - NODE_ENV=production
+
+
+  mongo:
+    image: mongo
+    expose:
+      - "27017"
+    volumes_from:
+      - mongodata
+  
+  mqtt:
+    image: toke/mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+
+  mongodata:
+    image: tianon/true
+    volumes:
+      - /data/db:/data/db
