@@ -1,0 +1,6 @@
+[submodule "api"]
+	path = api
+	url = ./api
+[submodule "web"]
+	path = web
+	url = ./web
