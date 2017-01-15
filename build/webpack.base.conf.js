@@ -12,6 +12,8 @@ var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
   entry: {
+    promise: 'promise-polyfill',
+    fetch: 'whatwg-fetch',
     app: './src/main.js'
   },
   output: {
