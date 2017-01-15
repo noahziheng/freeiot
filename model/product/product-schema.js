@@ -19,36 +19,12 @@ const productSchema = new Schema({
     ref: 'User',
     required: true
   },
-  get_method: {
-    type: {type: Number}, // 数据获取方式 0-默认方式(代号：数据) 1-JSON 2-自定义方法
-    point: [{
-      name: {
-        long: String,
-        short: String,
-        human: String
-      },
-      format: {
-        name: String, // Support int,float,String
-        round: Number // 保留小数位数
-      }
-    }],
-    custom: String
-  },
-  set_method: {
-    type: {type: Number}, // 数据获取方式 0-默认方式(代号：数据) 1-JSON 2-自定义方法
-    point: [{
-      name: {
-        long: String,
-        short: String,
-        human: String
-      },
-      format: {
-        name: String, // Support int,float,String
-        round: Number // 保留小数位数
-      }
-    }],
-    custom: String
-  },
+  mods: [{
+    origin: String,
+    remark: String,
+    vars: {},
+    hidden: []
+  }],
   logo: { type: String, default: '/images/default_logo.png' },
   created_at: { type: Date, default: new Date() },
   updated_at: { type: Date }

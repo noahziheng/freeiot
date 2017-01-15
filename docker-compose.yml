@@ -8,12 +8,12 @@ services:
       - ./:/app
     ports:
       - "80:8080"
+      - "1883:1883"
     links:
       - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/freeiot-api
-      - MQTT_SERVER=mqtt
-      - MQTT_PORT=1883
+      - MQTT_DB_URI=mongodb://mongo:27017/mqtt
 
   mongo:
     image: mongo
@@ -21,12 +21,6 @@ services:
       - "27017:27017"
     volumes_from:
       - mongodata
-  
-  mqtt:
-    image: toke/mosquitto
-    ports:
-      - "1883:1883"
-      - "9001:9001"
 
   mongodata:
     image: tianon/true

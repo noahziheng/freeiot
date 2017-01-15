@@ -7,8 +7,14 @@ const config = {
     url: process.env.MONGO_DB_URI || 'mongodb://localhost/freeiot-api'
   },
   mqtt: {
-    server: process.env.MQTT_SERVER || 'mqtt',
-    port: process.env.MQTT_PORT || '1883'
+    port: 1883,
+    backend: {
+      // using ascoltatore
+      type: 'mongo',
+      url: process.env.MQTT_DB_URI || 'mongodb://localhost/mqtt',
+      pubsubCollection: 'ascoltatori',
+      mongo: {}
+    }
   },
   key: {
     jwt: '1e6f17c8b92bd24568950e0afbaa1cf2',

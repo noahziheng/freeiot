@@ -11,7 +11,7 @@ const deviceSchema = new Schema({
     default: shortId.generate
   },
   name: { type: String, required: true },
-  secret: { type: String, default: ctyptopass() },
+  secret: { type: String, default: ctyptopass, select: false },
   owner: {
     type: String,
     ref: 'User',
@@ -22,7 +22,6 @@ const deviceSchema = new Schema({
     ref: 'Product',
     required: true
   },
-  data_latest: { type: mongoose.Schema.Types.Mixed },
   status: { type: Number, default: 1 }, // 设备状态 0-预置 1-等待入网 2-离线 3-在线
   created_at: { type: Date, default: new Date() },
   updated_at: { type: Date }

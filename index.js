@@ -12,8 +12,9 @@ const routes = require('./routes')
 
 const userModel = require('./model/user/user-facade')
 
-const msg = require('./mqtt/server.js')
+const MsgServer = require('./mqtt/server.js')
 const app = express()
+const mosca = require('mosca')
 
 mongoose.Promise = bluebird
 mongoose.connect(config.mongo.url)
@@ -31,7 +32,7 @@ app.use(jwt({ secret: config.key.jwt,
       return t
     }
     return null
-  } }).unless({ path: ['/', '/user/auth', { url: '/user', methods: 'POST' }] }), // 首页、用户鉴权及注册不受JWT保护
+  } }).unless({ path: ['/', '/user/auth', '/mod', { url: /^\/mod\/.*/, methods: 'POST' }, { url: '/user', methods: 'POST' }] }), // 首页、用户鉴权及注册不受JWT保护
   (err, req, res, next) => {
     // Error handler(Global in Routes)
     // Check JWT's UnauthorizedError mainly
@@ -61,7 +62,13 @@ app.use(jwt({ secret: config.key.jwt,
 
 
 // Run
-msg.run(config.mqtt.server, config.mqtt.port)
+const server = new mosca.Server(config.mqtt)   // here we start mosca
+const msg = new MsgServer(server)
+msg.setup()
+app.use((req, res, next) => {
+  req.mqtt = server
+  next()
+})
 
 app.use('/', routes)
 
