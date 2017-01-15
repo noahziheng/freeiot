@@ -6,12 +6,15 @@ services:
     build: .
     volumes:
       - ./:/app
+    ports:
+      - "1883:1883"
     expose:
       - "8080"
     links:
       - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/freeiot-api
+      - MQTT_DB_URI=mongodb://mongo:27017/mqtt
       - VIRTUAL_HOST=api.iot.noahgao.net
       - VIRTUAL_PROT=8080
       - LETSENCRYPT_HOST=api.iot.noahgao.net
@@ -23,16 +26,5 @@ services:
     image: mongo
     expose:
       - "27017"
-    volumes_from:
-      - mongodata
-  
-  mqtt:
-    image: toke/mosquitto
-    ports:
-      - "1883:1883"
-      - "9001:9001"
-
-  mongodata:
-    image: tianon/true
     volumes:
-      - /data/db:/data/db
+      - /data/db/mongo-freeiot:/data/db

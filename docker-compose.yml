@@ -19,10 +19,5 @@ services:
     image: mongo
     ports:
       - "27017:27017"
-    volumes_from:
-      - mongodata
-
-  mongodata:
-    image: tianon/true
     volumes:
-      - /data/db
+      - /data/db/mongo-freeiot:/data/db
