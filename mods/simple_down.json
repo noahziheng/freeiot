@@ -1,0 +1,13 @@
+{
+  "driver": "simple",
+  "downlink": [
+    {
+      "label": "{{label}}",
+      "format": {
+        "type": "{{format_type}}",
+        "round": {{format_round}}{{^format_round}}0{{/format_round}}
+      },
+      "remark": "控制量标志"
+    }
+  ]
+}

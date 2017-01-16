@@ -1,0 +1,74 @@
+GET http://api.freeiot.dev/
+###
+GET http://api.freeiot.dev/user
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTg2MzIsImV4cCI6MTQ4NTAwMzQzMn0.-2Zd86vJbXHlFpAtVietttc63rCMjPLj8XKWri06XA0
+###
+POST http://api.freeiot.dev/user
+content-type: application/json
+
+{
+  "email":"noahgaocn@gmail.com",
+  "password":"adzd1005"
+}
+###
+POST http://api.freeiot.dev/user/auth
+content-type: application/json
+
+{
+  "email":"noahgaocn@gmail.com",
+  "password":"adzd1005"
+}
+###
+POST http://api.freeiot.dev/product
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkIxWEM5ZUZJZyIsImVtYWlsIjoibm9haGdhb2NuQGdtYWlsLmNvbSIsInJvbGUiOjAsImlhdCI6MTQ4NDQ4NzM3NCwiZXhwIjoxNDg1MDkyMTc0fQ.JTQUFECfm5YeMa9SIF3J5I_w5KpicAbFygocidcWRXo
+content-type: application/json
+
+{
+  "name": "TEST1",
+  "owner": "rkbNjkiw8l",
+  "mods": [{
+    "origin": "simple_down",
+    "remark": "TEST1",
+    "vars": {
+      "label": "K",
+      "format_type": "int",
+      "format_unit": ""
+    },
+    "hidden": [1]
+  },{
+    "origin": "simple_up",
+    "remark": "TEST2",
+    "vars": {
+      "label": "T",
+      "format_type": "int",
+      "format_unit": "℃",
+      "label_2": "S",
+      "format_type_2": "float",
+      "format_unit_2": "%",
+      "format_round_2": 0
+    },
+    "hidden": []
+  }]
+}
+###
+GET http://api.freeiot.dev/product
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTg2MzIsImV4cCI6MTQ4NTAwMzQzMn0.-2Zd86vJbXHlFpAtVietttc63rCMjPLj8XKWri06XA0
+###
+POST http://api.freeiot.dev/device
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTk5MjcsImV4cCI6MTQ4NTAwNDcyN30._HYyof65wHuc4xhbD8sL0Ew5meyc1piV5hvAlbEUvDo
+content-type: application/json
+
+{
+  "name": "TEST1",
+  "owner": "rkbNjkiw8l",
+  "product": "SkZj28sPIx"
+}
+###
+POST http://api.freeiot.dev/device/By-_GdiPIl/data
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTk5MjcsImV4cCI6MTQ4NTAwNDcyN30._HYyof65wHuc4xhbD8sL0Ew5meyc1piV5hvAlbEUvDo
+content-type: application/json
+
+{
+  "type": 1,
+  "K": 15
+}

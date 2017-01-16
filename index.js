@@ -13,6 +13,7 @@ const routes = require('./routes')
 const userModel = require('./model/user/user-facade')
 
 const MsgServer = require('./mqtt/server.js')
+const cors = require('cors')
 const app = express()
 const mosca = require('mosca')
 
@@ -24,6 +25,7 @@ app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
+app.use(cors())
 app.use(jwt({ secret: config.key.jwt,
   getToken: req => {
     if (req.query && req.query.token) { // 识别HTTP Params中的token
@@ -49,6 +51,7 @@ app.use(jwt({ secret: config.key.jwt,
   },
   (req, res, next) => {
     if (req.user) { // 如识别到JWT中的 Payload 则查库进行二次验证
+      console.log(req.user)
       userModel.findById(req.user.id).then(doc => {
         if (!doc) { return res.status(404).json({ msg: 'User is not found!' }) } // HTTP 401 token对应用户不存在
         if (doc.role !== req.user.role) { return res.status(401).json({ msg: 'Token is outdated!' }) } // HTTP 401 token已过期（权限更改）
