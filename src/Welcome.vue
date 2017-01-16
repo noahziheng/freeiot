@@ -19,9 +19,9 @@
         <h1 class="mu-banner-title">
           FreeIOT
         </h1>
-        <h3 class="mu-banner-sub-title">
-          为开发者准备的开源物联网套件
-        </h3>
+        <h1 class="mu-banner-sub-title">
+          可能会是最好用的开源物联网套件
+        </h1>
         <div class="mu-banner-actions">
           <mu-raised-button label="进入控制台" href="/dashboard" class="mu-banner-button"/>
           <mu-raised-button label="查看文档" href="/docs" primary/>
@@ -31,22 +31,22 @@
     </div>
     <div class="mu-desc-wrapper">
       <div class="mu-desc">
-        <h4 class="mu-desc-title">特性</h4>
+        <h1 class="mu-desc-title">特性</h1>
         <mu-row gutter>
           <mu-col tablet="33" desktop="33" class="mu-desc-item">
-            <h5 class="mu-desc-sub-title">高效</h5>
+            <h2 class="mu-desc-sub-title">高效</h2>
             <div class="mu-desc-text">
               基于MQTT和Node.js开发的消息服务框架效率很高，足够保证您的物联网设备稳定接入。
             </div>
           </mu-col>
           <mu-col tablet="33" desktop="33" class="mu-desc-item">
-            <h5 class="mu-desc-sub-title">安全</h5>
+            <h2 class="mu-desc-sub-title">安全</h2>
             <div class="mu-desc-text">
               独立的用户机制和全站HTTPS保证了开发、使用过程中的安全。
             </div>
           </mu-col>
           <mu-col tablet="33" desktop="33" class="mu-desc-item">
-            <h5 class="mu-desc-sub-title">易用</h5>
+            <h2 class="mu-desc-sub-title">易用</h2>
             <div class="mu-desc-text">
               精心制作的各种引导、齐全的文档帮助您以最快的速度完成物联网设备的开发与接入。
             </div>
@@ -57,17 +57,17 @@
     <mu-divider/>
     <div  class="mu-desc-wrapper">
       <div class="mu-desc">
-        <h4 class="mu-desc-title">致谢</h4>
+        <h1 class="mu-desc-title">致谢</h1>
         <div class="mu-desc-item">
           <div class="mu-desc-text">
-            FreeIOT Web基于非常优秀的前端框架 Vue 开发，后端API基于 Express.js+Mongoose 和 Docker+Aliyun 部署，我们在GPLv3开源协议基础上开放Muse UI的源代码，您除了使用我们的服务外也可利用开源项目自行构建和部署。
+            FreeIOT Web基于非常优秀的前端框架 Vue 开发，后端API基于 Express.js+Mongoose 和 Docker+Aliyun 部署，我们在GPLv3开源协议基础上开放几乎全部的源代码，您除了使用我们的服务外也可利用开源项目自行构建和部署。
           </div>
         </div>
       </div>
     </div>
     <div class="mu-footer">
-      Muse-UI is open source and released under the MIT Licence.<br/>
-      Copyright (c) 2016 myron
+      FreeIOT is open source and released under the GPLv3 Licence.<br/>
+      Copyright (C) 2017 Noah Gao
     </div>
   </div>
 </template>

@@ -29,6 +29,28 @@ export default {
   components: {
     userMenu
   },
+  created: function () {
+    if (this.$route.path !== ('/login' && '/reg') && !this.$store.user) {
+      this.$router.push('/login')
+    }
+    if (window.localStorage && window.fetch) {
+      if (window.localStorage.user) {
+        let obj = JSON.parse(window.localStorage.user)
+        this.$store.commit('login', obj) // 一次本地授权
+        // 二次对本地授权中权限进行重新校验
+        fetch(this.$root.apiurl + '/user/' + obj.id + '?token=' + obj.token).then(res => res.json()).then(json => {
+          if (json.msg === undefined) {
+            obj.role = json.role
+            this.$store.commit('login', obj)
+            window.localStorage.user = JSON.stringify(obj)
+          }
+        })
+      }
+      if (window.localStorage.nodev) this.$store.commit('nodev', JSON.parse(window.localStorage.nodev))
+    } else {
+      this.$store.commit('error', '您的浏览器不支持HTML5特性,可能造成使用不便')
+    }
+  },
   methods: {
     drawer_toggle () {
       this.drawer_open = !this.drawer_open

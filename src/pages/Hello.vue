@@ -3,25 +3,19 @@
     <mu-row gutter>
       <mu-col width="100" tablet="60" desktop="75">
         <div class="hello-guide">
-          <h2>(=・ω・=)</h2>
-          <p>欢迎！你还没有设备，添加一个吧～</p>
+          <h1 class="hello-icon">(=・ω・=)</h1>
+          <h2>欢迎！你还没有设备，添加一个吧～</h2>
           <mu-raised-button label="添加新设备" secondary/>
           <mu-raised-button label="查阅文档" primary/>
         </div>
       </mu-col>
       <mu-col width="100" tablet="40" desktop="25">
-        <mu-card class="hello-card">
-          <mu-card-title title="你还不是开发者哦！" subTitle="由于服务器资源有限，你需要申请成为开发者才能建立自己的产品～"/>
-          <mu-card-actions>
-            <mu-flat-button label="立即申请"/>
-            <mu-flat-button label="别再烦我"/>
-          </mu-card-actions>
-        </mu-card>
+        <Developer v-if="role < 2 && !nodev" :role="role" />
         <mu-card class="hello-card">
           <mu-card-actions>
             <mu-flat-button label="添加新设备" primary/>
           </mu-card-actions>
-          <mu-card-actions>
+          <mu-card-actions v-if="role >= 2">
             <mu-flat-button label="添加新产品" secondary/>
           </mu-card-actions>
         </mu-card>
@@ -31,11 +25,26 @@
 </template>
 
 <script>
+import Developer from '../components/Developer'
+
 export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  components: {
+    Developer
+  },
+  computed: {
+    email: function () {
+      return this.$store.state.user.email
+    },
+    role: function () {
+      return this.$store.state.user.role
+    },
+    nodev: function () {
+      return this.$store.state.nodev
     }
   }
 }
@@ -45,6 +54,10 @@ export default {
 <style scoped>
 .hello {
   margin-top: 0.5%;
+}
+.hello-icon {
+  font-size:50px;
+  margin-bottom: 0.1%;
 }
 .hello-guide {
   margin-top: 15%;
@@ -58,5 +71,19 @@ export default {
   background: #fff;
   text-align: center;
   padding: 8px;
+}
+.tabs{
+  background-color: transparent;
+  color: #212121;
+  margin-bottom: 16px;
+}
+.tabs .mu-tab-link-highlight {
+  background-color: #ff5252;
+}
+.tabs .mu-tab-link{
+  color: #212121;
+}
+.tabs .mu-tab-active{
+  color: #212121;
 }
 </style>
