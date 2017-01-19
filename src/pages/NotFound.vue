@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
     <div class="hello-guide">
-      <h2> ╮(๑•́ ₃•̀๑)╭</h2>
-      <h5>你要找的家伙可能跑掉了～回去看看别的吧</h5>
+      <h1 class="hello-icon"> ╮(๑•́ ₃•̀๑)╭</h1>
+      <h2>你要找的家伙可能跑掉了～回去看看别的吧</h2>
       <mu-raised-button href="/" label="返回首页" primary/>
     </div>
   </div>

@@ -6,9 +6,8 @@
     </mu-appbar>
     <mu-drawer :open="drawer_open" :docked="false" @close="drawer_toggle()">
       <mu-list>
-        <mu-list-item title="Menu Item 1"/>
-        <mu-list-item title="Menu Item 2"/>
-        <mu-list-item title="Menu Item 3"/>
+        <mu-list-item title="控制面板" href="/dashboard"/>
+        <mu-list-item title="用户管理" v-show="this.user.role === 3" href="/useradmin"/>
       </mu-list>
     </mu-drawer>
     <!-- 路由出口 -->
@@ -29,12 +28,16 @@ export default {
   components: {
     userMenu
   },
-  created: function () {
-    if (this.$route.path !== ('/login' && '/reg') && !this.$store.user) {
-      this.$router.push('/login')
+  computed: {
+    user () {
+      return this.$store.state.user
     }
+  },
+  created: function () {
+    let localLogined = false
     if (window.localStorage && window.fetch) {
       if (window.localStorage.user) {
+        localLogined = true
         let obj = JSON.parse(window.localStorage.user)
         this.$store.commit('login', obj) // 一次本地授权
         // 二次对本地授权中权限进行重新校验
@@ -49,6 +52,10 @@ export default {
       if (window.localStorage.nodev) this.$store.commit('nodev', JSON.parse(window.localStorage.nodev))
     } else {
       this.$store.commit('error', '您的浏览器不支持HTML5特性,可能造成使用不便')
+    }
+    this.$store.dispatch('getMods')
+    if (this.$route.path !== ('/login' && '/reg') && (!this.$store.user && !localLogined)) {
+      this.$router.push('/login')
     }
   },
   methods: {
