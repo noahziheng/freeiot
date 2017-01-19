@@ -15,7 +15,7 @@ POST http://api.freeiot.dev/user/auth
 content-type: application/json
 
 {
-  "email":"noahgaocn@gmail.com",
+  "email":"noahgaocn@outlook.com",
   "password":"adzd1005"
 }
 ###
@@ -52,17 +52,20 @@ content-type: application/json
 }
 ###
 GET http://api.freeiot.dev/product
-    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTg2MzIsImV4cCI6MTQ4NTAwMzQzMn0.-2Zd86vJbXHlFpAtVietttc63rCMjPLj8XKWri06XA0
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkhKUDZLZGhVbCIsImVtYWlsIjoibm9haGdhb2NuQGdtYWlsLmNvbSIsInJvbGUiOjIsImlhdCI6MTQ4NDgyMjE1NiwiZXhwIjoxNDg1NDI2OTU2fQ.9LGE5bbRECxktZZf5aGMarPnjVpPkLagYTEip6xz2N0
 ###
 POST http://api.freeiot.dev/device
-    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTk5MjcsImV4cCI6MTQ4NTAwNDcyN30._HYyof65wHuc4xhbD8sL0Ew5meyc1piV5hvAlbEUvDo
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InIxT05IemM4ZSIsImVtYWlsIjoibm9haGdhb2NuQG91dGxvb2suY29tIiwicm9sZSI6MywiaWF0IjoxNDg0ODIyMzMwLCJleHAiOjE0ODU0MjcxMzB9.HAiQSEX50yydoU4iV8y0vCaudi8UfojwgBVUgnscjs4
 content-type: application/json
 
 {
   "name": "TEST1",
-  "owner": "rkbNjkiw8l",
-  "product": "SkZj28sPIx"
+  "owner": "r1ONHzc8e",
+  "product": "Ske6RWTIe"
 }
+###
+GET http://api.freeiot.dev/device/ryiCIMAUx
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InIxT05IemM4ZSIsImVtYWlsIjoibm9haGdhb2NuQG91dGxvb2suY29tIiwicm9sZSI6MywiaWF0IjoxNDg0ODIyMzMwLCJleHAiOjE0ODU0MjcxMzB9.HAiQSEX50yydoU4iV8y0vCaudi8UfojwgBVUgnscjs4
 ###
 POST http://api.freeiot.dev/device/By-_GdiPIl/data
     ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTk5MjcsImV4cCI6MTQ4NTAwNDcyN30._HYyof65wHuc4xhbD8sL0Ew5meyc1piV5hvAlbEUvDo

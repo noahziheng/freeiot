@@ -26,6 +26,13 @@ class DeviceModel extends Model {
     .populate('product')
     .exec()
   }
+
+  getSecret (id) {
+    return this.Schema
+    .findById(id)
+    .select({secret: 1})
+    .exec()
+  }
 }
 
 module.exports = new DeviceModel(deviceSchema)

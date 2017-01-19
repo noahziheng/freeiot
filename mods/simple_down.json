@@ -2,12 +2,13 @@
   "driver": "simple",
   "downlink": [
     {
+      "name": "{{name}}",
       "label": "{{label}}",
       "format": {
         "type": "{{format_type}}",
+        "unit": "{{format_unit}}",
         "round": {{format_round}}{{^format_round}}0{{/format_round}}
-      },
-      "remark": "控制量标志"
+      }
     }
   ]
 }

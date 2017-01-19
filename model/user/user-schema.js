@@ -19,7 +19,8 @@ const userSchema = new Schema({
     },
     work: String, // 工作
     company: String, // 工作单位/学校
-    location: String
+    location: String,
+    reason: String
   },
   role: { type: Number, default: 0, min: 0, max: 3 }, // 权限 0-用户 1-开发者(待审核) 2-开发者 3-管理员
   created_at: { type: Date, default: new Date() },

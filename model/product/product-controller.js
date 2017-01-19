@@ -11,9 +11,14 @@ class ProductController extends Controller {
   findById (req, res, next) {
     return this.facade.findById(req.params.id)
     .then(doc => {
-      if (req.user.role <= 2 && doc.owner !== req.user.id) doc.secret = undefined // HTTP 401 无秘钥查询权限
-      if (!doc) { return res.status(404).end() }
-      return res.status(200).json(doc)
+      if (req.user.role === 3 || doc.owner._id === req.user.id) {
+        this.facade.getSecret(req.params.id).then(r => {
+          if (!doc) { return res.status(404).end() }
+          doc.secret = r.secret
+          return res.status(200).json(doc)
+        })
+        .catch(err => res.status(500).json({ msg: err.message, error: err }))
+      } else return res.status(200).json(doc)
     })
     .catch(err => res.status(500).json({ msg: err.message, error: err }))
   }

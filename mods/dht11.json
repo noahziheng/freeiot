@@ -1,0 +1,23 @@
+{
+  "driver": "{{driver}}",
+  "uplink": [
+    {
+      "name": "{{name}}{{^name}}温度{{/name}}",
+      "label": "{{label}}{{^label}}T{{/label}}",
+      "format": {
+        "type": "float",
+        "unit": "℃",
+        "round": {{format_round}}{{^format_round}}0{{/format_round}}
+      }
+    },
+    {
+      "name": "{{name_2}}{{^name_2}}湿度{{/name_2}}",
+      "label": "{{label_2}}{{^label_2}}H{{/label_2}}",
+      "format": {
+        "type": "float",
+        "unit": "℃",
+        "round": {{format_round_2}}{{^format_round}}0{{/format_round}}
+      }
+    }
+  ]
+}

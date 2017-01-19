@@ -9,12 +9,19 @@ class DeviceController extends Controller {
     return this.facade.findById(req.params.id)
     .then(doc => {
       if (!doc) { return res.status(404).end() }
-      if (req.user.role <= 2 && doc.owner !== req.user.id) doc.secret = undefined // HTTP 401 无秘钥查询权限
       if (!req.params.datalimit) req.params.datalimit = 1
       let timestamp = new Date().getTime()
       let con = {device: req.params.id, created_at: {'$gte': new Date(timestamp - req.params.datalimit * 60 * 60 * 1000), '$lt': new Date()}}
       dataFacade.find(con).then(datas => {
-        return res.status(200).json({meta: { device: doc, datalimit: req.params.datalimit }, data: datas})
+        let result = {meta: { device: doc, datalimit: req.params.datalimit }, data: datas}
+        if (req.user.role === 3 || doc.owner._id === req.user.id) {
+          this.facade.getSecret(req.params.id).then(r => {
+            if (!doc) { return res.status(404).end() }
+            result.meta.device.secret = r.secret
+            return res.status(200).json(result)
+          })
+          .catch(err => res.status(500).json({ msg: err.message, error: err }))
+        } else return res.status(200).json(result)
       })
     })
     .catch(err => res.status(500).json({ msg: err.message, error: err }))

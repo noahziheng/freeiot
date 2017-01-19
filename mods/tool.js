@@ -15,6 +15,6 @@ module.exports = function (id, vars, hidden = false) {
       }
     }
   }
-  result.name = index[id]
+  result.name = index[id].name
   return result
 }

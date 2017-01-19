@@ -1,4 +1,46 @@
 {
-  "simple_up": "标准单点反馈传感器",
-  "simple_down": "标准单点控制器"
+  "simple_up": {
+    "name": "标准单点反馈传感器",
+    "vars": [
+      {
+        "remark": "数据点0",
+        "name": "数据量名称",
+        "label": "数据上传标志",
+        "format_type": "数据点格式类型(可选：int,float,boolean,string)",
+        "format_unit": "数据点单位",
+        "format_round": "数据点小数点后数字位数(仅float类型生效)"
+      }
+    ]
+  },
+  "simple_down": {
+    "name":"标准单点控制器",
+    "vars": [
+      {
+        "remark": "数据点0",
+        "name": "数据量名称",
+        "label": "数据控制标志",
+        "format_type": "数据点格式类型(可选：int,float,boolean,string)",
+        "format_unit": "数据点单位",
+        "format_round": "数据点小数点后数字位数(仅float类型生效)"
+      }
+    ]
+  },
+  "dht11": {
+    "name":"DHT11温湿度传感器",
+    "vars": [
+      {
+        "remark": "温度数据点(必选)",
+        "driver": "通信协议(simple或json)",
+        "name": "温度数据名称（默认：温度）",
+        "label": "温度数据标志（默认：T）",
+        "format_round": "温度保留小数"
+      },
+      {
+        "remark": "湿度数据点",
+        "name_2": "自定湿度名称（默认：湿度）",
+        "label_2": "温度数据标志（默认：H）",
+        "format_round2": "湿度保留小数"
+      }
+    ]
+  }
 }

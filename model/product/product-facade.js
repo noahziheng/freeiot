@@ -23,6 +23,13 @@ class ProductModel extends Model {
     .populate('owner')
     .exec()
   }
+
+  getSecret (id) {
+    return this.Schema
+    .findById(id)
+    .select({secret: 1})
+    .exec()
+  }
 }
 
 module.exports = new ProductModel(productSchema)
