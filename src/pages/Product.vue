@@ -5,7 +5,7 @@
       <mu-sub-header class="product-commit">{{product.commit}} by {{product.owner.email}}</mu-sub-header>
       <AddMod class="product-mods" :mods="product.mods" :newF="false" />
       <div class="product-id-secret" v-if="user.role === 3 || user.id === product.owner._id">
-        <mu-sub-header>模块列表</mu-sub-header>
+        <mu-sub-header>产品标识</mu-sub-header>
         <mu-content-block>
           <mu-chip>ProductId: {{product._id}}</mu-chip>
           <mu-chip>Secret: {{product.secret}}</mu-chip>
@@ -21,18 +21,22 @@
       <vue-markdown v-show="tabValue === 'readme'" :source="product.readme" />
       <NewProduct v-if="user.role === 3 || user.id === product.owner._id" v-show="tabValue === 'product'" />
     </div>
+    <mu-float-button icon="add" @click="toogleDialog" class="float-button"/>
+    <NewDevice :dialog="dialog" :product="product" @close="toogleDialog"/>
   </div>
 </template>
 
 <script>
 import NewProduct from './NewProduct'
 import AddMod from '../components/AddMod'
+import NewDevice from '../components/NewDevice'
 import VueMarkdown from 'vue-markdown'
 
 export default {
   name: 'product',
   data () {
     return {
+      dialog: false,
       tabValue: 'readme',
       product: {
         _id: '',
@@ -47,6 +51,7 @@ export default {
   },
   components: {
     NewProduct,
+    NewDevice,
     AddMod,
     VueMarkdown
   },
@@ -61,6 +66,9 @@ export default {
     }
   },
   methods: {
+    toogleDialog (item) {
+      this.dialog = !this.dialog
+    },
     handleTabChange (value) {
       this.tabValue = value
     },
@@ -117,5 +125,12 @@ export default {
   margin-right: 3px;
   font-size: 18px;
   color: #444;
+}
+.float-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  cursor: pointer;
+  box-shadow: 0px 2px 5px #666;
 }
 </style>

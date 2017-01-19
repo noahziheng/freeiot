@@ -4,12 +4,7 @@
       <mu-icon-button icon='menu' slot="left" @click="drawer_toggle()"/>
       <userMenu slot="right"></userMenu>
     </mu-appbar>
-    <mu-drawer :open="drawer_open" :docked="false" @close="drawer_toggle()">
-      <mu-list>
-        <mu-list-item title="控制面板" href="/dashboard"/>
-        <mu-list-item title="用户管理" v-show="this.user.role === 3" href="/useradmin"/>
-      </mu-list>
-    </mu-drawer>
+    <app-nav @close="drawer_toggle" :open="open" :docked="docked" />
     <!-- 路由出口 -->
     <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view></router-view>
@@ -18,15 +13,19 @@
 
 <script>
 import userMenu from './components/userMenu'
+import AppNavDrawer from './components/AppNavDrawer'
+
 export default {
   name: 'app',
   data () {
     return {
-      drawer_open: false
+      open: false,
+      docked: false
     }
   },
   components: {
-    userMenu
+    userMenu,
+    'app-nav': AppNavDrawer
   },
   computed: {
     user () {
@@ -60,7 +59,7 @@ export default {
   },
   methods: {
     drawer_toggle () {
-      this.drawer_open = !this.drawer_open
+      this.open = !this.open
     }
   }
 }

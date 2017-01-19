@@ -1,16 +1,10 @@
 <template>
   <div>
-    <mu-appbar title="FreeIOT控制台">
+    <mu-appbar>
       <mu-icon-button icon='menu' slot="left" @click="drawer_toggle()"/>
       <mu-icon-button slot="right" href="https://github.com/noahziheng/freeiot" icon=":mudocs-icon-custom-github"/>
     </mu-appbar>
-    <mu-drawer :open="drawer_open" :docked="false" @close="drawer_toggle()">
-      <mu-list>
-        <mu-list-item title="Menu Item 1"/>
-        <mu-list-item title="Menu Item 2"/>
-        <mu-list-item title="Menu Item 3"/>
-      </mu-list>
-    </mu-drawer>
+    <app-nav @close="drawer_toggle" :open="drawer_open" :docked="false" />
     <div class="mu-banner">
       <div class="mu-banner-container">
         <div class="mu-logo">
@@ -73,11 +67,16 @@
 </template>
 
 <script>
+import AppNavDrawer from './components/AppNavDrawer'
+
 export default {
   data () {
     return {
       drawer_open: false
     }
+  },
+  components: {
+    'app-nav': AppNavDrawer
   },
   methods: {
     drawer_toggle () {
