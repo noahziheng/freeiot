@@ -75,3 +75,9 @@ content-type: application/json
   "type": 1,
   "K": 15
 }
+###
+POST http://api.freeiot.dev/mod/dht11
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InIxT05IemM4ZSIsImVtYWlsIjoibm9haGdhb2NuQG91dGxvb2suY29tIiwicm9sZSI6MywiaWF0IjoxNDg0ODIyMzMwLCJleHAiOjE0ODU0MjcxMzB9.HAiQSEX50yydoU4iV8y0vCaudi8UfojwgBVUgnscjs4
+content-type: application/json
+
+{"format_round_2":"2","driver":"simple","format_round":"2","hidden":[]}

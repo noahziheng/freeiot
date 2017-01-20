@@ -15,7 +15,7 @@
       "label": "{{label_2}}{{^label_2}}H{{/label_2}}",
       "format": {
         "type": "float",
-        "unit": "℃",
+        "unit": "%",
         "round": {{format_round_2}}{{^format_round_2}}0{{/format_round_2}}
       }
     }
