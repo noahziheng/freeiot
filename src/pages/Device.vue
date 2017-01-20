@@ -38,24 +38,12 @@
             </div>
           </mu-paper>
         </mu-col>
-        <mu-col width="100" tablet="65" desktop="65">
-          <mu-flexbox wrap="wrap" align="baseline" justify="flex-end">
-            <mu-flexbox-item class="data-block">
+        <mu-col width="100" tablet="65" desktop="65" style="margin-top: 1.5%">
+          <mu-flexbox wrap="wrap" align="baseline" justify="flex-start">
+            <mu-flexbox-item class="data-block" :grow="0" v-for="(item,index) in points">
               <mu-paper class="data-block" :zDepth="3">
-                <span class="data-title">温度</span>
-                <span class="data-text">22</span>
-              </mu-paper>
-            </mu-flexbox-item>
-            <mu-flexbox-item class="data-block">
-              <mu-paper class="data-block" :zDepth="3">
-                <span class="data-title">温度</span>
-                <span class="data-text">22</span>
-              </mu-paper>
-            </mu-flexbox-item>
-            <mu-flexbox-item class="data-block">
-              <mu-paper class="data-block" :zDepth="3">
-                <span class="data-title">温度</span>
-                <span class="data-text">22</span>
+                <span class="data-title">{{item.name}}</span>
+                <span class="data-text">{{item.content}}{{item.unit}}</span>
               </mu-paper>
             </mu-flexbox-item>
           </mu-flexbox>
@@ -67,13 +55,38 @@
       </mu-tabs>
     </div>
     <div class="content">
+      <div v-show="tabValue === 'logslist'">
+        <mu-sub-header>按数据提交时间查询：</mu-sub-header>
+        <mu-table :showCheckbox="false">
+          <mu-thead>
+            <mu-tr>
+              <mu-th>#</mu-th>
+              <mu-th>类型</mu-th>
+              <mu-th>数据点</mu-th>
+              <mu-th>值</mu-th>
+              <mu-th>时间</mu-th>
+            </mu-tr>
+          </mu-thead>
+          <mu-tbody>
+            <mu-tr v-for="(item, index) in datas">
+              <mu-td>{{ index }}</mu-td>
+              <mu-td>{{ item.type | getTypeName }}</mu-td>
+              <mu-td>{{ item.label }}</mu-td>
+              <mu-td>{{ item.content }}</mu-td>
+              <mu-td>{{ item.created_at }}</mu-td>
+            </mu-tr>
+          </mu-tbody>
+        </mu-table>
+      </div>
       <div class="btn-content" v-show="tabValue === 'options'">
+        <mu-raised-button class="device-options-btn" label="清空数据" color="#000" backgroundColor="rgb(225，225, 225)" @click="openDialog(0)"></mu-raised-button>
         <mu-raised-button class="device-options-btn" label="改名" backgroundColor="rgb(65, 105, 225)" @click="openDialog(1)"></mu-raised-button>
         <mu-raised-button class="device-options-btn" label="强制下线" backgroundColor="rgb(0, 100, 0)" @click="openDialog(2)"></mu-raised-button>
         <mu-raised-button class="device-options-btn" label="删除设备" backgroundColor="rgb(244, 67, 54)" @click="openDialog(3)"></mu-raised-button>
       </div>
     </div>
     <mu-dialog :open="dialogPage !== -1" title="设备配置">
+      <div v-if="dialogPage === 0">此功能尚未完成</div>
       <div v-if="dialogPage === 1">
         <mu-text-field label="设备名" v-model="device.name" labelFloat/>
       </div>
@@ -88,6 +101,7 @@
 <script>
 import AddMod from '../components/AddMod'
 import DeviceStatus from '../components/DeviceStatus'
+import Vue from 'vue'
 
 export default {
   name: 'device',
@@ -96,6 +110,8 @@ export default {
       viewSecret: false,
       dialogPage: -1,
       tabValue: 'logslist',
+      points: {},
+      datas: [],
       device: {
         _id: '',
         name: '',
@@ -130,9 +146,24 @@ export default {
   computed: {
     user: function () {
       return this.$store.state.user
-    },
-    allMods () {
-      return this.$store.state.mods
+    }
+  },
+  watch: {
+    points (val) {
+      let finish = {}
+      for (let i in this.datas) {
+        if (!finish[this.datas[i].label]) {
+          this.points[this.datas[i].label].content = this.datas[i].content
+          finish[this.datas[i].label] = true
+        }
+      }
+    }
+  },
+  filters: {
+    getTypeName (val) {
+      if (val === 0) return '上传'
+      else if (val === 1) return '下控'
+      return '未知'
     }
   },
   methods: {
@@ -145,23 +176,25 @@ export default {
     finalOptions () {
       let query = {}
       let type = this.dialogPage
-      if (type === 1) query = {name: this.device.name}
-      else if (type === 2) query = {status: 2}
-      fetch(this.$root.apiurl + '/device/' + this.device._id + '?token=' + this.user.token, {
-        method: type === 3 ? 'DELETE' : 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: type === 3 ? '' : JSON.stringify(query)
-      }).then(res => res.json()).then(json => {
-        if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
-        else {
-          if (type === 3) this.$router.push('/dashboard')
-          else if (type === 2) this.device.status = 2
-        }
-      }).catch(ex => {
-        console.log('parsing failed', ex)
-      })
+      if (type !== 0) {
+        if (type === 1) query = {name: this.device.name}
+        else if (type === 2) query = {status: 2}
+        fetch(this.$root.apiurl + '/device/' + this.device._id + '?token=' + this.user.token, {
+          method: type === 3 ? 'DELETE' : 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: type === 3 ? '' : JSON.stringify(query)
+        }).then(res => res.json()).then(json => {
+          if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
+          else {
+            if (type === 3) this.$router.push('/dashboard')
+            else if (type === 2) this.device.status = 2
+          }
+        }).catch(ex => {
+          console.log('parsing failed', ex)
+        })
+      }
       this.closeDialog()
     },
     handleTabChange (value) {
@@ -176,7 +209,24 @@ export default {
             else {
               json.meta.device.product.owner = newjson
               this.device = json.meta.device
-              console.log(json)
+              this.datas = json.data
+              this.datas = this.datas.sort(this.sortCreate)
+              for (let i in this.device.product.mods) {
+                let query = this.device.product.mods[i].vars
+                query.hidden = this.device.product.mods[i].hidden
+                fetch(this.$root.apiurl + '/mod/' + this.device.product.mods[i].origin + '?token=' + this.user.token, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(query)
+                }).then(res => res.json()).then(mod => {
+                  for (let i in mod.uplink) Vue.set(this.points, mod.uplink[i].label, {name: mod.uplink[i].name, unit: mod.uplink[i].format.unit, content: 'N/A'})
+                  for (let i in mod.downlink) Vue.set(this.points, mod.uplink[i].label, {name: mod.uplink[i].name, unit: mod.uplink[i].format.unit, content: 'N/A'})
+                }).catch(ex => {
+                  console.log('parsing failed', ex)
+                })
+              }
             }
           }).catch(ex => {
             console.log('parsing failed', ex)
@@ -188,7 +238,16 @@ export default {
     },
     viewSecretMethod () {
       this.viewSecret = true
-      console.log(this.allMods)
+    },
+    sortCreate (a, b) {
+      if (a.created_at < b.created_at) {
+        return 1
+      }
+      if (a.created_at > b.created_at) {
+        return -1
+      }
+      // a 必须等于 b
+      return 0
     }
   }
 }
