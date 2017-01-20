@@ -1,6 +1,5 @@
 <template>
   <div>
-    <mu-sub-header>模块列表</mu-sub-header>
     <mu-content-block>
       <mu-chip v-for="(item, index) in mods" @click="viewMod(item, index)" @delete="deleteMod(index)" :showDelete="newF">
         {{ item.remark !== '' ? item.remark : allMods[item.origin].name }}
@@ -21,7 +20,7 @@
             <mu-text-field style="padding-left: 16px" label="模块备注名称（可为空）" v-model="mod.remark" labelFloat /><br/>
             <mu-sub-header class="point-title">{{item.remark}}
               <br />
-              <mu-checkbox label="隐藏数据点" class="hidden-checkbox" @change="hidden(i)"/>
+              <mu-checkbox label="隐藏数据点" class="hidden-checkbox" @change="hidden(i)" :value="hiddened(i) !== -1"/>
             </mu-sub-header>
             <mu-text-field style="padding-left: 16px" v-if="j !== 'remark' && hiddened(i) === -1" v-for="(e,j) in item" :label="e" v-model="mod.vars[j]" labelFloat /><br/>
           </template>

@@ -3,6 +3,7 @@
     <div class="product-header">
       <mu-sub-header class="product-title">{{product.name}}</mu-sub-header>
       <mu-sub-header class="product-commit">{{product.commit}} by {{product.owner.email}}</mu-sub-header>
+      <mu-sub-header style="margin-left: 30px;margin-top: 10px;">模块列表</mu-sub-header>
       <AddMod class="product-mods" :mods="product.mods" :newF="false" />
       <div class="product-id-secret" v-if="user.role === 3 || user.id === product.owner._id">
         <mu-sub-header>产品标识</mu-sub-header>
@@ -13,13 +14,14 @@
       </div>
       <mu-tabs class="hello-tabs" @change="handleTabChange" :value="tabValue">
         <mu-tab value="readme" title="产品简介"/>
-        <mu-tab value="product" title="产品原型配置" v-show="user.role === 3 || user.id === product.owner._id"/>
         <mu-tab value="devices" title="设备列表"/>
+        <mu-tab value="product" title="产品原型配置" v-if="user.role === 3 || user.id === product.owner._id"/>
       </mu-tabs>
     </div>
     <div class="content">
       <vue-markdown v-show="tabValue === 'readme'" :source="product.readme" />
       <NewProduct v-if="user.role === 3 || user.id === product.owner._id" v-show="tabValue === 'product'" />
+      <DevicesList v-show="tabValue === 'devices'" />
     </div>
     <mu-float-button icon="add" @click="toogleDialog" class="float-button"/>
     <NewDevice :dialog="dialog" :product="product" @close="toogleDialog"/>
@@ -31,6 +33,7 @@ import NewProduct from './NewProduct'
 import AddMod from '../components/AddMod'
 import NewDevice from '../components/NewDevice'
 import VueMarkdown from 'vue-markdown'
+import DevicesList from '../components/DevicesList'
 
 export default {
   name: 'product',
@@ -53,7 +56,8 @@ export default {
     NewProduct,
     NewDevice,
     AddMod,
-    VueMarkdown
+    VueMarkdown,
+    DevicesList
   },
   created () {
     if (this.$route.params.id) {
@@ -113,7 +117,6 @@ export default {
   color: #444;
 }
 .product-mods {
-  margin-top: 10px;
   margin-left: 30px;
   margin-right: 3px;
   font-size: 16px;

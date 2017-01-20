@@ -15,7 +15,7 @@
         </mu-card>
       </mu-flexbox-item>
     </mu-flexbox>
-    <div class="hello-guide" v-if="my && this.products.length === 0">
+    <div class="hello-guide" v-if="my && products.length === 0">
       <h1 class="hello-icon">(ﾟд⊙)</h1>
       <h2>你还没有自己的产品原型呢，添加一波吧～</h2>
       <mu-raised-button label="添加新的产品原型" @click="$router.push('/newproduct')" secondary/>
@@ -53,14 +53,24 @@ export default {
   methods: {
     getProducts () {
       fetch(this.$root.apiurl + '/product' + '?token=' + this.user.token + (this.my ? '&owner=' + this.user.id : '')).then(res => res.json()).then(json => {
-        if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
-        else this.products = json
+        if (json.msg !== undefined) this.$store.commit('error', '查询失败（ ' + json.msg + ' ）')
+        else this.products = json.sort(this.sortUpdate)
       }).catch(ex => {
         console.log('parsing failed', ex)
       })
     },
     goToDoc () {
       location.href = '//doc.iot.noahgao.net'
+    },
+    sortUpdate (a, b) {
+      if (a.updated_at < b.updated_at) {
+        return 1
+      }
+      if (a.updated_at > b.updated_at) {
+        return -1
+      }
+      // a 必须等于 b
+      return 0
     }
   }
 }
@@ -76,7 +86,7 @@ export default {
   margin-bottom: 15%;
 }
 .item-row {
-  margin-top: 3%;
+  margin-top: 2%;
 }
 .item-col {
   text-align: center;

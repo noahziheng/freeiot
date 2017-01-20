@@ -6,7 +6,11 @@
         <mu-text-field label="产品名称" v-model="product.name" labelFloat fullWidth /><br/>
         <mu-text-field label="产品描述" v-model="product.commit" labelFloat fullWidth /><br/>
         <mu-text-field label="产品使用说明(Markdown)" v-model="product.readme" labelFloat multiLine :rows="6" :rowsMax="20" fullWidth /><br/>
+        <mu-sub-header>模块列表</mu-sub-header>
         <AddMod :mods="product.mods" :newF="true" />
+        <mu-raised-button class="delete-btn" label="删除产品原型及其设备(慎点)" backgroundColor="rgb(244, 67, 54)" v-if="$route.params.id" @click="delete_open">
+          <mu-icon value="delete forever" color="white" style="width:24px"/>
+        </mu-raised-button>
       </mu-card-text>
       <mu-card-actions>
         <mu-flat-button label="提交" @click="submit" primary/>
@@ -15,6 +19,12 @@
     </mu-card>
     <mu-dialog :open="dialog" title="已完成">
       <mu-flat-button label="确定" slot="actions" @click="close" primary/>
+    </mu-dialog>
+    <mu-dialog :open="delete_dialog" v-if="$route.params.id" title="真的要删除吗？">
+      请输入该产品名称进行确认！<br>
+      <mu-text-field :hintText="product.name" v-model="delete_value" :errorText="delete_error" @input="checkDelete"/>
+      <mu-flat-button label="取消" slot="actions" @click="delete_close" primary/>
+      <mu-flat-button label="确定" slot="actions" @click="deleteProduct" primary/>
     </mu-dialog>
   </div>
 </template>
@@ -28,6 +38,9 @@ export default {
   data () {
     return {
       dialog: false,
+      delete_dialog: false,
+      delete_value: '',
+      delete_error: '',
       product: {
         name: '',
         commit: '',
@@ -68,13 +81,40 @@ export default {
     this.product.owner = this.user.id
   },
   methods: {
-    open (item) {
+    open () {
       this.dialog = true
     },
-    close (item) {
+    close () {
       this.dialog = false
       if (this.$route.params.id) location.href = '/product/' + this.$route.params.id
       else this.$router.push('/dashboard')
+    },
+    delete_open () {
+      this.delete_dialog = true
+    },
+    delete_close () {
+      this.delete_dialog = false
+    },
+    deleteProduct () {
+      if (this.checkDelete()) {
+        fetch(this.$root.apiurl + '/product/' + this.$route.params.id + '?token=' + this.user.token, {
+          method: 'DELETE'
+        }).then(res => res.json()).then(json => {
+          if (json.msg !== undefined) this.$store.commit('error', '产品删除失败（ ' + json.msg + ' ）')
+          else location.href = '/dashboard'
+        }).catch(ex => {
+          console.log('parsing failed', ex)
+        })
+      }
+    },
+    checkDelete () {
+      if (this.delele_value !== '' && this.delete_value === this.product.name) {
+        this.delete_error = ''
+        return true
+      } else {
+        this.delete_error = '输入错误！'
+        return false
+      }
     },
     submit () {
       fetch(this.$root.apiurl + '/product' + (this.$route.params.id ? '/' + this.$route.params.id : '') + '?token=' + this.user.token, {
@@ -112,5 +152,8 @@ export default {
 .content-card-content {
   padding-top: 5px;
   padding-bottom: 5px;
+}
+.delete-btn {
+  margin: 12px;
 }
 </style>
