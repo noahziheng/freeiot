@@ -6,7 +6,7 @@
       "label": "{{label}}{{^label}}T{{/label}}",
       "format": {
         "type": "float",
-        "unit": "度",
+        "unit": "°C",
         "round": {{format_round}}{{^format_round}}0{{/format_round}}
       }
     },
