@@ -16,7 +16,7 @@
       "format": {
         "type": "float",
         "unit": "℃",
-        "round": {{format_round_2}}{{^format_round}}0{{/format_round}}
+        "round": {{format_round_2}}{{^format_round_2}}0{{/format_round_2}}
       }
     }
   ]

@@ -10,6 +10,7 @@ const modtool = require('../mods/tool')
 class MsgServer {
   constructor (server) {
     this.devices = []
+    this.mods = []
     this.server = server
     server.on('clientConnected', this.handleConnect.bind(this))
     server.on('published', this.handleMsg.bind(this))
@@ -21,20 +22,20 @@ class MsgServer {
 
   handleConnect (client) {
     const clientMeta = client.id.split('/')
-    const clientWillMeta = JSON.parse(client.will.payload.toString())
-    if (clientMeta[1] === clientWillMeta.id) {
+    const clientWillMeta = client.will.payload.toString().split('/')
+    if (clientMeta[1] === clientWillMeta[0]) {
       for (let e in this.devices) {
-        if (this.devices[e]._id === clientWillMeta.id) {
+        if (this.devices[e]._id === clientWillMeta[0]) {
           var f = true
           break
         }
       }
       if (!f) {
-        deviceFacade.findById(clientWillMeta.id).select('product owner secret status').populate('product').populate('owner').exec().then(doc => {
+        deviceFacade.findById(clientWillMeta[0]).select('product owner secret status').populate('product').populate('owner').exec().then(doc => {
           if (doc === null) {
             client.close()
           } else {
-            if (doc.secret === clientWillMeta.secret) {
+            if (doc.secret === clientWillMeta[1]) {
               let e = this.devices.push(doc) - 1
               let modsP = []
               for (let i in this.devices[e].product.mods) {
@@ -42,8 +43,7 @@ class MsgServer {
                   modsP.push(modtool(this.devices[e].product.mods[i].origin, this.devices[e].product.mods[i].vars, this.devices[e].product.mods[i].hidden.toBSON()))
                 }
               }
-              delete this.devices[e].product.mods
-              this.devices[e].product.modsP = modsP
+              this.mods[e] = modsP
               doc.status = 3
               doc.save()
             } else {
@@ -63,12 +63,12 @@ class MsgServer {
   handleMsg (packet, client) {
     switch (packet.topic) {
       case 'logout':
-        const req = JSON.parse(packet.payload.toString())
+        const req = packet.payload.toString().split('/')
         for (let e in this.devices) {
-          if (this.devices[e]._id === req.id && this.devices[e].secret === req.secret) {
-            console.log(req.id + ' removed')
+          if (this.devices[e]._id === req[0] && this.devices[e].secret === req[1]) {
+            console.log(req[0] + ' removed')
             delete this.devices[e]
-            deviceFacade.findByIdAndUpdate(req.id, {$set: { status: 2 }}, {new: true}).exec()
+            deviceFacade.findByIdAndUpdate(req[0], {$set: { status: 2 }}, {new: true}).exec()
             break
           }
         }
@@ -77,8 +77,8 @@ class MsgServer {
         for (let e in this.devices) {
           if (this.devices[e]._id === client.id.split('/')[1]) {
             let data = []
-            for (let i in this.devices[e].product.modsP) {
-              let t = this.parser('uplink', this.devices[e].product.modsP[i], packet.payload.toString())
+            for (let i in this.mods[e]) {
+              let t = this.parser('uplink', this.mods[e][i], packet.payload.toString())
               data.push(t)
             }
             for (let i in data) {
