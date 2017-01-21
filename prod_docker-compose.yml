@@ -9,14 +9,13 @@ services:
     ports:
       - "1883:1883"
     expose:
-      - "8080"
+      - "80"
     links:
       - mongo
     environment:
       - MONGO_DB_URI=mongodb://mongo:27017/freeiot-api
       - MQTT_DB_URI=mongodb://mongo:27017/mqtt
       - VIRTUAL_HOST=api.iot.noahgao.net
-      - VIRTUAL_PROT=8080
       - LETSENCRYPT_HOST=api.iot.noahgao.net
       - LETSENCRYPT_EMAIL=noahgaocn@gmail.com
       - NODE_ENV=production
