@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "deploy": "ssh root@115.28.43.98 \"rm -rf /data/www/freeiot/web/dist/*\" ; scp -r ./dist/* root@115.28.43.98:/data/www/freeiot/web/dist/"
   },
   "dependencies": {
     "clipboard": "^1.5.16",
