@@ -3,7 +3,7 @@ version: '2'
 services:
   web:
     command: npm start
-    build: ./api
+    image: daocloud.io/noahziheng/freeiot-api
     volumes:
       - ./api:/app
     ports:
