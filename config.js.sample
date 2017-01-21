@@ -19,8 +19,8 @@ const config = {
     }
   },
   key: {
-    jwt: '1e6f17cab92bd24568150e0afba21cf2',
-    pass: '89c3e1db9f5e0cb4b2b4c3fe00f0f13a'
+    jwt: '',
+    pass: ''
   }
 }
 
