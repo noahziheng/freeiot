@@ -10,7 +10,7 @@ WORKDIR $TEMP_NPM
 COPY package.json $TEMP_NPM
 RUN npm config set registry https://registry.npm.taobao.org
 RUN npm install -g pm2
-RUN npm install --silent
+RUN npm install
 RUN cp -a $TEMP_NPM/node_modules $APP_HOME
 
 WORKDIR $APP_HOME
