@@ -1,6 +1,6 @@
 const config = {
   version: 'V1',
-  build_version: '01211',
+  build_version: '01212',
   environment: process.env.NODE_ENV || 'dev',
   server: {
     port: process.env.PORT || 8080

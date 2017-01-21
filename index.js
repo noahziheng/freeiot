@@ -17,6 +17,8 @@ const cors = require('cors')
 const app = express()
 const mosca = require('mosca')
 
+const schedule = require('node-schedule')
+
 mongoose.Promise = bluebird
 mongoose.connect(config.mongo.url)
 
@@ -70,6 +72,17 @@ msg.setup()
 app.use((req, res, next) => {
   req.mqtt = server
   next()
+})
+
+// Schedule clean data
+schedule.scheduleJob('0 0 0,6,12,18,24 * * *', function () {
+  const dataFacade = require('./model/data/data-facade')
+  dataFacade.find({created_at: {'$lt': new Date(new Date().getTime() - 72 * 60 * 60 * 1000)}}).then(doc => {
+    for (let i in doc) {
+      dataFacade.remove(doc[i]._id).then(r => {})
+    }
+  })
+  console.log('clean Action Finished:' + new Date())
 })
 
 app.use('/', routes)
