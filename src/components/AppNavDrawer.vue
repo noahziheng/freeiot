@@ -11,6 +11,9 @@
   <div class="mu-version-box">
     <span class="mu-version-text">Build: {{version.build}}</span>
   </div>
+  <div class="mu-version-box">
+    <span class="mu-version-text">API Version: {{apiVersion.version}} build{{apiVersion.build_version}}</span>
+  </div>
   <mu-list>
     <mu-list-item href="/" title="首页"/>
     <mu-list-item href="/dashboard" title="控制面板"/>
@@ -41,8 +44,20 @@ export default {
   },
   data () {
     return {
-      version: Version
+      version: Version,
+      apiVersion: {
+        version: '',
+        build_version: ''
+      }
     }
+  },
+  created () {
+    fetch(this.$root.apiurl).then(res => res.json()).then(json => {
+      if (json.msg !== undefined) this.$store.commit('error', '查询失败（ ' + json.msg + ' ）')
+      else this.apiVersion = json
+    }).catch(ex => {
+      console.log('parsing failed', ex)
+    })
   },
   methods: {
     handleClose () {

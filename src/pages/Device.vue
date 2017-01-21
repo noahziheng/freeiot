@@ -31,10 +31,12 @@
                 <span slot="left">用户</span>
               </mu-list-item>
             </mu-list>
-            <div v-if="user.role === 3 || user.id === device.owner._id || user.id === device.product.owner._id">
+            <div ref="copyElement" v-if="user.role === 3 || user.id === device.owner._id || user.id === device.product.owner._id">
               <mu-chip class="item-row">Id: {{device._id}}</mu-chip>
               <mu-chip class="item-row" v-if="!viewSecret" @click="viewSecretMethod">Secret: 点击查看</mu-chip>
-              <mu-chip class="item-row" v-if="viewSecret">{{device.secret}}</mu-chip>
+              <mu-chip class="item-row copy-btn" v-if="viewSecret" :data-clipboard-text="device.secret" @click="showToast">{{device.secret}}</mu-chip>
+              <mu-toast v-if="toast" message="Secret已复制" @close="hideToast"/>
+              <mu-sub-header>温馨提示：点击Secret可复制</mu-sub-header>
             </div>
           </mu-paper>
         </mu-col>
@@ -42,7 +44,7 @@
           <mu-flexbox wrap="wrap" align="baseline" justify="flex-start">
             <mu-flexbox-item class="data-block" :grow="0" v-for="(item,index) in points">
               <mu-paper class="data-block" :zDepth="3">
-                <span class="data-title">{{item.name}}</span>
+                <span class="data-title">{{item.name}}({{index}})</span>
                 <span class="data-text">{{item.content}}{{item.unit}}</span>
               </mu-paper>
             </mu-flexbox-item>
@@ -51,12 +53,26 @@
       </mu-row>
       <mu-tabs class="hello-tabs" @change="handleTabChange" :value="tabValue">
         <mu-tab value="logslist" title="数据记录"/>
-        <mu-tab value="options" title="设备配置"/>
+        <mu-tab value="options" title="设备配置" v-if="user.role === 3 || user.id === device.owner._id || user.id === device.product.owner._id"/>
       </mu-tabs>
     </div>
     <div class="content">
       <div v-show="tabValue === 'logslist'">
-        <mu-sub-header>按数据提交时间查询：</mu-sub-header>
+        <div class="datalimit">
+          <mu-sub-header>
+            按数据提交时间查询：
+          </mu-sub-header>
+          <mu-select-field v-model="datalimit" @change="handleDatalimit">
+            <mu-menu-item :value="1" title="1小时内"/>
+            <mu-menu-item :value="2" title="2小时内"/>
+            <mu-menu-item :value="3" title="3小时内"/>
+            <mu-menu-item :value="6" title="6小时内"/>
+            <mu-menu-item :value="12" title="12小时内"/>
+            <mu-menu-item :value="24" title="24小时内"/>
+            <mu-menu-item :value="48" title="2天内"/>
+            <mu-menu-item :value="72" title="3天内"/>
+          </mu-select-field>
+        </div>
         <mu-table :showCheckbox="false">
           <mu-thead>
             <mu-tr>
@@ -73,20 +89,20 @@
               <mu-td>{{ item.type | getTypeName }}</mu-td>
               <mu-td>{{ item.label }}</mu-td>
               <mu-td>{{ item.content }}</mu-td>
-              <mu-td>{{ item.created_at }}</mu-td>
+              <mu-td>{{ item.created_at | getDateTime }}</mu-td>
             </mu-tr>
           </mu-tbody>
         </mu-table>
       </div>
-      <div class="btn-content" v-show="tabValue === 'options'">
+      <div class="btn-content" v-show="tabValue === 'options'" v-if="user.role === 3 || user.id === device.owner._id || user.id === device.product.owner._id">
         <mu-raised-button class="device-options-btn" label="清空数据" color="#000" backgroundColor="rgb(225，225, 225)" @click="openDialog(0)"></mu-raised-button>
         <mu-raised-button class="device-options-btn" label="改名" backgroundColor="rgb(65, 105, 225)" @click="openDialog(1)"></mu-raised-button>
         <mu-raised-button class="device-options-btn" label="强制下线" backgroundColor="rgb(0, 100, 0)" @click="openDialog(2)"></mu-raised-button>
         <mu-raised-button class="device-options-btn" label="删除设备" backgroundColor="rgb(244, 67, 54)" @click="openDialog(3)"></mu-raised-button>
       </div>
     </div>
-    <mu-dialog :open="dialogPage !== -1" title="设备配置">
-      <div v-if="dialogPage === 0">此功能尚未完成</div>
+    <mu-dialog :open="dialogPage !== -1" title="设备配置" v-if="user.role === 3 || user.id === device.owner._id || user.id === device.product.owner._id">
+      <div v-if="dialogPage === 0">真的要清掉吗？～此操作不可逆！</div>
       <div v-if="dialogPage === 1">
         <mu-text-field label="设备名" v-model="device.name" labelFloat/>
       </div>
@@ -102,6 +118,8 @@
 import AddMod from '../components/AddMod'
 import DeviceStatus from '../components/DeviceStatus'
 import Vue from 'vue'
+import readable from 'readable-shijian'
+import Clipboard from 'clipboard'
 
 export default {
   name: 'device',
@@ -131,7 +149,9 @@ export default {
           mods: [],
           owner: ''
         }
-      }
+      },
+      datalimit: 1,
+      toast: false
     }
   },
   components: {
@@ -142,21 +162,11 @@ export default {
     if (this.$route.params.id) {
       this.getDevice()
     }
+    this.clipboard = new Clipboard('.copy-btn')
   },
   computed: {
     user: function () {
       return this.$store.state.user
-    }
-  },
-  watch: {
-    points (val) {
-      let finish = {}
-      for (let i in this.datas) {
-        if (!finish[this.datas[i].label]) {
-          this.points[this.datas[i].label].content = this.datas[i].content
-          finish[this.datas[i].label] = true
-        }
-      }
     }
   },
   filters: {
@@ -164,9 +174,21 @@ export default {
       if (val === 0) return '上传'
       else if (val === 1) return '下控'
       return '未知'
+    },
+    getDateTime (val) {
+      return readable(val)
     }
   },
   methods: {
+    showToast () {
+      this.toast = true
+      if (this.toastTimer) clearTimeout(this.toastTimer)
+      this.toastTimer = setTimeout(() => { this.toast = false }, 2000)
+    },
+    hideToast () {
+      this.toast = false
+      if (this.toastTimer) clearTimeout(this.toastTimer)
+    },
     openDialog (val) {
       this.dialogPage = val
     },
@@ -176,20 +198,23 @@ export default {
     finalOptions () {
       let query = {}
       let type = this.dialogPage
-      if (type !== 0) {
-        if (type === 1) query = {name: this.device.name}
-        else if (type === 2) query = {status: 2}
-        fetch(this.$root.apiurl + '/device/' + this.device._id + '?token=' + this.user.token, {
-          method: type === 3 ? 'DELETE' : 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: type === 3 ? '' : JSON.stringify(query)
-        }).then(res => res.json()).then(json => {
+      if (type === 1) query = {name: this.device.name}
+      else if (type === 2) query = {status: 2}
+      let req = {
+        method: type === 3 ? 'DELETE' : 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      if (type === 1 || type === 2) req.body = JSON.stringify(query)
+      if (type === 3 && this.device.status === 3) this.$store.commit('error', '不能在设备在线时删除设备')
+      else {
+        fetch(this.$root.apiurl + '/device/' + this.device._id + (type === 0 ? '/empty' : '') + '?token=' + this.user.token, req).then(res => res.json()).then(json => {
           if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
           else {
             if (type === 3) this.$router.push('/dashboard')
             else if (type === 2) this.device.status = 2
+            else if (type === 0) location.reload()
           }
         }).catch(ex => {
           console.log('parsing failed', ex)
@@ -197,11 +222,15 @@ export default {
       }
       this.closeDialog()
     },
+    handleDatalimit (val) {
+      this.datalimit = val
+      this.getDevice()
+    },
     handleTabChange (value) {
       this.tabValue = value
     },
     getDevice () {
-      fetch(this.$root.apiurl + '/device/' + this.$route.params.id + '?token=' + this.user.token).then(res => res.json()).then(json => {
+      fetch(this.$root.apiurl + '/device/' + this.$route.params.id + '/' + this.datalimit + '?token=' + this.user.token).then(res => res.json()).then(json => {
         if (json.msg !== undefined) this.$store.commit('error', '查询失败（ ' + json.msg + ' ）')
         else {
           fetch(this.$root.apiurl + '/user/' + json.meta.device.product.owner + '?token=' + this.user.token).then(res => res.json()).then(newjson => {
@@ -209,8 +238,7 @@ export default {
             else {
               json.meta.device.product.owner = newjson
               this.device = json.meta.device
-              this.datas = json.data
-              this.datas = this.datas.sort(this.sortCreate)
+              Vue.set(this, 'datas', json.data.sort(this.sortCreate))
               for (let i in this.device.product.mods) {
                 let query = this.device.product.mods[i].vars
                 query.hidden = this.device.product.mods[i].hidden
@@ -223,6 +251,7 @@ export default {
                 }).then(res => res.json()).then(mod => {
                   for (let i in mod.uplink) Vue.set(this.points, mod.uplink[i].label, {name: mod.uplink[i].name, unit: mod.uplink[i].format.unit, content: 'N/A'})
                   for (let i in mod.downlink) Vue.set(this.points, mod.uplink[i].label, {name: mod.uplink[i].name, unit: mod.uplink[i].format.unit, content: 'N/A'})
+                  if (parseInt(i) === this.device.product.mods.length - 1) this.parsePoints()
                 }).catch(ex => {
                   console.log('parsing failed', ex)
                 })
@@ -235,6 +264,18 @@ export default {
       }).catch(ex => {
         console.log('parsing failed', ex)
       })
+    },
+    parsePoints () {
+      if (this.device.status === 3) {
+        let finish = {}
+        for (let i in this.datas) {
+          console.log(finish)
+          if (!finish[this.datas[i].label]) {
+            this.points[this.datas[i].label].content = this.datas[i].content
+            finish[this.datas[i].label] = true
+          }
+        }
+      }
     },
     viewSecretMethod () {
       this.viewSecret = true
@@ -307,5 +348,8 @@ export default {
 }
 .device-options-btn {
   margin: 0 1%;
+}
+.datalimit {
+  text-align: center;
 }
 </style>
