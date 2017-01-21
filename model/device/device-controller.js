@@ -27,6 +27,29 @@ class DeviceController extends Controller {
     .catch(err => res.status(500).json({ msg: err.message, error: err }))
   }
 
+  remove (req, res, next) {
+    this.facade.findById(req.params.id)
+    .then(device => {
+      if (req.user.role <= 2 && req.user.id !== device.owner._id && req.user.id !== device.product.owner._id) return res.status(401).json({ msg: 'Unauthorized' }) // HTTP 401 无更新权限
+      const conditions = { device: req.params.id }
+      dataFacade.find(conditions).then(doc => {
+        if (!doc) return res.status(404).json({ msg: 'Not Found!' })
+        for (let i in doc) {
+          dataFacade.remove(doc[i]._id)
+          .then(doc => {
+            if (!doc) return res.status(404).json({ msg: 'Not Found!' })
+          })
+          .catch(err => res.status(500).json({ msg: err.message, error: err }))
+        }
+        this.facade.remove(req.params.id)
+        .then(doc => {
+          if (!doc) return res.status(404).json({ msg: 'Not Found!' })
+          return res.status(200).json(doc)
+        }).catch(err => res.status(500).json({ msg: err.message, error: err }))
+      }).catch(err => res.status(500).json({ msg: err.message, error: err }))
+    }).catch(err => res.status(500).json({ msg: err.message, error: err }))
+  }
+
   datanew (req, res, next) {
     req.body.device = req.params.id
     return this.facade.findById(req.params.id)
@@ -75,6 +98,23 @@ class DeviceController extends Controller {
         return res.status(201).json(payload)
       }
     })
+    .catch(err => res.status(500).json({ msg: err.message, error: err }))
+  }
+
+  dataempty (req, res, next) {
+    return dataFacade.find({device: req.params.id}).then(doc => {
+      console.log(doc)
+      if (!doc) return res.status(404).json({ msg: 'Not Found!' })
+      for (let i in doc) {
+        dataFacade.remove(doc[i]._id)
+        .then(doc => {
+          if (!doc) return res.status(404).json({ msg: 'Not Found!' })
+        })
+        .catch(err => res.status(500).json({ msg: err.message, error: err }))
+      }
+      return res.status(200).json({ ok: 'Success!' })
+    })
+    .catch(err => res.status(500).json({ msg: err.message, error: err }))
   }
 
   isEmptyObject (obj) {

@@ -15,5 +15,6 @@ router.route('/:id')
 
 router.route('/:id/:datalimit').get((...args) => controller.findById(...args))
 router.route('/:id/data').post((...args) => controller.datanew(...args))
+router.route('/:id/empty').put((...args) => controller.dataempty(...args))
 
 module.exports = router
