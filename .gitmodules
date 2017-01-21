@@ -3,4 +3,4 @@
 	url = https://github.com/noahziheng/freeiot-api.git
 [submodule "web"]
 	path = web
-	url = ./web
+	url = https://github.com/noahziheng/freeiot-web.git
