@@ -22,14 +22,14 @@ class MsgServer {
 
   handleConnect (client) {
     const clientMeta = client.id.split('/')
-    console.log(clientMeta[1] + 'Request add')
+    console.log(clientMeta[1] + ' Request add')
     const clientWillMeta = client.will.payload.toString().split('/')
-    console.log(clientWillMeta[0] + 'has secret' + clientWillMeta[1])
+    console.log(clientWillMeta[0] + ' has secret ' + clientWillMeta[1])
     if (clientMeta[1] === clientWillMeta[0]) {
       for (let e in this.devices) {
         if (this.devices[e]._id === clientWillMeta[0]) {
           var f = true
-          console.log(clientWillMeta[0] + 'in the list')
+          console.log(clientWillMeta[0] + ' is in the list')
           break
         }
       }
@@ -61,7 +61,7 @@ class MsgServer {
         })
       }
     } else {
-      console.log(clientWillMeta[0] + 'have a wrong will')
+      console.log(clientWillMeta[0] + ' have a wrong will')
       client.close()
     }
   }
