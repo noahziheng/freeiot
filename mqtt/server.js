@@ -22,17 +22,21 @@ class MsgServer {
 
   handleConnect (client) {
     const clientMeta = client.id.split('/')
+    console.log(clientMeta[1] + 'Request add')
     const clientWillMeta = client.will.payload.toString().split('/')
+    console.log(clientWillMeta[0] + 'has secret' + clientWillMeta[1])
     if (clientMeta[1] === clientWillMeta[0]) {
       for (let e in this.devices) {
         if (this.devices[e]._id === clientWillMeta[0]) {
           var f = true
+          console.log(clientWillMeta[0] + 'in the list')
           break
         }
       }
       if (!f) {
         deviceFacade.findById(clientWillMeta[0]).select('product owner secret status').populate('product').populate('owner').exec().then(doc => {
           if (doc === null) {
+            console.log('Cannot found ' + clientWillMeta[0] + ',removed')
             client.close()
           } else {
             if (doc.secret === clientWillMeta[1]) {
@@ -47,6 +51,7 @@ class MsgServer {
               doc.status = 3
               doc.save()
             } else {
+              console.log(clientWillMeta[0] + '\'s secret is wrong')
               client.close()
             }
           }
@@ -56,6 +61,7 @@ class MsgServer {
         })
       }
     } else {
+      console.log(clientWillMeta[0] + 'have a wrong will')
       client.close()
     }
   }
