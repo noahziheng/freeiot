@@ -4,4 +4,4 @@ docker run --name freeiot-web -v /data/www/freeiot/web/dist:/usr/share/nginx/htm
 docker run --name mongo -d -v /data/db/mongo:/data/db mongo --auth
 
 docker exec -it mongo mongo admin
-db.createUser({ user: 'freeiot', pwd: 'ertgvf579634', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+db.createUser({ user: 'freeiot', pwd: 'some-password', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
