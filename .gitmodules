@@ -4,3 +4,6 @@
 [submodule "web"]
 	path = web
 	url = https://github.com/noahziheng/freeiot-web.git
+[submodule "esp8266"]
+	path = esp8266
+	url = https://github.com/noahziheng/freeiot-esp8266.git
