@@ -11,11 +11,11 @@ content-type: application/json
   "password":"adzd1005"
 }
 ###
-POST http://api.freeiot.dev/user/auth
+POST https://api.iot.noahgao.net/user/auth
 content-type: application/json
 
 {
-  "email":"noahgaocn@outlook.com",
+  "email":"noahgaocn@gmail.com",
   "password":"adzd1005"
 }
 ###
@@ -67,13 +67,13 @@ content-type: application/json
 GET http://api.freeiot.dev/device/ryiCIMAUx
     ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InIxT05IemM4ZSIsImVtYWlsIjoibm9haGdhb2NuQG91dGxvb2suY29tIiwicm9sZSI6MywiaWF0IjoxNDg0ODIyMzMwLCJleHAiOjE0ODU0MjcxMzB9.HAiQSEX50yydoU4iV8y0vCaudi8UfojwgBVUgnscjs4
 ###
-POST http://api.freeiot.dev/device/By-_GdiPIl/data
-    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTk5MjcsImV4cCI6MTQ4NTAwNDcyN30._HYyof65wHuc4xhbD8sL0Ew5meyc1piV5hvAlbEUvDo
+POST https://api.iot.noahgao.net/device/B1HeNqZDg/data
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlMxMC03cWJEZyIsImVtYWlsIjoibm9haGdhb2NuQGdtYWlsLmNvbSIsInJvbGUiOjMsImlhdCI6MTQ4NTA5Nzg3OCwiZXhwIjoxNDg1NzAyNjc4fQ.afgFBDvwzkn8QQnAmoBN6MExJv_iEagEeDo0su_jqCU
 content-type: application/json
 
 {
   "type": 1,
-  "K": 15
+  "M": 1
 }
 ###
 POST http://api.freeiot.dev/mod/dht11
