@@ -10,7 +10,7 @@
 
 const char* Version_num = "1.0";
 const char* Version_tag = "preview";
-const char* Version_build = "20170123A1TJ";
+const char* Version_build = "20170123A2TJ";
 
 boolean initF = false;
 boolean product_initF = false;
@@ -58,6 +58,8 @@ void setup() {
   Serial.print(".");
   Serial.print(ESP.getVcc() / 100 %100);
   Serial.println("V");
+  Serial.print("Free Heap:");
+  Serial.println(ESP.getFreeHeap());
 
   SPIFFS.begin();
   loadConfig();
@@ -101,6 +103,9 @@ void handleTCPServer () {
           client.print(Version_tag);
           client.print(",");
           client.print(Version_build);
+          client.print(",");
+          if(ESP.getFreeHeap() <= 307200) client.print("0");
+          else client.print("1");
           client.print(";");
           client.print("P:");
           client.print(product[0]);
@@ -207,7 +212,18 @@ String strParse (String get) {
     } else if (tag == "U") {
       String name = get.substring(2);
       Serial.println("Updateing...Version: " + name);
-      ESPhttpUpdate.update("ota.iot.noahgao.net", 80, "/firmware/esp8266/" + name + ".bin");
+      t_httpUpdate_return ret = ESPhttpUpdate.update("http://ota.iot.noahgao.net:5000/firmware/esp8266/" + name + ".bin");
+      switch(ret) {
+        case HTTP_UPDATE_FAILED:
+          Serial.printf("HTTP_UPDATE_FAILD Error (%d): %s", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+          break;
+        case HTTP_UPDATE_NO_UPDATES:
+          Serial.println("HTTP_UPDATE_NO_UPDATES");
+          break;
+        case HTTP_UPDATE_OK:
+          Serial.println("HTTP_UPDATE_OK");
+          break;
+      }
       Serial.println("Updated!Ready to restart!");
       ESP.restart();
     }
