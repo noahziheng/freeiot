@@ -1,7 +1,7 @@
 FROM node:wheezy
 
 ENV APP_HOME /app/
-ENV TEMP_NPM /temp
+ENV TEMP_NPM /tmp
 
 RUN mkdir $APP_HOME
 
