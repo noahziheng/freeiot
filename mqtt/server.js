@@ -44,7 +44,30 @@ class MsgServer {
               let modsP = []
               for (let i in this.devices[e].product.mods) {
                 if (typeof this.devices[e].product.mods[i].origin === 'string') {
-                  modsP.push(modtool(this.devices[e].product.mods[i].origin, this.devices[e].product.mods[i].vars, this.devices[e].product.mods[i].hidden.toBSON()))
+                  let t = modtool(this.devices[e].product.mods[i].origin, this.devices[e].product.mods[i].vars, this.devices[e].product.mods[i].hidden.toBSON())
+                  if (t.downlink) {
+                    for (let i in t.downlink) {
+                      if (t.downlink[i].controll.default) {
+                        let driver = require('../mods/drivers/' + t.driver + '.js')
+                        let message = {
+                          topic: clientWillMeta[0] + '-d',
+                          payload: '',
+                          qos: 0,
+                          retain: false
+                        }
+                        message.payload = driver.encode({'t.downlink[i].label': t.downlink[i].controll.default})
+                        client.server.publish(message)
+                        let obj = {
+                          type: 1, // 0-上行报告 1-下行指令
+                          device: clientWillMeta[0],
+                          label: t.downlink[i].label,
+                          content: t.downlink[i].controll.default
+                        }
+                        dataFacade.create(obj)
+                      }
+                    }
+                  }
+                  modsP.push(t)
                 }
               }
               this.mods[e] = modsP

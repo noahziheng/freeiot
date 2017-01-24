@@ -2,7 +2,7 @@ const fs = require('fs')
 const mu = require('mustache')
 
 module.exports = function (id, vars, hidden = false) {
-  const index = JSON.parse(fs.readFileSync('./mods/index.json').toString())
+  const index = JSON.parse(fs.readFileSync('./mods/index/' + id + '.json').toString())
   let result = mu.render(fs.readFileSync('./mods/' + id + '.json').toString(), vars)
   result = JSON.parse(result)
   if (hidden !== false) {
@@ -15,6 +15,6 @@ module.exports = function (id, vars, hidden = false) {
       }
     }
   }
-  result.name = index[id].name
+  result.name = index.name
   return result
 }

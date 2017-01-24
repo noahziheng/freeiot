@@ -56,6 +56,7 @@ class DeviceController extends Controller {
     .then(doc => {
       if (!doc) { return res.status(404).end() }
       if (req.user.role <= 2 && doc.owner !== req.user.id) doc.secret = undefined // HTTP 401 无秘钥查询权限
+      if (!req.body.type) req.body.type = 1
       if (req.body.type === 1) {
         let payload = []
         for (let i in doc.product.mods) {
@@ -94,7 +95,6 @@ class DeviceController extends Controller {
             .catch(err => res.status(500).json({ msg: err.message, error: err }))
           }
         }
-        console.log(payload)
         return res.status(201).json(payload)
       }
     })

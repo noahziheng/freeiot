@@ -1,9 +1,14 @@
 {
-  "driver": "simple",
+  "driver": "{{driver}}{{^driver}}simple{{/driver}}",
   "uplink": [
     {
       "name": "{{name}}",
       "label": "{{label}}",
+      "show": {
+        "type": "{{show_type}}{{^show_type}}text{{/show_type}}",
+        "max": {{show_max}}{{^show_max}}-1{{/show_max}},
+        "min": {{show_min}}{{^show_min}}-1{{/show_min}}
+      },
       "format": {
         "type": "{{format_type}}",
         "unit": "{{format_unit}}",

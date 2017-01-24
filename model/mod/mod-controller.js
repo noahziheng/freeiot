@@ -3,7 +3,12 @@ const fs = require('fs')
 class ModController {
 
   find (req, res, next) {
-    res.status(200).json(JSON.parse(fs.readFileSync('./mods/index.json').toString()))
+    let t = {}
+    const index = JSON.parse(fs.readFileSync('./mods/index.json').toString())
+    for (let i in index) {
+      t[index[i]] = JSON.parse(fs.readFileSync('./mods/index/' + index[i] + '.json').toString())
+    }
+    res.status(200).json(t)
   }
 
   findById (req, res, next) {
