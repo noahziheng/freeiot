@@ -327,8 +327,20 @@ export default {
       return 0
     },
     handleControll (label, val) {
-      console.log(label)
-      console.log(val)
+      let query = {type: 1}
+      query[label] = val
+      fetch(this.$root.apiurl + '/device/' + this.$route.params.id + '/data' + '?token=' + this.user.token, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(query)
+      }).then(res => res.json()).then(doc => {
+        if (doc.msg !== undefined) this.$store.commit('error', '提交失败（ ' + doc.msg + ' ）')
+        else console.log(doc)
+      }).catch(ex => {
+        console.log('parsing failed', ex)
+      })
     }
   }
 }
