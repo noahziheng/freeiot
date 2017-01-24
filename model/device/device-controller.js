@@ -65,7 +65,7 @@ class DeviceController extends Controller {
             let driver = require('../../mods/drivers/' + t.driver + '.js')
             let payloadT = {}
             for (let j in t.downlink) {
-              if (req.body[t.downlink[j].label]) payloadT[t.downlink[j].label] = req.body[t.downlink[j].label]
+              if (req.body[t.downlink[j].label] !== undefined) payloadT[t.downlink[j].label] = req.body[t.downlink[j].label]
             }
             if (!this.isEmptyObject(payloadT)) {
               payload.push({
@@ -73,6 +73,7 @@ class DeviceController extends Controller {
                 encode: driver.encode(payloadT)
               })
             }
+            console.log(payload)
           }
         }
         let message = {
@@ -103,7 +104,6 @@ class DeviceController extends Controller {
 
   dataempty (req, res, next) {
     return dataFacade.find({device: req.params.id}).then(doc => {
-      console.log(doc)
       if (!doc) return res.status(404).json({ msg: 'Not Found!' })
       for (let i in doc) {
         dataFacade.remove(doc[i]._id)

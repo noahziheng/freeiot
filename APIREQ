@@ -73,7 +73,7 @@ content-type: application/json
 
 {
   "type": 1,
-  "M": 1
+  "M": false
 }
 ###
 POST http://api.freeiot.dev/mod/simple_down
