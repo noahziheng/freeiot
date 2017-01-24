@@ -16,13 +16,14 @@
         </mu-col>
         <mu-col width="100" tablet="60" desktop="60">
           <mu-sub-header>配置数据点</mu-sub-header>
+          <mu-text-field style="padding-left: 16px" label="模块备注名称（可为空）" v-model="mod.remark" labelFloat /><br/>
+          <ModVal v-for="(e,j) in modinfo.global" :data="e" :old="mod.vars[e.label]" @change="handleModValChange"/>
           <template v-for="(item,i) in modinfo.vars" v-if="mod.origin !== ''">
-            <mu-text-field style="padding-left: 16px" label="模块备注名称（可为空）" v-model="mod.remark" labelFloat /><br/>
             <mu-sub-header class="point-title">{{item.remark}}
               <br />
-              <mu-checkbox label="隐藏数据点" class="hidden-checkbox" @change="hidden(i)" :value="hiddened(i) !== -1"/>
+              <mu-checkbox label="隐藏数据点" v-if="!item.required" class="hidden-checkbox" @change="hidden(i)" :value="hiddened(i) !== -1"/>
             </mu-sub-header>
-            <mu-text-field style="padding-left: 16px" v-if="j !== 'remark' && hiddened(i) === -1" v-for="(e,j) in item" :label="e" v-model="mod.vars[j]" labelFloat /><br/>
+            <ModVal v-if="j !== 'remark' && hiddened(i) === -1" v-for="(e,j) in item.content" :data="e" :old="mod.vars[e.label]" @change="handleModValChange"/><br/>
           </template>
         </mu-col>
       </mu-row>
@@ -35,6 +36,7 @@
 
 <script>
 import Vue from 'vue'
+import ModVal from './ModVal'
 
 export default {
   data () {
@@ -48,7 +50,8 @@ export default {
       },
       modinfo: {
         name: '',
-        vars: []
+        vars: [],
+        global: []
       }
     }
   },
@@ -57,20 +60,32 @@ export default {
       return this.$store.state.mods
     }
   },
+  components: {
+    ModVal
+  },
   props: ['mods', 'newF'],
   methods: {
     open () {
       this.dialog = true
     },
     close () {
-      this.mod = { origin: '', remark: '', vars: {}, hidden: [] }
-      this.modinfo = { name: '', vars: [] }
+      this.emptyModTemp()
+      this.modF = undefined
       this.dialog = false
     },
+    emptyModTemp () {
+      this.mod = { origin: '', remark: '', vars: {}, hidden: [] }
+      this.modinfo = { name: '', vars: [], global: [] }
+    },
+    handleModValChange (label, val) {
+      this.mod.vars[label] = val
+    },
     handleModSelect (val) {
+      if (!this.modF) this.emptyModTemp()
       this.mod.origin = val
       this.modinfo.name = this.allMods[val].name
       Vue.set(this.modinfo, 'vars', this.allMods[val].vars)
+      Vue.set(this.modinfo, 'global', this.allMods[val].global)
     },
     submit () {
       if (this.mod.origin !== '') {
@@ -85,6 +100,7 @@ export default {
     },
     viewMod (item, index) {
       this.mod = item
+      this.modF = true
       this.handleModSelect(item.origin)
       if (this.newF) this.deleteMod(index)
       this.open()

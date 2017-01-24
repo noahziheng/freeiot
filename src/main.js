@@ -10,8 +10,8 @@ import App from './App'
 import Welcome from './Welcome'
 import Alert from './components/Alert'
 import routes from './routes'
-import apiurl from './apiurl.json'
 import store from './store'
+import apiurl from './apiurl.json'
 
 Vue.use(MuseUI)
 Vue.use(VueRouter)

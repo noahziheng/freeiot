@@ -45,7 +45,18 @@
             <mu-flexbox-item class="data-block" :grow="0" v-for="(item,index) in points">
               <mu-paper class="data-block" :zDepth="3">
                 <span class="data-title">{{item.name}}({{index}})</span>
-                <span class="data-text">{{item.content}}{{item.unit}}</span>
+                <span class="data-text" v-if="item.type === 0">{{item.content}}{{item.format.unit}}</span>
+                <template v-else>
+                  <mu-text-field class="data-text" style="width:50%" v-if="item.controll.type === 'text'" v-model="item.content" @change="handleControll(item.label, $event)" fullWidth />
+                  <template v-if="item.controll.type === 'number'">
+                    <span class="data-text" @click="handleNumberChose(item)">{{item.content}}</span>
+                  </template>
+                  <template v-if="item.controll.type === 'switch'">
+                    <span class="switch-text">{{ item.content ? 'ON' : 'OFF' }}</span><br>
+                    <mu-switch v-model="item.content" @change="handleControll(item.label, $event)"/>
+                  </template>
+                  <span class="data-text" >{{item.format.unit}}</span>
+                </template>
               </mu-paper>
             </mu-flexbox-item>
           </mu-flexbox>
@@ -108,6 +119,10 @@
       </div>
       <div v-if="dialogPage === 2">强制下线只适用于数据库中设备状态与实际情况不符时用于校正，不能真的用于将设备从MQTT队列中移除！如有需要请从硬件层级操作！</div>
       <div v-if="dialogPage === 3">真的要删吗？～</div>
+      <div v-if="dialogPage === 11">
+        <mu-slider class="inputnumber" :max="tmp_max" :min="tmp_min" :step="tmp_step" v-model="tmp_val" />
+        <mu-text-field class="inputnumber inputnumber-box" :value="tmp_val"></mu-text-field>
+      </div>
       <mu-flat-button label="取消" slot="actions" @click="closeDialog" primary/>
       <mu-flat-button label="确定" slot="actions" @click="finalOptions" primary/>
     </mu-dialog>
@@ -151,7 +166,12 @@ export default {
         }
       },
       datalimit: 1,
-      toast: false
+      toast: false,
+      tmp_label: '',
+      tmp_val: 0,
+      tmp_max: 100,
+      tmp_min: 0,
+      tmp_step: 1
     }
   },
   components: {
@@ -180,6 +200,15 @@ export default {
     }
   },
   methods: {
+    handleNumberChose (item) {
+      console.log(item.controll)
+      this.tmp_label = item.label
+      this.tmp_val = item.content
+      this.tmp_max = item.controll.vars.max
+      this.tmp_min = item.controll.vars.min
+      this.tmp_step = item.controll.vars.step
+      this.openDialog(11)
+    },
     showToast () {
       this.toast = true
       if (this.toastTimer) clearTimeout(this.toastTimer)
@@ -196,29 +225,33 @@ export default {
       this.dialogPage = -1
     },
     finalOptions () {
-      let query = {}
-      let type = this.dialogPage
-      if (type === 1) query = {name: this.device.name}
-      else if (type === 2) query = {status: 2}
-      let req = {
-        method: type === 3 ? 'DELETE' : 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-      if (type === 1 || type === 2) req.body = JSON.stringify(query)
-      if (type === 3 && this.device.status === 3) this.$store.commit('error', '不能在设备在线时删除设备')
-      else {
-        fetch(this.$root.apiurl + '/device/' + this.device._id + (type === 0 ? '/empty' : '') + '?token=' + this.user.token, req).then(res => res.json()).then(json => {
-          if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
-          else {
-            if (type === 3) this.$router.push('/dashboard')
-            else if (type === 2) this.device.status = 2
-            else if (type === 0) location.reload()
+      if (this.dialogPage <= 10) {
+        let query = {}
+        let type = this.dialogPage
+        if (type === 1) query = {name: this.device.name}
+        else if (type === 2) query = {status: 2}
+        let req = {
+          method: type === 3 ? 'DELETE' : 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
           }
-        }).catch(ex => {
-          console.log('parsing failed', ex)
-        })
+        }
+        if (type === 1 || type === 2) req.body = JSON.stringify(query)
+        if (type === 3 && this.device.status === 3) this.$store.commit('error', '不能在设备在线时删除设备')
+        else {
+          fetch(this.$root.apiurl + '/device/' + this.device._id + (type === 0 ? '/empty' : '') + '?token=' + this.user.token, req).then(res => res.json()).then(json => {
+            if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
+            else {
+              if (type === 3) this.$router.push('/dashboard')
+              else if (type === 2) this.device.status = 2
+              else if (type === 0) location.reload()
+            }
+          }).catch(ex => {
+            console.log('parsing failed', ex)
+          })
+        }
+      } else {
+        this.handleControll(this.tmp_label, this.tmp_val)
       }
       this.closeDialog()
     },
@@ -249,8 +282,8 @@ export default {
                   },
                   body: JSON.stringify(query)
                 }).then(res => res.json()).then(mod => {
-                  for (let i in mod.uplink) Vue.set(this.points, mod.uplink[i].label, {name: mod.uplink[i].name, unit: mod.uplink[i].format.unit, content: 'N/A'})
-                  for (let i in mod.downlink) Vue.set(this.points, mod.uplink[i].label, {name: mod.uplink[i].name, unit: mod.uplink[i].format.unit, content: 'N/A'})
+                  for (let i in mod.uplink) Vue.set(this.points, mod.uplink[i].label, {type: 0, name: mod.uplink[i].name, show: mod.uplink[i].show, format: mod.uplink[i].format, content: 'N/A'})
+                  for (let i in mod.downlink) Vue.set(this.points, mod.downlink[i].label, {type: 1, name: mod.downlink[i].name, label: mod.downlink[i].label, controll: mod.downlink[i].controll, format: mod.downlink[i].format, content: (mod.downlink[i].controll.type === 'switch' ? false : 'N/A')})
                   if (parseInt(i) === this.device.product.mods.length - 1) this.parsePoints()
                 }).catch(ex => {
                   console.log('parsing failed', ex)
@@ -269,8 +302,11 @@ export default {
       if (this.device.status === 3) {
         let finish = {}
         for (let i in this.datas) {
-          console.log(finish)
           if (!finish[this.datas[i].label]) {
+            if (this.points[this.datas[i].label].format.type === 'boolean') {
+              if (this.datas[i].content === 0) this.datas[i].content = false
+              else this.datas[i].content = true
+            }
             this.points[this.datas[i].label].content = this.datas[i].content
             finish[this.datas[i].label] = true
           }
@@ -289,6 +325,10 @@ export default {
       }
       // a 必须等于 b
       return 0
+    },
+    handleControll (label, val) {
+      console.log(label)
+      console.log(val)
     }
   }
 }
@@ -332,6 +372,12 @@ export default {
 .data-text {
   display: inline-block;
   font-size: 40px;
+  color: #222;
+  margin-top: 2%;
+}
+.switch-text {
+  display: inline-block;
+  font-size: 30px;
   color: #222;
   margin-top: 2%;
 }

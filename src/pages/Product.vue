@@ -9,7 +9,10 @@
         <mu-sub-header>产品标识</mu-sub-header>
         <mu-content-block>
           <mu-chip>ProductId: {{product._id}}</mu-chip>
-          <mu-chip>Secret: {{product.secret}}</mu-chip>
+          <mu-chip v-if="!viewSecret" @click="viewSecretMethod">Secret: 点击查看</mu-chip>
+          <mu-chip class="copy-btn" v-if="viewSecret" :data-clipboard-text="product.secret" @click="showToast">{{product.secret}}</mu-chip>
+          <mu-toast v-if="toast" message="Secret已复制" @close="hideToast"/>
+          <mu-sub-header>温馨提示：点击Secret可复制</mu-sub-header>
         </mu-content-block>
       </div>
       <mu-tabs class="hello-tabs" @change="handleTabChange" :value="tabValue">
@@ -34,11 +37,14 @@ import AddMod from '../components/AddMod'
 import NewDevice from '../components/NewDevice'
 import VueMarkdown from 'vue-markdown'
 import DevicesList from '../components/DevicesList'
+import Clipboard from 'clipboard'
 
 export default {
   name: 'product',
   data () {
     return {
+      viewSecret: false,
+      toast: false,
       dialog: false,
       tabValue: 'readme',
       product: {
@@ -63,6 +69,7 @@ export default {
     if (this.$route.params.id) {
       this.getProduct()
     }
+    this.clipboard = new Clipboard('.copy-btn')
   },
   computed: {
     user: function () {
@@ -83,6 +90,18 @@ export default {
       }).catch(ex => {
         console.log('parsing failed', ex)
       })
+    },
+    viewSecretMethod () {
+      this.viewSecret = true
+    },
+    showToast () {
+      this.toast = true
+      if (this.toastTimer) clearTimeout(this.toastTimer)
+      this.toastTimer = setTimeout(() => { this.toast = false }, 2000)
+    },
+    hideToast () {
+      this.toast = false
+      if (this.toastTimer) clearTimeout(this.toastTimer)
     }
   }
 }

@@ -117,6 +117,7 @@ export default {
       }
     },
     submit () {
+      console.log(this.product)
       fetch(this.$root.apiurl + '/product' + (this.$route.params.id ? '/' + this.$route.params.id : '') + '?token=' + this.user.token, {
         method: this.$route.params.id ? 'PUT' : 'POST',
         headers: {
