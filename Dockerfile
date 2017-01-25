@@ -10,5 +10,6 @@ RUN npm install -g pm2
 WORKDIR $APP_HOME
 
 EXPOSE 80
+EXPOSE 1883
 
 CMD ["npm start"]

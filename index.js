@@ -15,6 +15,7 @@ const userModel = require('./model/user/user-facade')
 const MsgServer = require('./mqtt/server.js')
 const cors = require('cors')
 const app = express()
+const io = require('socket.io')(app)
 const mosca = require('mosca')
 
 const schedule = require('node-schedule')
@@ -71,6 +72,7 @@ const msg = new MsgServer(server)
 msg.setup()
 app.use((req, res, next) => {
   req.mqtt = server
+  req.io = io
   next()
 })
 
@@ -89,6 +91,10 @@ app.use('/', routes)
 
 app.listen(config.server.port, () => {
   console.log(`Magic happens on port ${config.server.port}`)
+})
+
+io.on('connection', socket => {
+  io.emit('news', {hello: 'world'})
 })
 
 module.exports = app
