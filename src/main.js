@@ -23,6 +23,9 @@ const router = new VueRouter({
   routes: routes
 })
 
+let traget = document.getElementById('loading-title')
+traget.style.display = 'none'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

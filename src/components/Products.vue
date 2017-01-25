@@ -82,6 +82,10 @@ export default {
 }
 .item-col {
   text-align: center;
-  margin: 1%
+  margin: 1%;
+}
+.mu-flexbox .mu-flexbox-item:first-child {
+  margin-left: 8px!important;
+  margin-top: 0!important;
 }
 </style>
