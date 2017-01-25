@@ -27,6 +27,16 @@ class DeviceController extends Controller {
     .catch(err => res.status(500).json({ msg: err.message, error: err }))
   }
 
+  create (req, res, next) {
+    dataFacade.create({type: 3, device: req.params.id, label: 'SYS', content: 'create'})
+    super.create(req, res, next)
+  }
+
+  update (req, res, next) {
+    if (req.body.status === 1) dataFacade.create({type: 3, device: req.params.id, label: 'SYS', content: 'activate'})
+    super.update(req, res, next)
+  }
+
   remove (req, res, next) {
     this.facade.findById(req.params.id)
     .then(device => {
@@ -91,8 +101,10 @@ class DeviceController extends Controller {
               label: j,
               content: payload[i].orig[j]
             }
-            dataFacade.create(obj).catch(err => res.status(500).json({ msg: err.message, error: err }))
-            req.io.emit(req.body.device + '-web', obj)
+            dataFacade.create(obj).catch(err => res.status(500).json({ msg: err.message, error: err })).then(doc => {
+              if (!doc) return res.status(404).json({ msg: 'Failed!' })
+              else req.io.emit(req.body.device + '-web', doc)
+            })
           }
         }
         return res.status(201).json(payload)

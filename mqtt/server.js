@@ -71,10 +71,11 @@ class MsgServer {
                 label: 'SYS',
                 content: 'online'
               }
-              dataFacade.create(obj)
+              dataFacade.create(obj).then(doc => {
+                this.io.emit(clientWillMeta[0] + '-web', doc)
+              })
               doc.status = 3
               doc.save()
-              this.io.emit(clientWillMeta[0] + '-web', obj)
             } else {
               console.log(clientWillMeta[0] + '\'s secret is wrong')
               client.close()
@@ -104,8 +105,9 @@ class MsgServer {
               label: 'SYS',
               content: 'offline'
             }
-            dataFacade.create(obj)
-            this.io.emit(req[0] + '-web', obj)
+            dataFacade.create(obj).then(doc => {
+              this.io.emit(req[0] + '-web', doc)
+            })
             delete this.devices[e]
             deviceFacade.findByIdAndUpdate(req[0], {$set: { status: 2 }}, {new: true}).exec()
             break
@@ -128,8 +130,9 @@ class MsgServer {
                   label: j, // 数据点代号
                   content: data[i][j] // 数据内容（解析完成的）
                 }
-                dataFacade.create()
-                this.io.emit(this.devices[e]._id + '-web', obj)
+                dataFacade.create(obj).then(doc => {
+                  this.io.emit(this.devices[e]._id + '-web', doc)
+                })
               }
             }
             break
