@@ -98,7 +98,7 @@
               <mu-td>{{ index }}</mu-td>
               <mu-td>{{ item.type | getTypeName }}</mu-td>
               <mu-td>{{ item.label }}</mu-td>
-              <mu-td>{{ item.content | getContent }}</mu-td>
+              <mu-td>{{ getContent(item.content) }}</mu-td>
               <mu-td>{{ item.created_at | getDateTime }}</mu-td>
             </mu-tr>
           </mu-tbody>
@@ -185,6 +185,9 @@ export default {
     }
     this.clipboard = new Clipboard('.copy-btn')
   },
+  destroyed () {
+    delete this.$options.sockets[this.$route.params.id + '-web']
+  },
   computed: {
     user: function () {
       return this.$store.state.user
@@ -200,14 +203,21 @@ export default {
     },
     getDateTime (val) {
       return readable(val)
-    },
-    getContent (val) {
-      if (val === 'online') return '设备上线'
-      else if (val === 'offline') return '设备离线'
-      return val
     }
   },
   methods: {
+    getContent (val, statusF) {
+      if (val === 'online') {
+        if (statusF) this.device.status = 3
+        return '设备上线'
+      } else if (val === 'offline') {
+        if (statusF) this.device.status = 2
+        return '设备离线'
+      } else if (val === 'empty') return '数据清空'
+      else if (val === 'create') return '设备创建'
+      else if (val === 'activate') return '设备激活'
+      return val
+    },
     handleNumberChose (item) {
       this.tmp_label = item.label
       this.tmp_val = item.content
@@ -291,26 +301,29 @@ export default {
                   },
                   body: JSON.stringify(query)
                 }).then(res => res.json()).then(mod => {
-                  for (let i in mod.uplink) {
-                    Vue.set(this.points, mod.uplink[i].label, {
+                  for (let j in mod.uplink) {
+                    Vue.set(this.points, mod.uplink[j].label, {
                       type: 0,
-                      name: mod.uplink[i].name,
-                      show: mod.uplink[i].show,
-                      format: mod.uplink[i].format,
+                      name: mod.uplink[j].name,
+                      show: mod.uplink[j].show,
+                      format: mod.uplink[j].format,
                       content: 'N/A'
                     })
                   }
-                  for (let i in mod.downlink) {
-                    Vue.set(this.points, mod.downlink[i].label, {
+                  for (let j in mod.downlink) {
+                    Vue.set(this.points, mod.downlink[j].label, {
                       type: 1,
-                      name: mod.downlink[i].name,
-                      label: mod.downlink[i].label,
-                      controll: mod.downlink[i].controll,
-                      format: mod.downlink[i].format,
-                      content: (mod.downlink[i].controll.default !== undefined ? JSON.parse(mod.downlink[i].controll.default) : (mod.downlink[i].controll.type === 'switch' ? false : 'N/A'))
+                      name: mod.downlink[j].name,
+                      label: mod.downlink[j].label,
+                      controll: mod.downlink[j].controll,
+                      format: mod.downlink[j].format,
+                      content: (mod.downlink[j].controll.default !== undefined ? JSON.parse(mod.downlink[j].controll.default) : (mod.downlink[j].controll.type === 'switch' ? false : 'N/A'))
                     })
                   }
-                  if (parseInt(i) === this.device.product.mods.length - 1) this.parsePoints()
+                  if (parseInt(i) === this.device.product.mods.length - 1) {
+                    this.parsePoints()
+                    this.initRealtime()
+                  }
                 }).catch(ex => {
                   console.log('parsing failed', ex)
                 })
@@ -333,6 +346,15 @@ export default {
             finish[this.datas[i].label] = true
           }
         }
+      }
+    },
+    initRealtime () {
+      this.$options.sockets[this.$route.params.id + '-web'] = (data) => {
+        this.datas.push(data)
+        if (data.label !== 'SYS') this.points[data.label].content = data.content
+        else this.showToast(this.getContent(data.content, true))
+        Vue.set(this, 'datas', this.datas.sort(this.sortCreate))
+        console.log(data)
       }
     },
     viewSecretMethod () {

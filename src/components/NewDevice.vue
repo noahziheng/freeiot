@@ -111,6 +111,7 @@ export default {
       fetch(this.$root.apiurl + '/device/' + this.device._id + '?token=' + this.user.token).then(res => res.json()).then(json => {
         if (json.msg !== undefined) this.$store.commit('error', '查询失败（ ' + json.msg + ' ）')
         else this.device = json.meta.device
+        console.log(this.device)
       }).catch(ex => {
         console.log('parsing failed', ex)
       })

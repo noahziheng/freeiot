@@ -12,9 +12,11 @@ import Alert from './components/Alert'
 import routes from './routes'
 import store from './store'
 import apiurl from './apiurl.json'
+import VueSocketio from 'vue-socket.io'
 
 Vue.use(MuseUI)
 Vue.use(VueRouter)
+Vue.use(VueSocketio, apiurl, store)
 
 const router = new VueRouter({
   mode: 'history',
@@ -28,6 +30,11 @@ new Vue({
     return {
       apiurl: apiurl,
       app: false
+    }
+  },
+  sockets: {
+    connect () {
+      console.log('Real-time WebSocket-server Connected')
     }
   },
   store,
