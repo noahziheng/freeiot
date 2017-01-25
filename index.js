@@ -15,7 +15,8 @@ const userModel = require('./model/user/user-facade')
 const MsgServer = require('./mqtt/server.js')
 const cors = require('cors')
 const app = express()
-const io = require('socket.io')(app)
+const httpserver = require('http').Server(app)
+const io = require('socket.io')(httpserver)
 const mosca = require('mosca')
 
 const schedule = require('node-schedule')
@@ -89,7 +90,7 @@ schedule.scheduleJob('0 0 0,6,12,18,24 * * *', function () {
 
 app.use('/', routes)
 
-app.listen(config.server.port, () => {
+httpserver.listen(config.server.port, () => {
   console.log(`Magic happens on port ${config.server.port}`)
 })
 
