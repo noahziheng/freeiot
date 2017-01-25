@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const shortId = require('shortid')
-const updateTimestamps = require('mongoose-timestamps.js')
 const ctyptopass = require('../../lib/cryptopass')
+const timestamps = require('mongoose-timestamp')
 
 const productSchema = new Schema({
   _id: {
@@ -25,11 +25,11 @@ const productSchema = new Schema({
     vars: {},
     hidden: []
   }],
-  logo: { type: String, default: '/images/default_logo.png' },
-  created_at: { type: Date, default: new Date() },
-  updated_at: { type: Date }
+  logo: { type: String, default: '/images/default_logo.png' }
 })
-
-productSchema.pre('save', updateTimestamps('updated_at')) // 时间戳管理钩子
+productSchema.plugin(timestamps, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
+})
 
 module.exports = mongoose.model('Product', productSchema)

@@ -20,7 +20,7 @@
     "express-jwt": "^5.1.0",
     "helmet": "^3.1.0",
     "mongoose": "^4.7.0",
-    "mongoose-timestamps.js": "^0.0.0",
+    "mongoose-timestamp": "^0.6.0",
     "morgan": "^1.7.0",
     "mosca": "^2.2.0",
     "mqtt": "^2.1.3",

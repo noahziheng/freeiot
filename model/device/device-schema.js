@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const shortId = require('shortid')
-const updateTimestamps = require('mongoose-timestamps.js')
 const ctyptopass = require('../../lib/cryptopass')
+const timestamps = require('mongoose-timestamp')
 
 const deviceSchema = new Schema({
   _id: {
@@ -22,11 +22,11 @@ const deviceSchema = new Schema({
     ref: 'Product',
     required: true
   },
-  status: { type: Number, default: 1 }, // 设备状态 0-预置 1-等待入网 2-离线 3-在线
-  created_at: { type: Date, default: new Date() },
-  updated_at: { type: Date }
+  status: { type: Number, default: 1 } // 设备状态 0-预置 1-等待入网 2-离线 3-在线
 })
-
-deviceSchema.pre('save', updateTimestamps('updated_at')) // 时间戳管理钩子
+deviceSchema.plugin(timestamps, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
+})
 
 module.exports = mongoose.model('Device', deviceSchema)

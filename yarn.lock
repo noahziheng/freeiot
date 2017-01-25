@@ -651,6 +651,12 @@ deepcopy@^0.6.1:
   version "0.6.3"
   resolved "http://registry.npm.taobao.org/deepcopy/download/deepcopy-0.6.3.tgz#634780f2f8656ab771af8fa8431ed1ccee55c7b0"
 
+defaults@^1.0.3:
+  version "1.0.3"
+  resolved "http://registry.npm.taobao.org/defaults/download/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
+  dependencies:
+    clone "^1.0.2"
+
 deferred-leveldown@~0.2.0:
   version "0.2.0"
   resolved "http://registry.npm.taobao.org/deferred-leveldown/download/deferred-leveldown-0.2.0.tgz#2cef1f111e1c57870d8bbb8af2650e587cd2f5b4"
@@ -2291,6 +2297,12 @@ mongodb@~2.1.4:
     es6-promise "3.0.2"
     mongodb-core "1.3.21"
     readable-stream "1.0.31"
+
+mongoose-timestamp@^0.6.0:
+  version "0.6.0"
+  resolved "http://registry.npm.taobao.org/mongoose-timestamp/download/mongoose-timestamp-0.6.0.tgz#da54110ca8e6d4c2b9957a0366836c362ed272be"
+  dependencies:
+    defaults "^1.0.3"
 
 mongoose-timestamps.js@^0.0.0:
   version "0.0.0"

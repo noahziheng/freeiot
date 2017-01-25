@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const shortId = require('shortid')
-const updateTimestamps = require('mongoose-timestamps.js')
 const ctyptopass = require('../../lib/cryptopass')
+const timestamps = require('mongoose-timestamp')
 
 const userSchema = new Schema({
   _id: {
@@ -22,12 +22,13 @@ const userSchema = new Schema({
     location: String,
     reason: String
   },
-  role: { type: Number, default: 0, min: 0, max: 3 }, // 权限 0-用户 1-开发者(待审核) 2-开发者 3-管理员
-  created_at: { type: Date, default: new Date() },
-  updated_at: { type: Date }
+  role: { type: Number, default: 0, min: 0, max: 3 } // 权限 0-用户 1-开发者(待审核) 2-开发者 3-管理员
+})
+userSchema.plugin(timestamps, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 })
 
-userSchema.pre('save', updateTimestamps('updated_at')) // 时间戳管理钩子
 userSchema.pre('save', function (next) {
   if (this.password !== undefined) {
     this.password = ctyptopass(this.password) // 密码加密存储
