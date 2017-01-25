@@ -101,6 +101,7 @@
               <mu-td>{{ item.label }}</mu-td>
               <mu-td>{{ item.content }}</mu-td>
               <mu-td>{{ item.created_at | getDateTime }}</mu-td>
+              <mu-td>{{ item.created_at }}</mu-td>
             </mu-tr>
           </mu-tbody>
         </mu-table>
@@ -201,7 +202,6 @@ export default {
   },
   methods: {
     handleNumberChose (item) {
-      console.log(item.controll)
       this.tmp_label = item.label
       this.tmp_val = item.content
       this.tmp_max = item.controll.vars.max
@@ -303,11 +303,7 @@ export default {
         let finish = {}
         for (let i in this.datas) {
           if (!finish[this.datas[i].label]) {
-            if (this.points[this.datas[i].label].format.type === 'boolean') {
-              if (this.datas[i].content === 0) this.datas[i].content = false
-              else this.datas[i].content = true
-            }
-            this.points[this.datas[i].label].content = this.datas[i].content
+            if (this.datas[i] !== undefined) this.points[this.datas[i].label].content = this.datas[i].content
             finish[this.datas[i].label] = true
           }
         }

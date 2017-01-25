@@ -36,17 +36,20 @@ export default {
     let localLogined = false
     if (window.localStorage && window.fetch) {
       if (window.localStorage.user) {
-        localLogined = true
+        let now = new Date().getTime()
         let obj = JSON.parse(window.localStorage.user)
-        this.$store.commit('login', obj) // 一次本地授权
-        // 二次对本地授权中权限进行重新校验
-        fetch(this.$root.apiurl + '/user/' + obj.id + '?token=' + obj.token).then(res => res.json()).then(json => {
-          if (json.msg === undefined) {
-            obj.role = json.role
-            this.$store.commit('login', obj)
-            window.localStorage.user = JSON.stringify(obj)
-          }
-        })
+        if ((now - obj.expTime) <= 7 * 24 * 3600 * 1000) {
+          localLogined = true
+          this.$store.commit('login', obj) // 一次本地授权
+          // 二次对本地授权中权限进行重新校验
+          fetch(this.$root.apiurl + '/user/' + obj.id + '?token=' + obj.token).then(res => res.json()).then(json => {
+            if (json.msg === undefined) {
+              obj.role = json.role
+              this.$store.commit('login', obj)
+              window.localStorage.user = JSON.stringify(obj)
+            }
+          })
+        }
       }
       if (window.localStorage.nodev) this.$store.commit('nodev', JSON.parse(window.localStorage.nodev))
     } else {

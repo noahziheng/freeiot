@@ -16,6 +16,7 @@ module.exports = {
       if (json.msg !== undefined) commit('error', '登录失败（ ' + json.msg + ' ）')
       else {
         commit('login', json)
+        json.expTime = new Date().getTime()
         window.localStorage.user = JSON.stringify(json)
       }
     }).catch(ex => {

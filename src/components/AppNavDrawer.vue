@@ -5,15 +5,6 @@
     <mu-badge v-if="version.tag !== 'Release'" :content="version.tag" class="drawer-version" secondary/>
   </mu-appbar>
   <mu-divider/>
-  <div class="mu-version-box">
-    <span class="mu-version-text">Version: v{{version.num}} {{version.tag}}</span>
-  </div>
-  <div class="mu-version-box">
-    <span class="mu-version-text">Build: {{version.build}}</span>
-  </div>
-  <div class="mu-version-box">
-    <span class="mu-version-text">API Version: {{apiVersion.version}} build{{apiVersion.build_version}}</span>
-  </div>
   <mu-list>
     <mu-list-item href="/" title="首页"/>
     <mu-list-item href="/dashboard" title="控制面板"/>
@@ -25,6 +16,17 @@
     <mu-list-item href="https://museui.github.io/" target="_blank" title="MuseUI"/>
     <mu-list-item href="http://cn.vuejs.org/" target="_blank" title="VueJS"/>
   </mu-list>
+  <mu-divider/>
+  <mu-sub-header>版本信息</mu-sub-header>
+  <div class="mu-version-box">
+    <span class="mu-version-text">Version: v{{version.num}} {{version.tag}}</span>
+  </div>
+  <div class="mu-version-box">
+    <span class="mu-version-text">Build: {{version.build}}</span>
+  </div>
+  <div class="mu-version-box">
+    <span class="mu-version-text">API Version: {{apiVersion.version}} build{{apiVersion.build_version}}</span>
+  </div>
 </mu-drawer>
 </template>
 
