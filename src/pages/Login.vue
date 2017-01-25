@@ -33,6 +33,11 @@ export default {
     if (this.$store.state.user !== false) {
       this.$router.push('/dashboard')
     }
+    this.$store.watch(state => state.user, (val, old) => {
+      if (val !== false) {
+        this.$router.push('/dashboard')
+      }
+    })
   },
   methods: {
     login: function (event) {
@@ -40,7 +45,6 @@ export default {
         email: this.email,
         password: this.password
       })
-      this.$router.push('/dashboard')
     }
   }
 }

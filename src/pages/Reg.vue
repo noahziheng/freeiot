@@ -33,6 +33,11 @@ export default {
     if (this.$store.state.user !== false) {
       this.$router.push('/dashboard')
     }
+    this.$store.watch(state => state.user, (val, old) => {
+      if (val !== false) {
+        this.$router.push('/dashboard')
+      }
+    })
   },
   methods: {
     reg: function (event) {
@@ -51,7 +56,6 @@ export default {
         if (json.msg !== undefined) this.$store.commit('error', '注册失败（ ' + json.msg + ' ）')
         else {
           this.$store.dispatch('login', {email: this.email, password: this.password})
-          this.$router.push('/dashboard')
         }
       }).catch(ex => {
         console.log('parsing failed', ex)
