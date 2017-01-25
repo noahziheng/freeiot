@@ -29,6 +29,16 @@ class DeviceController extends Controller {
 
   update (req, res, next) {
     if (req.body.status === 1) dataFacade.create({type: 3, device: req.params.id, label: 'SYS', content: 'activate'})
+    else if (req.body.status === 2) {
+      dataFacade.create({
+        type: 3, // 0-上行报告 1-下行指令
+        device: req.params.id,
+        label: 'SYS',
+        content: 'offline'
+      }).then(doc => {
+        this.io.emit(req.params.id + '-web', doc)
+      })
+    }
     super.update(req, res, next)
   }
 

@@ -118,14 +118,20 @@ class MsgServer {
         for (let e in this.devices) {
           if (this.devices[e]._id === client.id.split('/')[1]) {
             let data = []
+            let types = []
             for (let i in this.mods[e]) {
               let t = this.parser('uplink', this.mods[e][i], packet.payload.toString())
-              data.push(t)
+              if (this.isEmptyObject(t)) {
+                t = this.parser('downlink', this.mods[e][i], packet.payload.toString())
+                if (!this.isEmptyObject(t)) types[data.push(t) - 1] = 2
+              } else {
+                types[data.push(t) - 1] = 0
+              }
             }
             for (let i in data) {
               for (let j in data[i]) {
                 let obj = {
-                  type: 0, // 0-上行报告 1-下行指令
+                  type: types[i], // 0-上行报告 1-下行指令
                   device: this.devices[e]._id, // 设备代号
                   label: j, // 数据点代号
                   content: data[i][j] // 数据内容（解析完成的）
@@ -147,6 +153,13 @@ class MsgServer {
   parser (type, mod, data) {
     const driver = require('../mods/drivers/' + mod.driver + '.js')
     return driver.parse(type, mod, data)
+  }
+
+  isEmptyObject (obj) {
+    for (let i in obj) {
+      return false
+    }
+    return true
   }
 }
 
