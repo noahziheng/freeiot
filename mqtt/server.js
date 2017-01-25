@@ -71,6 +71,12 @@ class MsgServer {
                 }
               }
               this.mods[e] = modsP
+              dataFacade.create({
+                type: 3, // 0-上行报告 1-下行指令
+                device: clientWillMeta[0],
+                label: 'SYS',
+                content: 'online'
+              })
               doc.status = 3
               doc.save()
             } else {
@@ -96,6 +102,12 @@ class MsgServer {
         for (let e in this.devices) {
           if (this.devices[e]._id === req[0] && this.devices[e].secret === req[1]) {
             console.log(req[0] + ' removed')
+            dataFacade.create({
+              type: 3, // 0-上行报告 1-下行指令
+              device: req[0],
+              label: 'SYS',
+              content: 'offline'
+            })
             delete this.devices[e]
             deviceFacade.findByIdAndUpdate(req[0], {$set: { status: 2 }}, {new: true}).exec()
             break

@@ -9,7 +9,7 @@ const dataSchema = new Schema({
     unique: true,
     default: shortId.generate
   },
-  type: { type: Number, required: true }, // 0-上行报告 1-下行指令
+  type: { type: Number, required: true }, // 0-上行报告 1-下行指令 2-数据反馈 3-系统级消息
   device: { type: String, required: true },
   label: { type: String, required: true },
   content: { type: mongoose.Schema.Types.Mixed, required: true }
