@@ -4,11 +4,6 @@
       <mu-flexbox-item class="item-col" grow="0" basis="240px" v-for="(item, i) in products">
         <mu-card>
           <mu-card-title :title="item.name" :subTitle="item.commit"/>
-          <mu-card-text>
-            <mu-chip v-for="(e, j) in item.mods" style="margin: 1%; font-size: 11px;">
-              {{ e.remark !== '' ? e.remark : allMods[e.origin].name }}
-            </mu-chip>
-          </mu-card-text>
           <mu-card-actions>
             <mu-flat-button label="查看" @click="$router.push('/product/' + item._id)" secondary/>
           </mu-card-actions>
@@ -36,9 +31,6 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
-    },
-    allMods () {
-      return this.$store.state.mods
     }
   },
   mounted () {
