@@ -73,7 +73,6 @@ class DeviceController extends Controller {
                 encode: driver.encode(payloadT)
               })
             }
-            console.log(payload)
           }
         }
         let message = {
