@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mu-flexbox class="item-row" wrap="wrap" align="center">
+    <mu-flexbox class="item-row" wrap="wrap" align="baseline" justify="flex-start">
       <mu-flexbox-item class="item-col" grow="0" basis="240px" v-for="(item, i) in devices" v-if="item.status !== 0">
         <mu-card>
           <mu-card-title :title="item.name" :subTitle="item.product.name" />
