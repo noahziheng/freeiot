@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "pm2 start index.js --watch --no-daemon",
     "start": "pm2 start index.js --no-daemon",
-    "test": "standard"
+    "test": "standard",
+    "deploy": "ssh root@115.28.43.98 \"cd /data/www/freeiot/api/ ; git pull ; docker restart freeiot-api\""
   },
   "engines": {
     "node": ">=6"
