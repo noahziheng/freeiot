@@ -2,7 +2,7 @@
   <div>
     <div class="product-header">
       <mu-sub-header class="product-title">{{product.name}}</mu-sub-header>
-      <mu-sub-header class="product-commit">{{product.commit}} by {{product.owner.email}}</mu-sub-header>
+      <mu-sub-header class="product-commit">{{product.commit}} by {{product.owner.dev.last}}{{product.owner.dev.first}}({{product.owner.email}})</mu-sub-header>
       <mu-sub-header style="margin-left: 30px;margin-top: 10px;">模块列表</mu-sub-header>
       <AddMod class="product-mods" :mods="product.mods" :newF="false" />
       <div class="product-id-secret" v-if="user.role === 3 || user.id === product.owner._id">
