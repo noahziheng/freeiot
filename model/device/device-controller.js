@@ -27,11 +27,6 @@ class DeviceController extends Controller {
     .catch(err => res.status(500).json({ msg: err.message, error: err }))
   }
 
-  create (req, res, next) {
-    dataFacade.create({type: 3, device: req.params.id, label: 'SYS', content: 'create'})
-    super.create(req, res, next)
-  }
-
   update (req, res, next) {
     if (req.body.status === 1) dataFacade.create({type: 3, device: req.params.id, label: 'SYS', content: 'activate'})
     super.update(req, res, next)
