@@ -61,7 +61,7 @@ class MsgServer {
                           type: 1, // 0-上行报告 1-下行指令
                           device: clientWillMeta[0],
                           label: t.downlink[i].label,
-                          content: t.downlink[i].controll.default
+                          content: JSON.parse(t.downlink[i].controll.default)
                         }
                         dataFacade.create(obj)
                       }
