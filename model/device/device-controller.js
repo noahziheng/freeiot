@@ -91,8 +91,8 @@ class DeviceController extends Controller {
               label: j,
               content: payload[i].orig[j]
             }
-            dataFacade.create(obj)
-            .catch(err => res.status(500).json({ msg: err.message, error: err }))
+            dataFacade.create(obj).catch(err => res.status(500).json({ msg: err.message, error: err }))
+            req.io.emit(req.body.device + '-web', obj)
           }
         }
         return res.status(201).json(payload)
@@ -111,6 +111,7 @@ class DeviceController extends Controller {
         })
         .catch(err => res.status(500).json({ msg: err.message, error: err }))
       }
+      dataFacade.create({type: 3, device: req.params.id, label: 'SYS', content: 'empty'})
       return res.status(200).json({ ok: 'Success!' })
     })
     .catch(err => res.status(500).json({ msg: err.message, error: err }))

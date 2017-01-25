@@ -8,10 +8,11 @@ const dataFacade = require('../model/data/data-facade')
 const modtool = require('../mods/tool')
 
 class MsgServer {
-  constructor (server) {
+  constructor (server, io) {
     this.devices = []
     this.mods = []
     this.server = server
+    this.io = io
     server.on('clientConnected', this.handleConnect.bind(this))
     server.on('published', this.handleMsg.bind(this))
   }
@@ -64,14 +65,16 @@ class MsgServer {
                 }
               }
               this.mods[e] = modsP
-              dataFacade.create({
+              let obj = {
                 type: 3, // 0-上行报告 1-下行指令
                 device: clientWillMeta[0],
                 label: 'SYS',
                 content: 'online'
-              })
+              }
+              dataFacade.create(obj)
               doc.status = 3
               doc.save()
+              this.io.emit(clientWillMeta[0] + '-web', obj)
             } else {
               console.log(clientWillMeta[0] + '\'s secret is wrong')
               client.close()
@@ -95,12 +98,14 @@ class MsgServer {
         for (let e in this.devices) {
           if (this.devices[e]._id === req[0] && this.devices[e].secret === req[1]) {
             console.log(req[0] + ' removed')
-            dataFacade.create({
+            let obj = {
               type: 3, // 0-上行报告 1-下行指令
               device: req[0],
               label: 'SYS',
               content: 'offline'
-            })
+            }
+            dataFacade.create(obj)
+            this.io.emit(req[0] + '-web', obj)
             delete this.devices[e]
             deviceFacade.findByIdAndUpdate(req[0], {$set: { status: 2 }}, {new: true}).exec()
             break
@@ -117,12 +122,14 @@ class MsgServer {
             }
             for (let i in data) {
               for (let j in data[i]) {
-                dataFacade.create({
+                let obj = {
                   type: 0, // 0-上行报告 1-下行指令
                   device: this.devices[e]._id, // 设备代号
                   label: j, // 数据点代号
                   content: data[i][j] // 数据内容（解析完成的）
-                })
+                }
+                dataFacade.create()
+                this.io.emit(this.devices[e]._id + '-web', obj)
               }
             }
             break

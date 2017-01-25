@@ -69,7 +69,7 @@ app.use(jwt({ secret: config.key.jwt,
 
 // Run
 const server = new mosca.Server(config.mqtt)   // here we start mosca
-const msg = new MsgServer(server)
+const msg = new MsgServer(server, io)
 msg.setup()
 app.use((req, res, next) => {
   req.mqtt = server
@@ -94,8 +94,6 @@ httpserver.listen(config.server.port, () => {
   console.log(`Magic happens on port ${config.server.port}`)
 })
 
-io.on('connection', socket => {
-  io.emit('news', {hello: 'world'})
-})
+io.on('connection', socket => {})
 
 module.exports = app
