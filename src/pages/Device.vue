@@ -34,8 +34,7 @@
             <div ref="copyElement" v-if="user.role === 3 || user.id === device.owner._id || user.id === device.product.owner._id">
               <mu-chip class="item-row">Id: {{device._id}}</mu-chip>
               <mu-chip class="item-row" v-if="!viewSecret" @click="viewSecretMethod">Secret: 点击查看</mu-chip>
-              <mu-chip class="item-row copy-btn" v-if="viewSecret" :data-clipboard-text="device.secret" @click="showToast">{{device.secret}}</mu-chip>
-              <mu-toast v-if="toast" message="Secret已复制" @close="hideToast"/>
+              <mu-chip class="item-row copy-btn" v-if="viewSecret" :data-clipboard-text="device.secret" @click="showToast('Secret已复制')">{{device.secret}}</mu-chip>
               <mu-sub-header>温馨提示：点击Secret可复制</mu-sub-header>
             </div>
           </mu-paper>
@@ -99,9 +98,8 @@
               <mu-td>{{ index }}</mu-td>
               <mu-td>{{ item.type | getTypeName }}</mu-td>
               <mu-td>{{ item.label }}</mu-td>
-              <mu-td>{{ item.content }}</mu-td>
+              <mu-td>{{ item.content | getContent }}</mu-td>
               <mu-td>{{ item.created_at | getDateTime }}</mu-td>
-              <mu-td>{{ item.created_at }}</mu-td>
             </mu-tr>
           </mu-tbody>
         </mu-table>
@@ -127,6 +125,7 @@
       <mu-flat-button label="取消" slot="actions" @click="closeDialog" primary/>
       <mu-flat-button label="确定" slot="actions" @click="finalOptions" primary/>
     </mu-dialog>
+    <mu-toast v-if="toast" :message="toastMsg" @close="hideToast"/>
   </div>
 </template>
 
@@ -168,6 +167,7 @@ export default {
       },
       datalimit: 1,
       toast: false,
+      toastMsg: '',
       tmp_label: '',
       tmp_val: 0,
       tmp_max: 100,
@@ -194,10 +194,17 @@ export default {
     getTypeName (val) {
       if (val === 0) return '上传'
       else if (val === 1) return '下控'
+      else if (val === 2) return '控制量反馈'
+      else if (val === 3) return '系统消息'
       return '未知'
     },
     getDateTime (val) {
       return readable(val)
+    },
+    getContent (val) {
+      if (val === 'online') return '设备上线'
+      else if (val === 'offline') return '设备离线'
+      return val
     }
   },
   methods: {
@@ -209,13 +216,15 @@ export default {
       this.tmp_step = item.controll.vars.step
       this.openDialog(11)
     },
-    showToast () {
+    showToast (val) {
       this.toast = true
+      this.toastMsg = val
       if (this.toastTimer) clearTimeout(this.toastTimer)
-      this.toastTimer = setTimeout(() => { this.toast = false }, 2000)
+      this.toastTimer = setTimeout(() => { this.toast = false }, 1200)
     },
     hideToast () {
       this.toast = false
+      this.toastMsg = ''
       if (this.toastTimer) clearTimeout(this.toastTimer)
     },
     openDialog (val) {
@@ -282,8 +291,25 @@ export default {
                   },
                   body: JSON.stringify(query)
                 }).then(res => res.json()).then(mod => {
-                  for (let i in mod.uplink) Vue.set(this.points, mod.uplink[i].label, {type: 0, name: mod.uplink[i].name, show: mod.uplink[i].show, format: mod.uplink[i].format, content: 'N/A'})
-                  for (let i in mod.downlink) Vue.set(this.points, mod.downlink[i].label, {type: 1, name: mod.downlink[i].name, label: mod.downlink[i].label, controll: mod.downlink[i].controll, format: mod.downlink[i].format, content: (mod.downlink[i].controll.type === 'switch' ? false : 'N/A')})
+                  for (let i in mod.uplink) {
+                    Vue.set(this.points, mod.uplink[i].label, {
+                      type: 0,
+                      name: mod.uplink[i].name,
+                      show: mod.uplink[i].show,
+                      format: mod.uplink[i].format,
+                      content: 'N/A'
+                    })
+                  }
+                  for (let i in mod.downlink) {
+                    Vue.set(this.points, mod.downlink[i].label, {
+                      type: 1,
+                      name: mod.downlink[i].name,
+                      label: mod.downlink[i].label,
+                      controll: mod.downlink[i].controll,
+                      format: mod.downlink[i].format,
+                      content: (mod.downlink[i].controll.default !== undefined ? JSON.parse(mod.downlink[i].controll.default) : (mod.downlink[i].controll.type === 'switch' ? false : 'N/A'))
+                    })
+                  }
                   if (parseInt(i) === this.device.product.mods.length - 1) this.parsePoints()
                 }).catch(ex => {
                   console.log('parsing failed', ex)
@@ -303,7 +329,7 @@ export default {
         let finish = {}
         for (let i in this.datas) {
           if (!finish[this.datas[i].label]) {
-            if (this.datas[i] !== undefined) this.points[this.datas[i].label].content = this.datas[i].content
+            if (this.datas[i] !== undefined && this.datas[i].label !== 'SYS') this.points[this.datas[i].label].content = this.datas[i].content
             finish[this.datas[i].label] = true
           }
         }
