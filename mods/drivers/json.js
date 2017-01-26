@@ -1,6 +1,5 @@
 class JSONDriver {
   parse (type, mod, data) {
-    console.log(data)
     let result = {}
     try {
       data = JSON.parse(data)
