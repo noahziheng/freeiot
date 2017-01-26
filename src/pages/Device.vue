@@ -44,11 +44,12 @@
             <mu-flexbox-item class="data-block" :grow="0" v-for="(item,index) in points">
               <mu-paper class="data-block" :zDepth="3">
                 <span class="data-title">{{item.name}}({{index}})</span>
-                <span class="data-text" v-if="item.type === 0">{{item.content}}{{item.format.unit}}</span>
+                <span :class="{ 'data-text': fontLengthMethod(item), 'data-text-s': !fontLengthMethod(item) }" v-if="item.type === 0">{{item.content}}</span>
+                <span :class="{'data-text-s-unit': !fontLengthMethod(item) }" v-if="item.type === 0">{{item.format.unit}}</span>
                 <template v-else>
                   <mu-text-field class="data-text" style="width:50%" v-if="item.controll.type === 'text'" v-model="item.content" @change="handleControll(item.label, $event)" fullWidth />
                   <template v-if="item.controll.type === 'number'">
-                    <span class="data-text" @click="handleNumberChose(item)">{{item.content}}</span>
+                    <span :class="{ 'data-text': fontLengthMethod(item), 'data-text-s': !fontLengthMethod(item) }" @click="handleNumberChose(item)">{{item.content}}</span>
                   </template>
                   <template v-if="item.controll.type === 'switch'">
                     <span class="switch-text">{{ item.content ? 'ON' : 'OFF' }}</span><br>
@@ -206,6 +207,10 @@ export default {
     }
   },
   methods: {
+    fontLengthMethod (item) {
+      if (String(item.content).length + String(item.format.unit).length > 6) return false
+      else return true
+    },
     getContent (val, statusF) {
       if (val === 'online') {
         if (statusF) this.device.status = 3
@@ -416,6 +421,7 @@ export default {
   width: 200px;
   height: 150px;
   text-align: center;
+  color: #222;
 }
 .data-title {
   display: inline-block;
@@ -428,8 +434,17 @@ export default {
 .data-text {
   display: inline-block;
   font-size: 40px;
-  color: #222;
   margin-top: 2%;
+}
+.data-text-s {
+  display: inline-block;
+  font-size: 28px;
+  margin-top: 2%;
+}
+.data-text-s-unit {
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 3%;
 }
 .switch-text {
   display: inline-block;
