@@ -211,7 +211,7 @@ String strParse (String get) {
       wifid_initF = true;
     } else if (tag == "U") {
       String name = get.substring(2);
-      Serial.println("Updateing...Version: " + name);
+      Serial.println("Updating...Version: " + name);
       t_httpUpdate_return ret = ESPhttpUpdate.update("http://ota.iot.noahgao.net:5000/firmware/esp8266/" + name + ".bin");
       switch(ret) {
         case HTTP_UPDATE_FAILED:
