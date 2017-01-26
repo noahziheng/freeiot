@@ -10,7 +10,7 @@ class JSONDriver {
         }
       }
     } catch (error) {
-      console.error(error)
+      console.error('JSON parse error')
     }
     return result
   }
