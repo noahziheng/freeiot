@@ -10,7 +10,9 @@
 
 const char* Version_num = "1.0";
 const char* Version_tag = "preview";
-const char* Version_build = "20170123A2TJ";
+const char* Version_build = "20170201A1TJ";
+
+boolean DEBUG = false;
 
 boolean initF = false;
 boolean product_initF = false;
@@ -41,6 +43,7 @@ PubSubClient mclient(wclient, apiurl);
 // Init Function
 void setup() {
   // Serial Init and Welcome Msg
+  Serial.begin(9600);
   Serial.begin(9600);
   Serial.println("");
   Serial.println("FreeIOT Firmware ESP8266 by Noah Gao");
@@ -84,7 +87,10 @@ void loop() {
   String get = Serial.readStringUntil(';');
   get = strParse(get);
   String tag = get.substring(0,1);
-  if(mqtt_flag && tag != "P" && tag != "D" && tag != "W") mclient.publish("uplink", get);
+  if(mqtt_flag && tag != "P" && tag != "D" && tag != "W" && get != "") {
+    mclient.publish("uplink", get);
+    if (DEBUG) Serial.print("DEBUG|MQTT|" + get);
+  }
   if (mclient.connected()) mclient.loop();
 }
 
@@ -147,8 +153,6 @@ void handleAPInit() {
 }
 
 void handleWIFIInit() {
-  Serial.println(C_SSID);
-  Serial.println(C_PASSWORD);
   if(WiFi.isConnected()) WiFi.disconnect();
   WiFi.begin(C_SSID, C_PASSWORD);
   while (WiFi.status() != WL_CONNECTED)
@@ -168,8 +172,9 @@ void handleMQTTCallback(const MQTT::Publish& pub) {
       Serial.write(buf, read);
     }
     pub.payload_stream()->stop();
-  } else
+  } else {
     Serial.print(pub.payload_string());
+  }
   Serial.print(";");
 }
 
@@ -179,11 +184,12 @@ void handleMQTTInit() {
     con.set_will("logout", device[0] + "/" + device[1]);
     if (mclient.connect(con)) {
       mclient.subscribe(device[0] + "-d");
-      Serial.println(device[0] + "-d");
+      if (DEBUG) Serial.println("DEBUG|MQTT_SUB|" + device[0] + "-d");
       mclient.set_callback(handleMQTTCallback);
       initF = true;
       mqtt_flag = true;
       Serial.print("+O;");
+      if (DEBUG) Serial.println("DEBUG|MQTT_INIT");
     }
   }
 }
@@ -197,6 +203,7 @@ String strParse (String get) {
       product[0] = get.substring(2, get.indexOf(','));
       product[1] = get.substring(get.indexOf(',') + 1);
       product_initF = true;
+      if(initF && mqtt_flag) Serial.print("+O");
     } else if (tag == "D") {
       device[0] = get.substring(2, get.indexOf(','));
       device[1] = get.substring(get.indexOf(',') + 1);
@@ -209,6 +216,8 @@ String strParse (String get) {
       S_PASSWORD.toCharArray(C_PASSWORD, 50);
       wifi_initF = false;
       wifid_initF = true;
+    } else if (tag == "DEBUG") {
+      DEBUG = !DEBUG;
     } else if (tag == "U") {
       String name = get.substring(2);
       Serial.println("Updating...Version: " + name);
