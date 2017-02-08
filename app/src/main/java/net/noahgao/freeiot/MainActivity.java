@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,8 +18,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+
+import net.noahgao.freeiot.api.ApiClient;
+
+import net.noahgao.freeiot.model.Result;
 import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.util.Auth;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+
+import retrofit2.Response;
 
 /**
  * Created by Noah Gao on 17-2-6.
@@ -57,6 +68,20 @@ public class MainActivity extends AppCompatActivity
         if(mUser == null) mUser = Auth.getUser();
         TextView emailView = (TextView) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.nav_header_email);
         emailView.setText(mUser.email);
+
+        ApiClient.initialize();
+
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    Object init = ApiClient.API.init().execute().body();
+                    Log.i("MAIN", JSON.toJSONString(init));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
     }
 
