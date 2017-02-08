@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">FreeIOT</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">设置</string>
+    <string name="title_activity_login">登录/注册</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登录 or 注册</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_email">Email地址无效！</string>
+    <string name="error_invalid_password">密码过短！</string>
+    <string name="error_incorrect_password">密码无效！</string>
+    <string name="error_field_required">此项必填！</string>
+    <string name="permission_rationale">Email自动验证组件需要通讯录权限！</string>
+
+    <string name="role_0">标准用户</string>
+    <string name="role_1">开发者（等待审核）</string>
+    <string name="role_2">开发者</string>
+    <string name="role_3">管理员</string>
+
+    <string name="status_0">预置</string>
+    <string name="status_1">等待入网</string>
+    <string name="status_2">离线</string>
+    <string name="status_3">在线</string>
+</resources>
