@@ -18,14 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="a@b.c"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:text="@string/a_b_c"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <TextView
         android:id="@+id/nav_header_role"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="N/A"
+        android:text="@string/n_a"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 </LinearLayout>

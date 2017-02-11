@@ -20,4 +20,8 @@
     <string name="n_a">N/A</string>
     <string name="a_b_c">a@b.c</string>
     <string name="title_activity_settings">设置</string>
+    <string name="tools">工具</string>
+    <string name="products">产品广场</string>
+    <string name="logout">登出</string>
+    <string name="settings">设置</string>
 </resources>
