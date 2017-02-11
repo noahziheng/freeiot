@@ -19,7 +19,7 @@ import retrofit2.http.Query;
  * By Android Studio
  */
 
-interface Api {
+public interface Api {
 
     @FormUrlEncoded
     @POST("/user/auth")
