@@ -1,7 +1,5 @@
 package net.noahgao.freeiot.api;
 
-import android.util.ArrayMap;
-
 import net.noahgao.freeiot.model.UserModel;
 
 import java.util.List;
@@ -21,7 +19,7 @@ import retrofit2.http.Query;
  * By Android Studio
  */
 
-public interface Api {
+interface Api {
 
     @FormUrlEncoded
     @POST("/user/auth")

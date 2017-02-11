@@ -17,15 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-
-import net.noahgao.freeiot.api.ApiClient;
-
 import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.util.Auth;
 import net.noahgao.freeiot.util.Badge;
-
-import java.io.IOException;
 
 /**
  * Created by Noah Gao on 17-2-6.
