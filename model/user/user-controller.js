@@ -36,9 +36,10 @@ class UserController extends Controller {
           if (!doc) return res.status(404).json({ msg: 'Not Found!' })
           else return res.status(502).json({ msg: 'Password Wrong' })
         }).catch(err => res.status(401).json({ msg: err.message, error: err }))
+      } else {
+        const token = { id: doc._id, email: doc.email, role: doc.role, token: jwt.sign({ id: doc._id, email: doc.email, role: doc.role }, config.key.jwt, { expiresIn: '7d' }) }
+        return res.status(200).json(token)
       }
-      const token = { id: doc._id, email: doc.email, role: doc.role, token: jwt.sign({ id: doc._id, email: doc.email, role: doc.role }, config.key.jwt, { expiresIn: '7d' }) }
-      return res.status(200).json(token)
     })
     .catch(err => res.status(401).json({ msg: err.message, error: err }))
   }
