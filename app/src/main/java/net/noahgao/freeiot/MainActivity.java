@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity
         TextView roleView = (TextView) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.nav_header_role);
         emailView.setText(mUser.getEmail());
         roleView.setText(Badge.buildRole(mUser.getRole()));
-
-        Log.i("MAIN",Auth.getToken());
     }
 
     @Override
