@@ -26,13 +26,17 @@ class UserController extends Controller {
 
   // auth方法用于POST /user/auth 用户鉴权，返回token
   auth (req, res, next) {
-    const condition = { email: req.body.email }
+    const condition = { email: req.body.email, password: ctyptopass(req.body.password) }
     this.facade.findOne(condition)
     .then(doc => {
-      if (!doc) return res.status(404).json({ msg: 'Not Found!' })
-      console.log(doc.password)
-      console.log(ctyptopass(req.body.password))
-      if (doc.password !== ctyptopass(req.body.password)) return res.status(502).json({ msg: 'Password Wrong' })
+      if (!doc) {
+        const condition = { email: req.body.email }
+        this.facade.findOne(condition)
+        .then(doc => {
+          if (!doc) return res.status(404).json({ msg: 'Not Found!' })
+          else return res.status(502).json({ msg: 'Password Wrong' })
+        }).catch(err => res.status(401).json({ msg: err.message, error: err }))
+      }
       const token = { id: doc._id, email: doc.email, role: doc.role, token: jwt.sign({ id: doc._id, email: doc.email, role: doc.role }, config.key.jwt, { expiresIn: '7d' }) }
       return res.status(200).json(token)
     })
