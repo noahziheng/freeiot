@@ -356,18 +356,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if(Auth.check()) return true;
             else {
-                Auth.login(mEmail, mPassword);
-                return Auth.check();
+                if(Auth.login(mEmail, mPassword)) return Auth.check();
+                else return false;
             }
-
-            /*for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }*/
-            // return true;
         }
 
         @Override

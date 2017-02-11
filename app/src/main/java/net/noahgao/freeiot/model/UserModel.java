@@ -1,5 +1,6 @@
 package net.noahgao.freeiot.model;
 
+import android.support.annotation.Nullable;
 import android.util.ArrayMap;
 
 /**
@@ -9,13 +10,42 @@ import android.util.ArrayMap;
 
 public class UserModel extends Model {
 
-    public boolean loginF = false;
+    private boolean loginF = false;
 
-    public String email;
+    private String id;
 
-    public void initUser(ArrayMap data) {
-        email = (String) data.get("email");
+    private String email;
+
+    private int role;
+
+    private String token;
+
+    public void initUser(@Nullable ArrayMap data) {
+        if(data != null) {
+            if(data.containsKey("email")) email = (String) data.get("email");
+            if(data.containsKey("role")) role = (int) data.get("role");
+            if(data.containsKey("token")) token = (String) data.get("token");
+        }
+        if(id!=null) {
+            _id = id;
+            id = null;
+        }
         loginF = true;
     }
 
+    public int getRole() {
+        return role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public boolean isLoginF() {
+        return loginF;
+    }
 }

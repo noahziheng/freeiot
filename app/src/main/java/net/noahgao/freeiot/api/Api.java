@@ -2,7 +2,7 @@ package net.noahgao.freeiot.api;
 
 import android.util.ArrayMap;
 
-import net.noahgao.freeiot.model.Result;
+import net.noahgao.freeiot.model.UserModel;
 
 import java.util.List;
 
@@ -23,6 +23,11 @@ import retrofit2.http.Query;
 
 public interface Api {
 
-    @GET("/")
-    Call<Object> init();
+    @FormUrlEncoded
+    @POST("/user/auth")
+    Call<UserModel> auth(@Field("email") String email, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("/user")
+    Call<UserModel> reg(@Field("email") String email, @Field("password") String password);
 }

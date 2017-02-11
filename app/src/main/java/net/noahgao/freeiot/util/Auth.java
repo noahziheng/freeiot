@@ -7,7 +7,13 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
+import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.model.UserModel;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 /**
  * Created by Noah Gao on 17-2-6.
@@ -30,9 +36,8 @@ public class Auth {
     }
 
     public static boolean check() {
-        Log.i("AUTH","CHECK");
         if(mUser == null) mUser = new UserModel();
-        if (mUser.loginF) return true;
+        if (mUser.isLoginF()) return true;
         else {
             if(ssharedPref != null) {
                 String authstr = ssharedPref.getString("AUTH",null);
@@ -47,15 +52,27 @@ public class Auth {
     }
 
     public static boolean login(String email,String password) {
-        ArrayMap<String, String> data = new ArrayMap<String, String>();
-        data.put("email",email);
-        mUser.initUser(data);
-        if(ssharedPref != null) {
-            SharedPreferences.Editor editor = ssharedPref.edit();
-            editor.putString("AUTH", JSON.toJSONString(data));
-            editor.apply();
+        try {
+            Response<UserModel> result = ApiClient.API.auth(email, password).execute();
+            if(!result.isSuccessful()) {
+                if(result.code() == 404) {
+                    result = reg(email,password);
+                    if(result == null) return false;
+                } else return false;
+            }
+            mUser = result.body();
+            mUser.initUser(null);
+            //保存登录状态
+            if(ssharedPref != null) {
+                SharedPreferences.Editor editor = ssharedPref.edit();
+                editor.putString("AUTH", JSON.toJSONString(mUser));
+                editor.apply();
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return true;
+        return false;
     }
 
     public static void logout() {
@@ -67,8 +84,25 @@ public class Auth {
         mUser = null;
     }
 
+    private static Response<UserModel> reg(String email, String password) {
+        Response<UserModel> result = null;
+        try {
+            result = ApiClient.API.reg(email, password).execute();
+            if(!result.isSuccessful()) result=null;
+            else result = ApiClient.API.auth(email, password).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(result!=null && result.isSuccessful()) return result;
+        else return null;
+    }
+
     static public UserModel getUser() {
         return mUser;
+    }
+
+    static public String getToken() {
+        return mUser.getToken();
     }
 
 }

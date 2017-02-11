@@ -6,6 +6,7 @@ import android.content.Context;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
+import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.util.Auth;
 
 import okhttp3.OkHttpClient;
@@ -30,6 +31,7 @@ public class MainApplication extends Application {
                 .build();
 
         mContext = getApplicationContext();
+        ApiClient.initialize();
         Auth.initialize(getSharedPreferences("FREEIOT",MODE_PRIVATE));
     }
 }

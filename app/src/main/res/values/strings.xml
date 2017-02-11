@@ -17,14 +17,4 @@
     <string name="error_incorrect_password">密码无效！</string>
     <string name="error_field_required">此项必填！</string>
     <string name="permission_rationale">Email自动验证组件需要通讯录权限！</string>
-
-    <string name="role_0">标准用户</string>
-    <string name="role_1">开发者（等待审核）</string>
-    <string name="role_2">开发者</string>
-    <string name="role_3">管理员</string>
-
-    <string name="status_0">预置</string>
-    <string name="status_1">等待入网</string>
-    <string name="status_2">离线</string>
-    <string name="status_3">在线</string>
 </resources>
