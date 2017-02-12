@@ -26,7 +26,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.view.MenuItem;
 
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.feedback.PgyFeedback;
+
 import net.noahgao.freeiot.util.Auth;
+import net.noahgao.freeiot.util.UpdateManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -68,6 +72,8 @@ public class SettingsActivity extends AppCompatActivity {
                 PackageInfo packageInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
                 findPreference(KEY_UPDATE).setSummary(packageInfo.versionName + "." + packageInfo.versionCode);
             } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                PgyCrashManager.reportCaughtException(getActivity(),e);
             }
 
             if (!Auth.check()) {
@@ -88,13 +94,15 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(new Intent(getActivity(), AccountActivity.class));
                     break;
                 case KEY_FEEDBACK:
-                    intent = new Intent(Intent.ACTION_SEND);
+                    PgyFeedback.getInstance().showDialog(getActivity());
+                    /*intent = new Intent(Intent.ACTION_SEND);
                     intent.putExtra(Intent.EXTRA_EMAIL, "noahgaocn@gmail.com");
                     intent.putExtra(Intent.EXTRA_SUBJECT, "意见反馈");
                     intent.setType("message/rfc822");
-                    startActivity(intent);
+                    startActivity(intent);*/
                     break;
                 case KEY_UPDATE:
+                    UpdateManager.doUpdate(getActivity());
                     //TODO:嵌入蒲公英SDK手动升级
                     break;
                 case KEY_ABOUT:

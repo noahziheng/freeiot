@@ -21,10 +21,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pgyersdk.update.PgyUpdateManager;
+
 import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.pages.IndexFragment;
 import net.noahgao.freeiot.util.Auth;
 import net.noahgao.freeiot.util.Badge;
+import net.noahgao.freeiot.util.UpdateManager;
 
 /**
  * Created by Noah Gao on 17-2-6.
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity
             intentLogin.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//LoginActivity不添加到后退栈
             startActivity(intentLogin);
         }
+        UpdateManager.doUpdate(this, false);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

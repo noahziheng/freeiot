@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.update.PgyUpdateManager;
 
 import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.util.Auth;
@@ -31,6 +33,8 @@ public class MainApplication extends Application {
                 .build();
 
         mContext = getApplicationContext();
+
+        PgyCrashManager.register(this);
 
         ApiClient.initialize();
         Auth.initialize(getSharedPreferences("FREEIOT",MODE_PRIVATE));
