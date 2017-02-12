@@ -6,6 +6,7 @@ package net.noahgao.freeiot;
  */
 
 public class Const {
+    public static boolean DEBUG = true;
     public static String API_URL = "https://api.iot.noahgao.net";
     public static String VERSION_TAG = "Preview";
     public static String VERSION_NUM = "1.0";

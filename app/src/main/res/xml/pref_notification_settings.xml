@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="消息设置">
+        <SwitchPreference
+            android:title="有人关注了我"
+            app:key="key_notification_followed" />
+        <SwitchPreference
+            android:title="订阅了我的主题"
+            app:key="key_notification_subscribed" />
+        <SwitchPreference
+            android:title="赞了我的文章"
+            app:key="key_notification_upvoted" />
+        <SwitchPreference
+            android:title="评论我"
+            app:key="key_notification_comment" />
+        <SwitchPreference
+            android:title="提及我"
+            app:key="key_notification_mention" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -92,38 +92,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        Log.i("LOGIN","OnCreate");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i("LOGIN","OnStart");
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("LOGIN","OnResume");
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("LOGIN","OnPause");
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("LOGIN","OnStop");
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("LOGIN","OnDestroy");
     }
 
     @Override
     public void onBackPressed() {
-        Log.i("LOGIN","OnBackPressed");
         // super.onBackPressed(); 	不要调用父类的方法
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -176,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void mTurnToMain () {
         Intent intentLogin= new Intent(LoginActivity.this,MainActivity.class);
-        intentLogin.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//LoginActivity不添加到后退栈
+        //intentLogin.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//LoginActivity不添加到后退栈
         startActivity(intentLogin);
         LoginActivity.this.finish();
     }

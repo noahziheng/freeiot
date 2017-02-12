@@ -31,6 +31,7 @@ public class MainApplication extends Application {
                 .build();
 
         mContext = getApplicationContext();
+
         ApiClient.initialize();
         Auth.initialize(getSharedPreferences("FREEIOT",MODE_PRIVATE));
     }

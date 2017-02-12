@@ -28,4 +28,9 @@ public interface Api {
     @FormUrlEncoded
     @POST("/user")
     Call<UserModel> reg(@Field("email") String email, @Field("password") String password);
+
+    @FormUrlEncoded
+    @PUT("/user/{id}")
+    Call<Object> modifyPassword(@Path("id") String id, @Field("password") String password,@Query("token") String token);
+
 }

@@ -6,7 +6,16 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 必选-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络通信-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />  <!-- 获取设备信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 读写sdcard，storage等等 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
+
+    <!-- 可选-->
+    <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 获取logcat日志 -->
 
     <application
         android:name=".MainApplication"
@@ -31,6 +40,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings" />
+        <activity
+            android:name=".NotificationSettingsActivity"
+            android:label="@string/notification_settings" />
+        <activity
+            android:name=".AccountActivity"
+            android:label="@string/account_settings" />
+        <activity
+            android:name=".ModifyPasswordActivity"
+            android:label="@string/modify_password" />
+        <!-- 可选-->
+        <activity android:name="com.pgyersdk.activity.FeedbackActivity"/>
+
+        <!-- 必选-->
+        <meta-data
+            android:name="PGYER_APPID"
+            android:value="2e4ee99ef6584f20201a44e7165d4fa9" />
+        <provider android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.pgyersdk.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,8 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.noahgao.freeiot.model.UserModel;
+import net.noahgao.freeiot.pages.IndexFragment;
 import net.noahgao.freeiot.util.Auth;
 import net.noahgao.freeiot.util.Badge;
 
@@ -27,25 +32,27 @@ import net.noahgao.freeiot.util.Badge;
  */
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,IndexFragment.OnFragmentInteractionListener {
 
     public UserModel mUser;
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    private Fragment[] fragments={
+            new IndexFragment()
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!Auth.check()) {
+            Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
+            intentLogin.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//LoginActivity不添加到后退栈
+            startActivity(intentLogin);
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,6 +67,24 @@ public class MainActivity extends AppCompatActivity
         TextView roleView = (TextView) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.nav_header_role);
         emailView.setText(mUser.getEmail());
         roleView.setText(Badge.buildRole(mUser.getRole()));
+
+        changePage(0);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("Main","OnStart");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("Main","OnPause");
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("Main","OnDestroy");
     }
 
     @Override
@@ -77,6 +102,37 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void onFragmentInteraction() {}
+
+    public void changePage(int tag) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.content_main,fragments[tag]);
+        fragmentTransaction.commit();
+    }
+
+    public Fragment getCurPage() {
+        return getSupportFragmentManager().findFragmentById(R.id.content_main);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_toolbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                Toast.makeText(getApplicationContext(), "搜索功能尚未开放", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.notification:
+                Toast.makeText(getApplicationContext(), "暂时没有未读的通知", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -88,13 +144,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_tools) {
 
         } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_logout) {
-            Auth.logout();
-            Intent intentLogin= new Intent(MainActivity.this,LoginActivity.class);
-            intentLogin.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//LoginActivity不添加到后退栈
-            startActivity(intentLogin);
-            MainActivity.this.finish();
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

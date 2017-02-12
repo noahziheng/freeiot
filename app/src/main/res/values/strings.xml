@@ -22,6 +22,14 @@
     <string name="title_activity_settings">设置</string>
     <string name="tools">工具</string>
     <string name="products">产品广场</string>
-    <string name="logout">登出</string>
     <string name="settings">设置</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="old_password">原密码</string>
+    <string name="new_password">新密码</string>
+    <string name="re_new_password">确认密码</string>
+    <string name="notification_settings">通知设置</string>
+    <string name="account_settings">账号与安全</string>
+    <string name="modify_password">修改密码</string>
 </resources>
