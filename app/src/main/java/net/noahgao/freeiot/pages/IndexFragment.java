@@ -1,14 +1,39 @@
 package net.noahgao.freeiot.pages;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
 import net.noahgao.freeiot.R;
+import net.noahgao.freeiot.adapter.devicesAdapter;
+import net.noahgao.freeiot.api.ApiClient;
+import net.noahgao.freeiot.model.DeviceModel;
+import net.noahgao.freeiot.util.Auth;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +46,11 @@ import net.noahgao.freeiot.R;
 public class IndexFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+
+    private XRecyclerView mRecyclerView;
+    private devicesAdapter mAdapter;
+    private List<DeviceModel.DeviceMeta.DeviceMetaModel> listData;
 
     public IndexFragment() {
         // Required empty public constructor
@@ -57,6 +87,27 @@ public class IndexFragment extends Fragment {
                         .setAction("Action", null).show();
             }
         });
+        mRecyclerView = (XRecyclerView) view.findViewById(R.id.devices_view);
+        listData = new ArrayList<>();
+        mAdapter = new devicesAdapter(listData);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        Drawable dividerDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_sample);
+        mRecyclerView.addItemDecoration(mRecyclerView.new DividerItemDecoration(dividerDrawable));
+        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                getDevices(true);
+            }
+
+            @Override
+            public void onLoadMore() {
+                mRecyclerView.setNoMore(true);
+            }
+        });
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        getDevices(false);
     }
 
     @Override
@@ -74,6 +125,24 @@ public class IndexFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void getDevices (final boolean refreshTag) {
+        Call<List<DeviceModel.DeviceMeta.DeviceMetaModel>> call = ApiClient.API.getDevices(Auth.getUser().get_id(),Auth.getToken());
+        call.enqueue(new Callback<List<DeviceModel.DeviceMeta.DeviceMetaModel>>() {
+            @Override
+            public void onResponse(Call<List<DeviceModel.DeviceMeta.DeviceMetaModel>> call, Response<List<DeviceModel.DeviceMeta.DeviceMetaModel>> response) {
+                Log.i("TAG", response.toString());
+                listData.addAll(response.body());
+                if (mAdapter!=null) mAdapter.notifyDataSetChanged();
+                if (mRecyclerView!=null&&refreshTag) mRecyclerView.refreshComplete();
+            }
+
+            @Override
+            public void onFailure(Call<List<DeviceModel.DeviceMeta.DeviceMetaModel>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     /**

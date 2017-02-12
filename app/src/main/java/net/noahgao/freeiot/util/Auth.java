@@ -2,6 +2,7 @@ package net.noahgao.freeiot.util;
 
 import android.content.SharedPreferences;
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -11,6 +12,7 @@ import net.noahgao.freeiot.model.UserModel;
 
 import java.io.IOException;
 
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 /**

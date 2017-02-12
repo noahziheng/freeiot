@@ -22,6 +22,7 @@ public class UserModel extends Model {
 
     public void initUser(@Nullable ArrayMap data) {
         if(data != null) {
+            if(data.containsKey("_id")) _id = (String) data.get("_id");
             if(data.containsKey("email")) email = (String) data.get("email");
             if(data.containsKey("role")) role = (int) data.get("role");
             if(data.containsKey("token")) token = (String) data.get("token");

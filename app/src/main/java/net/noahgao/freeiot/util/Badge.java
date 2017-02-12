@@ -26,7 +26,7 @@ public class Badge {
                 .type(BadgeDrawable.TYPE_ONLY_ONE_TEXT)
                 .badgeColor(Const.BADGE_COLOR[tag])
                 .text1(Const.STATUS_STR[tag])
-                .textSize(45)
+                .textSize(35)
                 .build().toSpannable();
     }
 }

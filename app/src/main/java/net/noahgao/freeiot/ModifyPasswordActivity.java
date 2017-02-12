@@ -16,19 +16,20 @@
 
 package net.noahgao.freeiot;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import net.noahgao.freeiot.api.ApiClient;
+import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.util.Auth;
 
-import java.io.IOException;
-
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ModifyPasswordActivity extends AppCompatActivity {
@@ -61,9 +62,9 @@ public class ModifyPasswordActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
-            String oldPassword = mEdtOldPassword.getText().toString();
-            String newPassword = mEdtNewPassword.getText().toString();
-            String reNewPassword = mEdtReNewPassword.getText().toString();
+            final String oldPassword = mEdtOldPassword.getText().toString();
+            final String newPassword = mEdtNewPassword.getText().toString();
+            final String reNewPassword = mEdtReNewPassword.getText().toString();
             if(oldPassword.equals("") || newPassword.equals("") || reNewPassword.equals("")) {
                 Toast.makeText(getApplicationContext(), "有信息未填齐", Toast.LENGTH_SHORT).show();
                 return false;
@@ -76,18 +77,40 @@ public class ModifyPasswordActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "两次填写的密码不一致", Toast.LENGTH_SHORT).show();
                 return false;
             }
-            try {
-                Response<Object> result = ApiClient.API.modifyPassword(Auth.getUser().get_id(), newPassword, Auth.getToken()).execute();
-                ;
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "请求出错", Toast.LENGTH_SHORT).show();
-                return false;
-            }
+            Call<UserModel> call = ApiClient.API.auth(Auth.getUser().getEmail(), oldPassword);
+            call.enqueue(new Callback<UserModel>() {
+                @Override
+                public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                    if(!response.isSuccessful())
+                        Toast.makeText(getApplicationContext(), "原密码有误", Toast.LENGTH_SHORT).show();
+                    else {
+                        Call<Object> modcall = ApiClient.API.modifyPassword(Auth.getUser().get_id(), newPassword, Auth.getToken());
+                        modcall.enqueue(new Callback<Object>() {
+                            @Override
+                            public void onResponse(Call<Object> call, Response<Object> response) {
+                                Auth.logout();
+                                Toast.makeText(getApplicationContext(), "已完成,请自行登出重新登录", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Object> call, Throwable t) {
+                                t.printStackTrace();
+                                Toast.makeText(getApplicationContext(), "请求出错", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserModel> call, Throwable t) {
+                    t.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "请求出错", Toast.LENGTH_SHORT).show();
+                }
+            });
             return true;
-        } else if (item.getItemId() == R.id.home) {
+        } else if (item.getItemId() == android.R.id.home) {
             //startActivity(new Intent(ModifyPasswordActivity.this,AccountActivity.class));
-            finish();
+            ModifyPasswordActivity.this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
