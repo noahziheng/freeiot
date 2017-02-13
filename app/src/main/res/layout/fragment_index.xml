@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context="net.noahgao.freeiot.pages.IndexFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/devices_view"
         android:layout_width="match_parent"

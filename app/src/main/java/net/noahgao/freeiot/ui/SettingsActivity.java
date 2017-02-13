@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.noahgao.freeiot;
+package net.noahgao.freeiot.ui;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.feedback.PgyFeedback;
 
+import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.util.Auth;
 import net.noahgao.freeiot.util.UpdateManager;
 

@@ -1,4 +1,4 @@
-package net.noahgao.freeiot;
+package net.noahgao.freeiot.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -20,7 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.util.Auth;
 
 import java.util.ArrayList;
@@ -326,11 +326,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            if(Auth.check()) return true;
-            else {
-                if(Auth.login(mEmail, mPassword)) return Auth.check();
-                else return false;
-            }
+            return Auth.check() || Auth.login(mEmail, mPassword) && Auth.check();
         }
 
         @Override

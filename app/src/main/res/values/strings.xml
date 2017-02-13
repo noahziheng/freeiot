@@ -24,7 +24,6 @@
     <string name="products">产品广场</string>
     <string name="settings">设置</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="old_password">原密码</string>
     <string name="new_password">新密码</string>
@@ -32,4 +31,11 @@
     <string name="notification_settings">通知设置</string>
     <string name="account_settings">账号与安全</string>
     <string name="modify_password">修改密码</string>
+    <string name="home">首页</string>
+    <string name="title_activity_product">产品详情</string>
+    <string name="developer">开发者</string>
+    <string name="basic_info">基本信息</string>
+    <string name="commit">简介</string>
+    <string name="readme">查看README</string>
+    <string name="mod_list">模块列表</string>
 </resources>

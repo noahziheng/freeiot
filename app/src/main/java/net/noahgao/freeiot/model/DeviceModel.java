@@ -17,7 +17,7 @@ public class DeviceModel extends Model {
         private DeviceMetaModel device;
         private int datalimit;
 
-        public class DeviceMetaModel {
+        public class DeviceMetaModel extends Model {
             private String name;
             private String secret;
             private UserModel owner;

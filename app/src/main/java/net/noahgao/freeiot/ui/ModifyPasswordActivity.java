@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package net.noahgao.freeiot;
+package net.noahgao.freeiot.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.util.Auth;

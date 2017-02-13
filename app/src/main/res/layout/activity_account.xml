@@ -4,11 +4,11 @@
     android:id="@+id/activity_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.noahgao.freeiot.AccountActivity">
+    tools:context="net.noahgao.freeiot.ui.AccountActivity">
 
     <fragment
         android:id="@+id/fragment_account"
-        class="net.noahgao.freeiot.AccountActivity$AccountFragment"
+        class="net.noahgao.freeiot.ui.AccountActivity$AccountFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

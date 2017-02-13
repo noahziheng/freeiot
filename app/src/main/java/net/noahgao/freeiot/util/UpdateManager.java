@@ -1,7 +1,6 @@
 package net.noahgao.freeiot.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
@@ -35,6 +34,7 @@ public class UpdateManager {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                //TODO: Replace Pgyer SDK Download with refactor task to show open-finish window after upgrade
                                                 startDownloadTask(context,appBean.getDownloadURL());
                                             }
                                         })

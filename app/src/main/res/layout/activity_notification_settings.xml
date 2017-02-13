@@ -4,12 +4,12 @@
     android:id="@+id/activity_notification_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.noahgao.freeiot.NotificationSettingsActivity">
+    tools:context="net.noahgao.freeiot.ui.NotificationSettingsActivity">
 
 
     <fragment
         android:id="@+id/fragment_notification_settings"
-        class="net.noahgao.freeiot.NotificationSettingsActivity$NotificationSettingsFragment"
+        class="net.noahgao.freeiot.ui.NotificationSettingsActivity$NotificationSettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

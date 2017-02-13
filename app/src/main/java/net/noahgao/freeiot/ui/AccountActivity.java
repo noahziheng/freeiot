@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.noahgao.freeiot;
+package net.noahgao.freeiot.ui;
 
 import android.content.Intent;
 import android.support.v14.preference.PreferenceFragment;
@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.view.MenuItem;
 
+import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.util.Auth;
 
 public class AccountActivity extends AppCompatActivity {

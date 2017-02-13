@@ -1,6 +1,8 @@
 package net.noahgao.freeiot.api;
 
 import net.noahgao.freeiot.model.DeviceModel;
+import net.noahgao.freeiot.model.ProductModel;
+import net.noahgao.freeiot.model.ProductSimpleModel;
 import net.noahgao.freeiot.model.UserModel;
 
 import java.util.List;
@@ -33,6 +35,15 @@ public interface Api {
     @FormUrlEncoded
     @PUT("/user/{id}")
     Call<Object> modifyPassword(@Path("id") String id, @Field("password") String password,@Query("token") String token);
+
+    @GET("/user/{id}")
+    Call<UserModel> getUser(@Path("id") String id, @Query("token") String token);
+
+    @GET("/product")
+    Call<List<ProductSimpleModel>> getProducts(@Query("token") String token);
+
+    @GET("/product/{id}")
+    Call<ProductModel> getProduct(@Path("id") String id, @Query("token") String token);
 
     @GET("/device")
     Call<List<DeviceModel.DeviceMeta.DeviceMetaModel>> getDevices(@Query("owner") String owner, @Query("token") String token);
