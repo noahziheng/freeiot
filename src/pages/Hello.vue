@@ -5,7 +5,7 @@
         <mu-tabs class="hello-tabs" @change="handleTabChange" :value="tabValue">
           <mu-tab value="devices" title="我的设备"/>
           <mu-tab value="products" title="产品原型广场"/>
-          <mu-tab value="my-product" title="我的产品原型"/>
+          <mu-tab value="my-product" v-if="role >= 2" title="我的产品原型"/>
         </mu-tabs>
         <Devices v-show="tabValue === 'devices'"></Devices>
         <Products v-show="tabValue === 'products'"></Products>
