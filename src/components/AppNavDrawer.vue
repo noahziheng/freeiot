@@ -8,6 +8,7 @@
   <mu-list>
     <mu-list-item href="/" title="首页"/>
     <mu-list-item href="/dashboard" title="控制面板"/>
+    <mu-list-item v-if="$store.state.user.role === 3" href="/useradmin" title="用户管理面板"/>
     <mu-list-item href="//doc.iot.noahgao.net" title="文档"/>
   </mu-list>
   <mu-divider/>
