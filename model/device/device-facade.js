@@ -1,6 +1,6 @@
 const Model = require('../../lib/facade')
 const deviceSchema = require('./device-schema')
-const dataFacade = require('./model/data/data-facade')
+const dataFacade = require('../data/data-facade')
 
 class DeviceModel extends Model {
  // 重写3个find，加入owner对用户的关联查询
