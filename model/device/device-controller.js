@@ -27,19 +27,45 @@ class DeviceController extends Controller {
     .catch(err => res.status(500).json({ msg: err.message, error: err }))
   }
 
-  update (req, res, next) {
-    if (req.body.status === 1) dataFacade.create({type: 3, device: req.params.id, label: 'SYS', content: 'activate'})
-    else if (req.body.status === 2) {
-      dataFacade.create({
-        type: 3, // 0-上行报告 1-下行指令
-        device: req.params.id,
-        label: 'SYS',
-        content: 'offline'
-      }).then(doc => {
-        this.io.emit(req.params.id + '-web', doc)
-      })
+  activite (req, res, next) {
+    const conditions = { _id: req.params.id }
+    const body = {
+      status: 1,
+      owner: req.params.owner
     }
-    super.update(req, res, next)
+    this.facade.update(conditions, body)
+    .then(doc => {
+      if (!doc) return res.status(404).json({ msg: 'Not Found!' })
+      dataFacade.create({type: 3, device: req.params.id, label: 'SYS', content: 'activate'})
+      return res.status(200).json(doc)
+    })
+    .catch(err => res.status(500).json({ msg: err.message, error: err }))
+  }
+
+  makeoffline (req, res, next) {
+    this.facade.findById(req.params.id)
+    .then(doc => {
+      if (req.user.id !== doc.owner._id && doc.product !== undefined && req.user.id !== doc.product.owner._id) return res.status(401).json({ msg: 'Unauthorized' }) // HTTP 401 无更新权限
+      const conditions = { _id: req.params.id }
+      const body = {
+        status: 2
+      }
+      this.facade.update(conditions, body)
+      .then(doc => {
+        if (!doc) return res.status(404).json({ msg: 'Not Found!' })
+        dataFacade.create({
+          type: 3, // 0-上行报告 1-下行指令
+          device: req.params.id,
+          label: 'SYS',
+          content: 'offline'
+        }).then(doc => {
+          this.io.emit(req.params.id + '-web', doc)
+        })
+        return res.status(200).json(doc)
+      })
+      .catch(err => res.status(500).json({ msg: err.message, error: err }))
+    })
+    .catch(err => res.status(500).json({ msg: err.message, error: err }))
   }
 
   remove (req, res, next) {
