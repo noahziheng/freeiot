@@ -96,7 +96,6 @@ public class ProductsFragment extends Fragment {
                 intent.putExtra("id",data.get_id());
                 intent.putExtra("name",data.getName());
                 startActivity(intent);
-                Toast.makeText(getActivity(), data.getName(), Toast.LENGTH_SHORT).show();
 
             }
         });

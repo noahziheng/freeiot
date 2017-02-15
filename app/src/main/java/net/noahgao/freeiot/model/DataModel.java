@@ -1,18 +1,16 @@
 package net.noahgao.freeiot.model;
 
-import com.alibaba.fastjson.TypeReference;
-
 /**
  * Created by Noah Gao on 17-2-12.
  * By Android Studio
  */
 
-public class DataModel extends Model {
+public class DataModel<T> extends Model {
 
     private int type;
     private String device;
     private String label;
-    private String content;
+    private T content;
 
     public int getType() {
         return type;
@@ -38,11 +36,11 @@ public class DataModel extends Model {
         this.label = label;
     }
 
-    public String getContent() {
+    public T getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(T content) {
         this.content = content;
     }
 }

@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.fastjson.FastJsonConverterFactory;
 
 public class ApiClient {
 
@@ -39,7 +39,7 @@ public class ApiClient {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Const.API_URL)
                     .client(generateDefaultOkHttp())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(FastJsonConverterFactory.create())
                     .build();
             API = retrofit.create(Api.class);
         }

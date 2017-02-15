@@ -29,4 +29,13 @@ public class Badge {
                 .textSize(35)
                 .build().toSpannable();
     }
+
+    static public SpannableString buildStatus(int tag, int fontsize) {
+        return new BadgeDrawable.Builder()
+                .type(BadgeDrawable.TYPE_ONLY_ONE_TEXT)
+                .badgeColor(Const.BADGE_COLOR[tag])
+                .text1(Const.STATUS_STR[tag])
+                .textSize(fontsize)
+                .build().toSpannable();
+    }
 }

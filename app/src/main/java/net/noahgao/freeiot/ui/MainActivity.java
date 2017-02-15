@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity
             new ProductsFragment()
     };
     private Fragment currentFragment;
+    private int curPageIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,21 +95,24 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction() {}
 
     public void changePage(int tag) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (currentFragment != null) fragmentTransaction.remove(currentFragment);
-        fragmentTransaction.add(R.id.content_main,fragments[tag]);
-        fragmentTransaction.commit();
-        currentFragment = fragments[tag];
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(0).setChecked(false);
-        navigationView.getMenu().getItem(1).setChecked(false);
-        switch (tag) {
-            case 0:
-                navigationView.getMenu().getItem(0).setChecked(true);
-                break;
-            case 1:
-                navigationView.getMenu().getItem(1).setChecked(true);
-                break;
+        if(curPageIndex != tag) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            if (currentFragment != null) fragmentTransaction.remove(currentFragment);
+            fragmentTransaction.add(R.id.content_main, fragments[tag]);
+            fragmentTransaction.commit();
+            currentFragment = fragments[tag];
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.getMenu().getItem(0).setChecked(false);
+            navigationView.getMenu().getItem(1).setChecked(false);
+            switch (tag) {
+                case 0:
+                    navigationView.getMenu().getItem(0).setChecked(true);
+                    break;
+                case 1:
+                    navigationView.getMenu().getItem(1).setChecked(true);
+                    break;
+            }
+            curPageIndex = tag;
         }
     }
 

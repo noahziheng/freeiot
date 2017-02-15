@@ -1,6 +1,6 @@
 package net.noahgao.freeiot.model;
 
-import android.util.ArrayMap;
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.List;
 
@@ -9,20 +9,20 @@ import java.util.List;
  * By Android Studio
  */
 
-public class ProductModel extends Model {
+public class ProductModel<T> extends Model {
 
     private String name;
     private String commit;
     private String readme;
     private String secret;
-    private UserModel owner;
+    private T owner;
     private List<ProductMod> mods;
 
     public class ProductMod {
 
         private String origin;
         private String remark;
-        private ArrayMap<String, String> vars;
+        private JSONObject vars;
         private List<Integer> hidden;
 
         public String getOrigin() {
@@ -41,11 +41,11 @@ public class ProductModel extends Model {
             this.remark = remark;
         }
 
-        public ArrayMap<String, String> getVars() {
+        public JSONObject getVars() {
             return vars;
         }
 
-        public void setVars(ArrayMap<String, String> vars) {
+        public void setVars(JSONObject vars) {
             this.vars = vars;
         }
 
@@ -90,11 +90,11 @@ public class ProductModel extends Model {
         this.secret = secret;
     }
 
-    public UserModel getOwner() {
+    public T getOwner() {
         return owner;
     }
 
-    public void setOwner(UserModel owner) {
+    public void setOwner(T owner) {
         this.owner = owner;
     }
 

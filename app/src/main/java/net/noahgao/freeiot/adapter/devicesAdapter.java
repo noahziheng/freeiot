@@ -10,6 +10,8 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.model.DeviceModel;
+import net.noahgao.freeiot.model.ProductModel;
+import net.noahgao.freeiot.model.ProductSimpleModel;
 import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.util.Auth;
 import net.noahgao.freeiot.util.Badge;
@@ -27,14 +29,14 @@ import retrofit2.Response;
 
 public class devicesAdapter extends XRecyclerView.Adapter<devicesAdapter.ViewHolder> implements View.OnClickListener {
 
-    public List<DeviceModel.DeviceMeta.DeviceMetaModel> datas = null;
-    public devicesAdapter(List<DeviceModel.DeviceMeta.DeviceMetaModel> datas) {
+    public List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>> datas = null;
+    public devicesAdapter(List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>> datas) {
         this.datas = datas;
     }
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
     public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view , DeviceModel.DeviceMeta.DeviceMetaModel data);
+        void onItemClick(View view , DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>> data);
     }
 
     //创建新View，被LayoutManager所调用
@@ -48,7 +50,7 @@ public class devicesAdapter extends XRecyclerView.Adapter<devicesAdapter.ViewHol
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        DeviceModel.DeviceMeta.DeviceMetaModel mDevice = datas.get(position);
+        DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>> mDevice = datas.get(position);
         viewHolder.mTitleView.setText(mDevice.getName());
         viewHolder.mStatusView.setText(Badge.buildStatus(mDevice.getStatus()));
         viewHolder.mDescView.setText(mDevice.getProduct().getName() + " (" + mDevice.getProduct().getOwner() + ")");
@@ -58,10 +60,11 @@ public class devicesAdapter extends XRecyclerView.Adapter<devicesAdapter.ViewHol
     }
 
     @Override
+    @SuppressWarnings(value = {"unchecked"})
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取数据
-            mOnItemClickListener.onItemClick(v, (DeviceModel.DeviceMeta.DeviceMetaModel) v.getTag());
+            mOnItemClickListener.onItemClick(v, (DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>) v.getTag());
         }
     }
 
@@ -91,9 +94,9 @@ public class devicesAdapter extends XRecyclerView.Adapter<devicesAdapter.ViewHol
     private class TempCallback<T> implements Callback<T> {
 
         final int index;
-        private final DeviceModel.DeviceMeta.DeviceMetaModel nDevice;
+        private final DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>> nDevice;
 
-        TempCallback (int index, DeviceModel.DeviceMeta.DeviceMetaModel nDevice) {
+        TempCallback (int index, DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>> nDevice) {
             this.index = index;
             this.nDevice = nDevice;
         }

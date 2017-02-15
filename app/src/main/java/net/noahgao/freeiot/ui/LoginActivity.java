@@ -325,7 +325,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-
             return Auth.check() || Auth.login(mEmail, mPassword) && Auth.check();
         }
 

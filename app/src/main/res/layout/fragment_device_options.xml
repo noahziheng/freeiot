@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="100dp"
+    android:orientation="vertical">
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:rowCount="3"
+        android:columnCount="2"
+        android:gravity="center"
+        android:layout_gravity="center"
+        tools:context="net.noahgao.freeiot.pages.DeviceOptionsFragment" >
+
+        <Button
+            android:id="@+id/device_empty_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_data"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:theme="@style/RaisedButton"
+            android:textSize="@dimen/std_btn_text_size"
+            android:layout_margin="@dimen/std_btn_margin"
+            android:padding="@dimen/std_btn_padding"/>
+
+        <Button
+            android:id="@+id/device_disconnect_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disconnect"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:theme="@style/RaisedButton"
+            android:textSize="@dimen/std_btn_text_size"
+            android:layout_margin="@dimen/std_btn_margin"
+            android:padding="@dimen/std_btn_padding"/>
+
+        <Button
+            android:id="@+id/device_rename_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rename"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:theme="@style/RaisedButton"
+            android:textSize="@dimen/std_btn_text_size"
+            android:layout_margin="@dimen/std_btn_margin"
+            android:padding="@dimen/std_btn_padding"/>
+
+        <Button
+            android:id="@+id/device_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_device"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:theme="@style/DangerButton"
+            android:textSize="@dimen/std_btn_text_size"
+            android:layout_margin="@dimen/std_btn_margin"
+            android:padding="@dimen/std_btn_padding"/>
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/device_reinit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/device_reinit"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:theme="@style/MyButton"
+        android:textSize="@dimen/std_btn_text_size"
+        android:layout_margin="@dimen/std_btn_margin"
+        android:padding="@dimen/std_btn_padding"/>
+</LinearLayout>

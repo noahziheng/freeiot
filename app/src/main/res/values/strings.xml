@@ -38,4 +38,13 @@
     <string name="commit">简介</string>
     <string name="readme">查看README</string>
     <string name="mod_list">模块列表</string>
+    <string name="input_device_id">请输入设备ID</string>
+    <string name="device_lost">该设备不知道跑到哪去了～</string>
+    <string name="current_status">当前状态为：</string>
+    <string name="title_activity_device">设备详情</string>
+    <string name="empty_data">清空数据</string>
+    <string name="disconnect">断开连接</string>
+    <string name="rename">重新命名</string>
+    <string name="delete_device">删除设备</string>
+    <string name="device_reinit">重新激活入网</string>
 </resources>

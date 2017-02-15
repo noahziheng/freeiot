@@ -1,13 +1,24 @@
 package net.noahgao.freeiot.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
+import net.noahgao.freeiot.BuildConfig;
+import net.noahgao.freeiot.MainApplication;
+import net.noahgao.freeiot.service.UpdateService;
+
+import im.fir.sdk.FIR;
+import im.fir.sdk.VersionCheckCallback;
 
 /**
  * Created by Noah Gao on 17-2-12.
@@ -15,37 +26,47 @@ import com.pgyersdk.update.UpdateManagerListener;
  */
 
 public class UpdateManager {
-    static public void doUpdate(final Activity context) {
-        doUpdate(context,true);
+
+    static public void doUpdate(Activity context) {
+        doUpdate(context, true);
     }
 
     static public void doUpdate(final Activity context, final boolean noupdateToast) {
-        PgyUpdateManager.unregister();
-        PgyUpdateManager.register(context,
-                new UpdateManagerListener() {
-                    @Override
-                    public void onUpdateAvailable(final String result) {
-                        final AppBean appBean = getAppBeanFromString(result);
-                        new AlertDialog.Builder(context)
-                                .setTitle("有更新！")
-                                .setMessage("版本号:" + appBean.getVersionName() + "." + appBean.getVersionCode() + "\n日志:" + appBean.getReleaseNote())
-                                .setPositiveButton(
-                                        "确定",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //TODO: Replace Pgyer SDK Download with refactor task to show open-finish window after upgrade
-                                                startDownloadTask(context,appBean.getDownloadURL());
+        FIR.checkForUpdateInFIR(BuildConfig.FIR_API_TOKEN, new VersionCheckCallback() {
+            @Override
+            public void onSuccess(String versionJson) {
+                final JSONObject version = JSON.parseObject(versionJson);
+                if (Float.parseFloat(MainApplication.versionName) < Float.parseFloat((String) version.get("versionShort")) || (Float.parseFloat(MainApplication.versionName) == Float.parseFloat(version.getString("versionShort")) && MainApplication.versionCode < Integer.parseInt(version.getString("build")))) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("有更新！")
+                            .setMessage("版本号:" + version.getString("versionShort") + "." + version.getString("build") + "\n日志:" + version.getString("changelog"))
+                            .setPositiveButton(
+                                    "确定",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                                Toast.makeText(context,"更新权限不足！",Toast.LENGTH_SHORT).show();
+                                                return;
                                             }
-                                        })
-                                .setNegativeButton(
-                                        "取消", null).show();
-                    }
+                                            Intent updataService = new Intent(context,  UpdateService.class);
+                                            updataService.putExtra("downloadurl",version.getString("installUrl"));
+                                            context.startService(updataService);
+                                        }
+                                    })
+                            .setNegativeButton(
+                                    "取消", null).show();
 
-                    @Override
-                    public void onNoUpdateAvailable() {
-                        if(noupdateToast) Toast.makeText(context,"当前版本已是最新！", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                } else {
+                    if(noupdateToast) Toast.makeText(context,"当前版本已是最新！", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFail(Exception exception) {
+                //
+                Toast.makeText(context,"更新信息抓取失败！ " + "\n" + exception.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

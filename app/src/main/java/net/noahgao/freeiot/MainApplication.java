@@ -2,15 +2,17 @@ package net.noahgao.freeiot;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.pgyersdk.crash.PgyCrashManager;
-import com.pgyersdk.update.PgyUpdateManager;
 
 import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.util.Auth;
 
+import im.fir.sdk.FIR;
 import okhttp3.OkHttpClient;
 
 /**
@@ -20,7 +22,14 @@ import okhttp3.OkHttpClient;
 
 public class MainApplication extends Application {
 
-    public Context mContext;
+    public static String versionName;
+    public static int versionCode;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {
@@ -32,11 +41,21 @@ public class MainApplication extends Application {
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
-        mContext = getApplicationContext();
+        FIR.init(this);
+        FIR.sendCrashManually(new Exception("Non-fatal"));
 
-        PgyCrashManager.register(this);
 
         ApiClient.initialize();
         Auth.initialize(getSharedPreferences("FREEIOT",MODE_PRIVATE));
+
+        PackageManager packageManager = getPackageManager();
+        try {
+            PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(),0);
+            versionName = packInfo.versionName;
+            versionCode = packInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

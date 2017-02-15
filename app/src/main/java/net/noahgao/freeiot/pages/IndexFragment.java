@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -21,11 +21,14 @@ import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.adapter.devicesAdapter;
 import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.model.DeviceModel;
+import net.noahgao.freeiot.model.ProductSimpleModel;
+import net.noahgao.freeiot.ui.DeviceActivity;
 import net.noahgao.freeiot.ui.MainActivity;
 import net.noahgao.freeiot.util.Auth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +48,7 @@ public class IndexFragment extends Fragment {
 
     private XRecyclerView mRecyclerView;
     private devicesAdapter mAdapter;
-    private List<DeviceModel.DeviceMeta.DeviceMetaModel> listData;
+    private List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>> listData;
 
     public IndexFragment() {
         // Required empty public constructor
@@ -126,10 +129,11 @@ public class IndexFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter.setOnItemClickListener(new devicesAdapter.OnRecyclerViewItemClickListener(){
             @Override
-            public void onItemClick(View view, DeviceModel.DeviceMeta.DeviceMetaModel data) {
-                //Intent intent = new Intent();
-                //intent.putExtra("id",data.get_id())
-                Toast.makeText(getActivity(), data.getName(), Toast.LENGTH_SHORT).show();
+            public void onItemClick(View view, DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>> data) {
+                Intent intent = new Intent(getActivity(), DeviceActivity.class);
+                intent.putExtra("id",data.get_id());
+                intent.putExtra("name",data.getName());
+                startActivity(intent);
 
             }
         });
@@ -137,7 +141,41 @@ public class IndexFragment extends Fragment {
         getDevices(false);
     }
 
-    public void activiteDeviceBuild(){}
+    public void activiteDeviceBuild(){
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.activite_dialog_item,(ViewGroup) getActivity().findViewById(R.id.activite_dialog));
+        final EditText editText = (EditText) dialog.findViewById(R.id.activite_device_id);
+        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());  //先得到构造器
+        builder.setTitle("激活设备");
+        builder.setView(dialog);
+        builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                Call<Object> call = ApiClient.API.activiteDevice(editText.getText().toString(), Auth.getUser().get_id(), Auth.getToken());
+                call.enqueue(new Callback<Object>() {
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        if(response.isSuccessful()) {
+                            getDevices(false);
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getActivity(),"激活失败，请检查！",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) { t.printStackTrace(); }
+                });
+            }
+        });
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -157,17 +195,18 @@ public class IndexFragment extends Fragment {
     }
 
     public void getDevices (final boolean refreshTag) {
-        Call<List<DeviceModel.DeviceMeta.DeviceMetaModel>> call = ApiClient.API.getDevices(Auth.getUser().get_id(),Auth.getToken());
-        call.enqueue(new Callback<List<DeviceModel.DeviceMeta.DeviceMetaModel>>() {
+        Call<List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>>> call = ApiClient.API.getDevices(Auth.getUser().get_id(),Auth.getToken());
+        call.enqueue(new Callback<List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>>>() {
             @Override
-            public void onResponse(Call<List<DeviceModel.DeviceMeta.DeviceMetaModel>> call, Response<List<DeviceModel.DeviceMeta.DeviceMetaModel>> response) {
+            public void onResponse(Call<List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>>> call, Response<List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>>> response) {
+                listData.clear();
                 listData.addAll(response.body());
                 if (mAdapter!=null) mAdapter.notifyDataSetChanged();
                 if (mRecyclerView!=null&&refreshTag) mRecyclerView.refreshComplete();
             }
 
             @Override
-            public void onFailure(Call<List<DeviceModel.DeviceMeta.DeviceMetaModel>> call, Throwable t) {
+            public void onFailure(Call<List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>>> call, Throwable t) {
                 t.printStackTrace();
             }
         });

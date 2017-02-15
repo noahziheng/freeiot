@@ -1,6 +1,9 @@
 package net.noahgao.freeiot.api;
 
+import com.alibaba.fastjson.JSONObject;
+
 import net.noahgao.freeiot.model.DeviceModel;
+import net.noahgao.freeiot.model.ModModel;
 import net.noahgao.freeiot.model.ProductModel;
 import net.noahgao.freeiot.model.ProductSimpleModel;
 import net.noahgao.freeiot.model.UserModel;
@@ -8,6 +11,7 @@ import net.noahgao.freeiot.model.UserModel;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -43,12 +47,25 @@ public interface Api {
     Call<List<ProductSimpleModel>> getProducts(@Query("token") String token);
 
     @GET("/product/{id}")
-    Call<ProductModel> getProduct(@Path("id") String id, @Query("token") String token);
+    Call<ProductModel<UserModel>> getProduct(@Path("id") String id, @Query("token") String token);
 
     @GET("/device")
-    Call<List<DeviceModel.DeviceMeta.DeviceMetaModel>> getDevices(@Query("owner") String owner, @Query("token") String token);
+    Call<List<DeviceModel.DeviceMeta.DeviceMetaModel<ProductSimpleModel<String>>>> getDevices(@Query("owner") String owner, @Query("token") String token);
 
     @GET("/device/{id}")
     Call<DeviceModel> getDevice(@Path("id") String id, @Query("token") String token);
+
+    @GET("/device/{id}/activite/{owner}")
+    Call<Object> activiteDevice(@Path("id") String id, @Path("owner") String newuser, @Query("token") String token);
+
+    @PUT("/device/{id}/makeoffline")
+    Call<Object> disconnectDevice(@Path("id") String id, @Query("token") String token);
+
+    @FormUrlEncoded
+    @PUT("/device/{id}")
+    Call<Object> renameDevice(@Path("id") String id, @Path("name") String newname, @Query("token") String token);
+
+    @POST("/mod/{id}")
+    Call<ModModel> getMod(@Path("id") String id, @Body JSONObject vars, @Query("token") String token);
 
 }

@@ -6,15 +6,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
 
 import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.model.ProductModel;
+import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.util.Auth;
 
 import retrofit2.Call;
@@ -23,7 +25,7 @@ import retrofit2.Response;
 
 public class ProductActivity extends AppCompatActivity {
 
-    private ProductModel product;
+    private ProductModel<UserModel> product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +39,10 @@ public class ProductActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(getIntent().getStringExtra("name"));
         }
 
-        Call<ProductModel> call = ApiClient.API.getProduct(getIntent().getStringExtra("id"), Auth.getToken());
-        call.enqueue(new Callback<ProductModel>() {
+        Call<ProductModel<UserModel>> call = ApiClient.API.getProduct(getIntent().getStringExtra("id"), Auth.getToken());
+        call.enqueue(new Callback<ProductModel<UserModel>>() {
             @Override
-            public void onResponse(Call<ProductModel> call, Response<ProductModel> response) {
+            public void onResponse(Call<ProductModel<UserModel>> call, Response<ProductModel<UserModel>> response) {
                 if(response.isSuccessful()) {
                     product = response.body();
                     ((TextView) findViewById(R.id.basic_info_developer)).setText(product.getOwner().getDev().getFullName()+" ("+product.getOwner().getDev().getCompany()+")");
@@ -55,15 +57,11 @@ public class ProductActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
-                    View view = LayoutInflater.from(findViewById(R.id.modsView).getContext()).inflate(R.layout.chip_item, (ViewGroup) findViewById(R.id.modsView),false);
-                    ((ViewGroup) findViewById(R.id.modsView)).addView(view);
                 }
             }
 
             @Override
-            public void onFailure(Call<ProductModel> call, Throwable t) {
-                t.printStackTrace();
-            }
+            public void onFailure(Call<ProductModel<UserModel>> call, Throwable t) { t.printStackTrace(); }
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -81,7 +79,6 @@ public class ProductActivity extends AppCompatActivity {
         //点击back键finish当前activity
         switch (item.getItemId()) {
             case android.R.id.home:
-                //startActivity(new Intent(SettingsActivity.this,MainActivity.class));
                 finish();
                 break;
         }

@@ -12,16 +12,16 @@ public class DeviceModel extends Model {
     private DeviceMeta meta;
     private List<DataModel> data;
 
-    public class DeviceMeta {
+    public static class DeviceMeta {
 
-        private DeviceMetaModel device;
+        private DeviceMetaModel<ProductModel<String>> device;
         private int datalimit;
 
-        public class DeviceMetaModel extends Model {
+        public static class DeviceMetaModel<T> extends Model {
             private String name;
             private String secret;
             private UserModel owner;
-            private ProductSimpleModel<String> product;
+            private T product;
             private int status;
 
             public int getStatus() {
@@ -56,16 +56,16 @@ public class DeviceModel extends Model {
                 this.owner = owner;
             }
 
-            public ProductSimpleModel<String> getProduct() { return product; }
+            public T getProduct() { return product; }
 
-            public void setProduct(ProductSimpleModel<String> product) { this.product = product; }
+            public void setProduct(T product) { this.product = product; }
         }
 
-        public DeviceMetaModel getDevice() {
+        public DeviceMetaModel<ProductModel<String>> getDevice() {
             return device;
         }
 
-        public void setDevice(DeviceMetaModel device) {
+        public void setDevice(DeviceMetaModel<ProductModel<String>> device) {
             this.device = device;
         }
 
@@ -78,51 +78,19 @@ public class DeviceModel extends Model {
         }
     }
 
-    public int getStatus() {
-        return meta.getDevice().getStatus();
-    }
-
-    public void setStatus(int status) {
-        meta.getDevice().setStatus(status);
-    }
-
-    public String getName() {
-        return meta.getDevice().getName();
-    }
-
-    public void setName(String name) {
-        meta.getDevice().setName(name);
-    }
-
-    public String getSecret() {
-        return meta.getDevice().getSecret();
-    }
-
-    public void setSecret(String secret) {
-        meta.getDevice().setSecret(secret);
-    }
-
-    public UserModel getOwner() {
-        return meta.getDevice().getOwner();
-    }
-
-    public void setOwner(UserModel owner) {
-        meta.getDevice().setOwner(owner);
-    }
-
-    public int getDatalimit() {
-        return meta.getDatalimit();
-    }
-
-    public void setDatalimit(int datalimit) {
-        meta.setDatalimit(datalimit);
-    }
-
-    public List<DataModel> getDatas() {
+    public List<DataModel> getData() {
         return data;
     }
 
-    public void setDatas(List<DataModel> datas) {
-        this.data = datas;
+    public void setData(List<DataModel> data) {
+        this.data = data;
+    }
+
+    public DeviceMeta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(DeviceMeta meta) {
+        this.meta = meta;
     }
 }

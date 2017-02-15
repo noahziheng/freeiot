@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:background="@drawable/shape_chip_drawable"
-    android:text="@string/n_a"
-    android:textColor="@android:color/white"
-    android:textStyle="bold"/>
+    android:orientation="vertical">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_modname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_chip_drawable"
+        android:text="@string/n_a"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
+</LinearLayout>
