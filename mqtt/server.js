@@ -22,6 +22,12 @@ class MsgServer {
   }
 
   handleConnect (client) {
+    dataFacade.find({created_at: {'$lt': new Date(new Date().getTime() - 72 * 60 * 60 * 1000)}}).then(doc => {
+      for (let i in doc) {
+        dataFacade.remove(doc[i]._id).then(r => {})
+      }
+    })
+    console.log('clean Action Finished:' + new Date())
     const clientMeta = client.id.split('/')
     console.log(clientMeta[1] + ' Request add')
     const clientWillMeta = client.will.payload.toString().split('/')
