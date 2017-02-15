@@ -117,18 +117,9 @@ export default {
       })
     },
     activeDevice () {
-      if (this.device.status !== 0) this.$store.commit('error', '该设备已被激活')
+      if (this.device.status !== 0 && this.device.owner._id === this.user.id) this.$store.commit('error', '该设备已被激活')
       else {
-        let query = {}
-        query.owner = this.user.id
-        query.status = 1
-        fetch(this.$root.apiurl + '/device/' + this.device._id + '?token=' + this.user.token, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(query)
-        }).then(res => res.json()).then(json => {
+        fetch(this.$root.apiurl + '/device/' + this.device._id + '/activite/' + this.user.id + '?token=' + this.user.token).then(res => res.json()).then(json => {
           if (json.msg !== undefined) this.$store.commit('error', '激活失败（ ' + json.msg + ' ）')
           else this.handleChosePage(4)
         }).catch(ex => {

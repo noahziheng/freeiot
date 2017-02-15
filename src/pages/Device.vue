@@ -253,7 +253,6 @@ export default {
         let query = {}
         let type = this.dialogPage
         if (type === 1) query = {name: this.device.name}
-        else if (type === 2) query = {status: 2}
         let req = {
           method: type === 3 ? 'DELETE' : 'PUT',
           headers: {
@@ -263,7 +262,7 @@ export default {
         if (type === 1 || type === 2) req.body = JSON.stringify(query)
         if (type === 3 && this.device.status === 3) this.$store.commit('error', '不能在设备在线时删除设备')
         else {
-          fetch(this.$root.apiurl + '/device/' + this.device._id + (type === 0 ? '/empty' : '') + '?token=' + this.user.token, req).then(res => res.json()).then(json => {
+          fetch(this.$root.apiurl + '/device/' + this.device._id + (type === 0 ? '/empty' : (type === 2 ? '/makeoffline' : '')) + '?token=' + this.user.token, req).then(res => res.json()).then(json => {
             if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
             else {
               if (type === 3) this.$router.push('/dashboard')
