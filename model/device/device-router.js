@@ -16,7 +16,7 @@ router.route('/:id')
 router.route('/:id/:datalimit').get((...args) => controller.findById(...args))
 router.route('/:id/data').post((...args) => controller.datanew(...args))
 router.route('/:id/empty').put((...args) => controller.dataempty(...args))
-router.route('/:id/activite/:user').post((...args) => controller.activite(...args))
+router.route('/:id/activite/:user').get((...args) => controller.activite(...args))
 router.route('/:id/makeoffline').get((...args) => controller.makeoffline(...args))
 
 module.exports = router
