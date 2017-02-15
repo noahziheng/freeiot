@@ -31,7 +31,7 @@ class DeviceController extends Controller {
     const conditions = { _id: req.params.id }
     const body = {
       status: 1,
-      owner: req.params.owner
+      owner: req.params.user
     }
     this.facade.update(conditions, body)
     .then(doc => {
