@@ -47,7 +47,7 @@ public class datasAdapter extends XRecyclerView.Adapter<datasAdapter.BodyViewHol
         holder.contentView.setText(getContent(mData.getContent().toString()));
     }
 
-    private String getContent (String val) {
+    public static String getContent (String val) {
         if (Objects.equals(val, "online")) return "设备上线";
         else if (Objects.equals(val, "offline")) return "设备离线";
         else if (Objects.equals(val, "empty")) return "数据清空";
