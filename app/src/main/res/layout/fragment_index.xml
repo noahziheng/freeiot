@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.noahgao.freeiot.pages.IndexFragment">
+    tools:context=".ui.pages.IndexFragment">
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/devices_view"

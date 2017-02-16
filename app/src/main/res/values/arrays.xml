@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="datalimit">
+        <item>1</item>
+        <item>12</item>
+        <item>24</item>
+        <item>36</item>
+        <item>48</item>
+        <item>60</item>
+        <item>72</item>
+    </string-array>
+</resources>

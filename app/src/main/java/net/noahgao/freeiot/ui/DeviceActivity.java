@@ -14,9 +14,9 @@ import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.adapter.devicePageAdapter;
 import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.model.DeviceModel;
-import net.noahgao.freeiot.pages.DeviceHistoryFragment;
-import net.noahgao.freeiot.pages.DeviceOptionsFragment;
-import net.noahgao.freeiot.pages.DeviceRealtimeFragment;
+import net.noahgao.freeiot.ui.pages.DeviceHistoryFragment;
+import net.noahgao.freeiot.ui.pages.DeviceOptionsFragment;
+import net.noahgao.freeiot.ui.pages.DeviceRealtimeFragment;
 import net.noahgao.freeiot.util.Auth;
 
 import java.util.ArrayList;

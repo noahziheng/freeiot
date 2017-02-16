@@ -4,6 +4,8 @@ import android.text.SpannableString;
 
 import net.noahgao.freeiot.Const;
 
+import java.util.Objects;
+
 import cn.nekocode.badge.BadgeDrawable;
 
 /**
@@ -22,12 +24,7 @@ public class Badge {
     }
 
     static public SpannableString buildStatus(int tag) {
-        return new BadgeDrawable.Builder()
-                .type(BadgeDrawable.TYPE_ONLY_ONE_TEXT)
-                .badgeColor(Const.BADGE_COLOR[tag])
-                .text1(Const.STATUS_STR[tag])
-                .textSize(35)
-                .build().toSpannable();
+        return buildStatus(tag,35);
     }
 
     static public SpannableString buildStatus(int tag, int fontsize) {
@@ -36,6 +33,15 @@ public class Badge {
                 .badgeColor(Const.BADGE_COLOR[tag])
                 .text1(Const.STATUS_STR[tag])
                 .textSize(fontsize)
+                .build().toSpannable();
+    }
+
+    static public SpannableString buildMsgType(int tag) {
+        return new BadgeDrawable.Builder()
+                .type(BadgeDrawable.TYPE_ONLY_ONE_TEXT)
+                .badgeColor(Const.BADGE_COLOR[tag])
+                .text1(Const.MSG_TYPE_STR[tag])
+                .textSize(40)
                 .build().toSpannable();
     }
 }

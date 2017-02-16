@@ -1,4 +1,4 @@
-package net.noahgao.freeiot.pages;
+package net.noahgao.freeiot.ui.pages;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,7 +28,6 @@ import net.noahgao.freeiot.util.Auth;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -143,7 +142,7 @@ public class IndexFragment extends Fragment {
 
     public void activiteDeviceBuild(){
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialog = inflater.inflate(R.layout.activite_dialog_item,(ViewGroup) getActivity().findViewById(R.id.activite_dialog));
+        View dialog = inflater.inflate(R.layout.item_dialog_activite,(ViewGroup) getActivity().findViewById(R.id.activite_dialog));
         final EditText editText = (EditText) dialog.findViewById(R.id.activite_device_id);
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());  //先得到构造器
         builder.setTitle("激活设备");
@@ -210,6 +209,12 @@ public class IndexFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDevices(false);
     }
 
     /**

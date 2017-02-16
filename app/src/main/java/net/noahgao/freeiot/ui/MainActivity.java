@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.model.UserModel;
-import net.noahgao.freeiot.pages.IndexFragment;
-import net.noahgao.freeiot.pages.ProductsFragment;
+import net.noahgao.freeiot.ui.pages.IndexFragment;
+import net.noahgao.freeiot.ui.pages.ProductsFragment;
 import net.noahgao.freeiot.util.Auth;
 import net.noahgao.freeiot.util.Badge;
 import net.noahgao.freeiot.util.UpdateManager;

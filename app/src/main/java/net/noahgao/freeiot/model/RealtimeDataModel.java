@@ -10,6 +10,7 @@ public class RealtimeDataModel<T> extends Model {
     private String label;
     private String unit;
     private String type;
+    private boolean controll;
     private T content;
 
     public T getContent() {
@@ -50,5 +51,13 @@ public class RealtimeDataModel<T> extends Model {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isControll() {
+        return controll;
+    }
+
+    public void setControll(boolean controll) {
+        this.controll = controll;
     }
 }

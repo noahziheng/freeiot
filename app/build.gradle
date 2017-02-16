@@ -19,7 +19,7 @@ android {
         applicationId "net.noahgao.freeiot"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 9
+        versionCode 10
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -70,6 +70,8 @@ dependencies {
     compile 'com.xiaofeng.android:flowlayoutmanager:1.2.3.2'
     compile 'us.feras.mdv:markdownview:1.1.0'
     compile 'im.fir:fir-sdk:latest.integration@aar'
+    compile 'si.virag:fuzzydateformatter:1.1.0'
+    compile 'com.github.baoyachi:StepView:1.9'
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
     testCompile 'junit:junit:4.12'
 }

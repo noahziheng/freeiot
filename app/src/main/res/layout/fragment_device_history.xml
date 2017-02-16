@@ -5,13 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    tools:context="net.noahgao.freeiot.pages.DeviceHistoryFragment">
+    tools:context=".ui.pages.DeviceHistoryFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/device_lost"
-        android:textSize="20sp"/>
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fetch"
+            android:textSize="15sp"/>
+        <Spinner
+            android:id="@+id/device_get_data_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/datalimit"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inhours"
+            android:textSize="15sp"/>
+        <Button
+            android:id="@+id/device_get_data_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fetch_data"
+            android:theme="@style/MyButton"
+            android:textSize="@dimen/small_btn_text_size"
+            android:layout_margin="@dimen/std_btn_margin"
+            android:padding="@dimen/small_btn_padding"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/device_history_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/device_no_history"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/device_history_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

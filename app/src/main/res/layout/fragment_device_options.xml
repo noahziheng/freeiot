@@ -14,7 +14,7 @@
         android:columnCount="2"
         android:gravity="center"
         android:layout_gravity="center"
-        tools:context="net.noahgao.freeiot.pages.DeviceOptionsFragment" >
+        tools:context=".ui.pages.DeviceOptionsFragment" >
 
         <Button
             android:id="@+id/device_empty_btn"

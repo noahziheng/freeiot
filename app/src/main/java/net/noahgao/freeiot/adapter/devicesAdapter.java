@@ -87,7 +87,6 @@ public class devicesAdapter extends XRecyclerView.Adapter<devicesAdapter.ViewHol
             mTitleView = (TextView) view.findViewById(R.id.tv_name);
             mDescView = (TextView) view.findViewById(R.id.tv_description);
             mStatusView = (TextView) view.findViewById(R.id.tv_status);
-
         }
     }
 

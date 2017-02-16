@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_data_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_margin="8dp"
+        android:id="@+id/edit_data_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_new_value" />
+    　　
+
+    <EditText
+        android:layout_margin="8dp"
+        android:id="@+id/edit_data_value"
+        android:labelFor="@+id/edit_data_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/input_new_value"
+        />
+</LinearLayout>

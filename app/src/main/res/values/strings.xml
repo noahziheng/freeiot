@@ -47,4 +47,10 @@
     <string name="rename">重新命名</string>
     <string name="delete_device">删除设备</string>
     <string name="device_reinit">重新激活入网</string>
+    <string name="input_new_value">请输入新值</string>
+    <string name="device_no_history">该设备最近没有历史记录！</string>
+    <string name="fetch_data">抓取数据</string>
+    <string name="inhours">小时内的数据</string>
+    <string name="fetch">抓取</string>
+    <string name="next_step">下一步</string>
 </resources>

@@ -1,20 +1,26 @@
-package net.noahgao.freeiot.pages;
+package net.noahgao.freeiot.ui.pages;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -35,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -81,7 +89,7 @@ public class DeviceRealtimeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // throw new RuntimeException();
         super.onViewCreated(view, savedInstanceState);
-        if(device.getMeta().getDevice().getStatus() <= 2) {
+        if(device.getMeta().getDevice().getStatus() > 2) {
             view.findViewById(R.id.device_lost_view).setVisibility(View.GONE);
             mRecyclerView = (XRecyclerView) view.findViewById(R.id.device_realtime_view);
             listData = new ArrayList<>();
@@ -96,10 +104,96 @@ public class DeviceRealtimeFragment extends Fragment {
                 public void onLoadMore() {}
             });
             mRecyclerView.setLayoutManager(layoutManager);
-            /*mAdapter.setOnItemClickListener(new productsAdapter.OnRecyclerViewItemClickListener(){
+            mAdapter.setOnItemClickListener(new realtimeDataAdapter.OnRecyclerViewItemClickListener(){
                 @Override
-                public void onItemClick(View view) {}
-            });*/
+                public void onItemClick(final View view, final RealtimeDataModel data, final int position) {
+                    if(data.isControll()) {
+                        final ArrayMap<String, Object> query = new ArrayMap<>();
+                        if(Objects.equals(data.getType(), "boolean")) {
+                            final Boolean r;
+                            if(data.getContent() instanceof Integer)
+                                r = ((Integer) data.getContent()) == 1;
+                            else if (data.getContent() instanceof Boolean)
+                                r = (Boolean) data.getContent();
+                            else
+                                r = true;
+                            query.put(data.getLabel(),!r);
+                            Call<JSONArray> call = ApiClient.API.putData(device.getMeta().getDevice().get_id(), query, Auth.getToken());
+                            call.enqueue(new Callback<JSONArray>() {
+                                @Override
+                                public void onResponse(Call<JSONArray> call, Response<JSONArray> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(getActivity(), "控制指令已下发", Toast.LENGTH_SHORT).show();
+                                        RealtimeDataModel<Boolean> newData = new RealtimeDataModel<>();
+                                        newData.setControll(data.isControll());
+                                        newData.setLabel(data.getLabel());
+                                        newData.setName(data.getName());
+                                        newData.setType(data.getType());
+                                        newData.setUnit(data.getUnit());
+                                        newData.setContent(!r);
+                                        listData.set(position, newData);
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<JSONArray> call, Throwable t) {
+                                    t.printStackTrace();
+                                }
+                            });
+                        } else {
+                            LayoutInflater inflater = getActivity().getLayoutInflater();
+                            View dialog = inflater.inflate(R.layout.item_dialog_editdata,(ViewGroup) getActivity().findViewById(R.id.edit_data_view));
+                            final EditText editText = (EditText) dialog.findViewById(R.id.edit_data_value);
+                            AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());  //先得到构造器
+                            builder.setTitle("编辑控制点数据");
+                            builder.setView(dialog);
+                            builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(final DialogInterface dialog, int which) {
+                                    query.put(data.getLabel(), editText.getText().toString());
+                                    Call<JSONArray> call = ApiClient.API.putData(device.getMeta().getDevice().get_id(), query, Auth.getToken());
+                                    call.enqueue(new Callback<JSONArray>() {
+                                        @Override
+                                        public void onResponse(Call<JSONArray> call, Response<JSONArray> response) {
+                                            if (response.isSuccessful()) {
+                                                Toast.makeText(getActivity(), "控制指令已下发", Toast.LENGTH_SHORT).show();
+                                                dialog.dismiss();
+                                                RealtimeDataModel<String> newData = new RealtimeDataModel<>();
+                                                newData.setControll(data.isControll());
+                                                newData.setLabel(data.getLabel());
+                                                newData.setName(data.getName());
+                                                newData.setType(data.getType());
+                                                newData.setUnit(data.getUnit());
+                                                newData.setContent(editText.getText().toString());
+                                                listData.set(position, newData);
+                                                mAdapter.notifyDataSetChanged();
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<JSONArray> call, Throwable t) {
+                                            t.printStackTrace();
+                                        }
+                                    });
+                                }
+                            });
+                            builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            builder.create().show();
+
+                        }
+                    } else {
+                        Snackbar.make(view, "该功能暂未上线", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+            });
             mRecyclerView.setAdapter(mAdapter);
             getDatas(false);
         } else {
@@ -108,6 +202,7 @@ public class DeviceRealtimeFragment extends Fragment {
         }
     }
 
+    //独立线程抓取、解析数据
     public void getDatas(final boolean refreshTag) {
         final Handler mHandler = new nHandler(DeviceRealtimeFragment.this,refreshTag);
         new Thread(new Runnable() {
@@ -151,12 +246,16 @@ public class DeviceRealtimeFragment extends Fragment {
 
     }
 
+    // 将API数据集/模块信息解析为实时数据模型
+    // NoahGao 2017
     public List<RealtimeDataModel> parseRealtimeData (DeviceModel device) {
         List<ProductModel<String>.ProductMod> listProductMods = device.getMeta().getDevice().getProduct().getMods();
         List<DataModel> listDatas = device.getData();
         ArrayMap<String, DataModel> listLatestDatas = new ArrayMap<>();
         List<JSONObject> listPoints = new ArrayList<>();
         List<RealtimeDataModel> listResults = new ArrayList<>();
+        List<RealtimeDataModel> listControlls = new ArrayList<>();
+        //联网解析模块信息
         for (ProductModel<String>.ProductMod o: listProductMods) {
             try {
                 JSONObject vt = o.getVars();
@@ -165,11 +264,13 @@ public class DeviceRealtimeFragment extends Fragment {
                 if(result.isSuccessful()) {
                     if(result.body().getUplink()!=null) {
                         for (JSONObject j : result.body().getUplink()) {
+                            j.put("controll",false);
                             listPoints.add(j);
                         }
                     }
                     if(result.body().getDownlink()!=null) {
                         for (JSONObject j : result.body().getDownlink()) {
+                            j.put("controll",true);
                             listPoints.add(j);
                         }
                     }
@@ -178,19 +279,24 @@ public class DeviceRealtimeFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        //遍历数据集获取最新数据
         for (DataModel p: listDatas) {
             if((!listLatestDatas.containsKey(p.getLabel()) || listLatestDatas.get(p.getLabel()).getCreated_at().before(p.getCreated_at())) && !Objects.equals(p.getLabel(), "SYS")) listLatestDatas.put(p.getLabel(),p);
         }
+        //转换为实时数据格式
         for(JSONObject q: listPoints) {
             RealtimeDataModel<Object> t = new RealtimeDataModel<>();
             t.setName(q.getString("name"));
             t.setLabel(q.getString("label"));
             t.setType(q.getJSONObject("format").getString("type"));
             t.setUnit(q.getJSONObject("format").getString("unit"));
+            t.setControll(q.getBoolean("controll"));
             if(listLatestDatas.containsKey(q.getString("label"))) t.setContent(listLatestDatas.get(q.getString("label")).getContent());
-            else t.setContent(R.string.n_a);
-            listResults.add(t);
+            else t.setContent("N/A");
+            if(q.getBoolean("controll")) listControlls.add(t);
+            else listResults.add(t);
         }
+        listResults.addAll(listControlls);//保证设备上行数据在前
         return listResults;
     }
 

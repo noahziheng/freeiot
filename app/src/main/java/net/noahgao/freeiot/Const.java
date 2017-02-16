@@ -22,6 +22,12 @@ public class Const {
             "开发者",
             "管理员"
     };
+    public static String[] MSG_TYPE_STR = {
+            "上传",
+            "下控",
+            "反馈",
+            "系统"
+    };
     public static int[] BADGE_COLOR = {
             0xff555555,0xffFC2C7B,0xffFF4500,0xff006400
     };
