@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="indigo">#4b0082</color>
     <color name="black_overlay">#66000000</color>
+    <color name="gray">#BBB</color>
+    <color name="black_all">#000</color>
 </resources>

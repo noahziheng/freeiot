@@ -159,7 +159,7 @@ public class DeviceOptionsFragment extends Fragment {
         @Override
         public void onResponse(Call<Object> call, Response<Object> response) {
             if(response.isSuccessful()) {
-                Toast.makeText(getActivity(),"成功！",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"操作成功！",Toast.LENGTH_SHORT).show();
                 getActivity().finish();
             } else Toast.makeText(getActivity(),"请求失败！请重试！",Toast.LENGTH_SHORT).show();
         }

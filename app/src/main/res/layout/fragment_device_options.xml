@@ -14,7 +14,8 @@
         android:columnCount="2"
         android:gravity="center"
         android:layout_gravity="center"
-        tools:context=".ui.pages.DeviceOptionsFragment" >
+        tools:context=".ui.pages.DeviceOptionsFragment"
+        tools:ignore="UselessParent">
 
         <Button
             android:id="@+id/device_empty_btn"
@@ -65,16 +66,4 @@
             android:padding="@dimen/std_btn_padding"/>
 
     </GridLayout>
-
-    <Button
-        android:id="@+id/device_reinit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/device_reinit"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        android:theme="@style/MyButton"
-        android:textSize="@dimen/std_btn_text_size"
-        android:layout_margin="@dimen/std_btn_margin"
-        android:padding="@dimen/std_btn_padding"/>
 </LinearLayout>

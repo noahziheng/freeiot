@@ -16,6 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary" />
+        <LinearLayout
+            android:id="@+id/init_device_main_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

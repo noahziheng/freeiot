@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="net.noahgao.freeiot.ui.pages.InitDeviceCreateFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/input_device_name"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+        <EditText
+            android:id="@+id/device_create_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="@string/n_a"
+            tools:ignore="LabelFor" />
+        <Button
+            android:id="@+id/device_create_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/device_create_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/device_create_done"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_done_black_24dp"
+            android:visibility="gone" />
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/device_create_progressBar"/>
+        <TextView
+            android:id="@+id/device_creating_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/creating_device"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

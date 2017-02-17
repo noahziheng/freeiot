@@ -5,7 +5,6 @@ import android.util.ArrayMap;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import net.noahgao.freeiot.model.DataModel;
 import net.noahgao.freeiot.model.DeviceModel;
 import net.noahgao.freeiot.model.ModModel;
 import net.noahgao.freeiot.model.ProductModel;
@@ -61,6 +60,10 @@ public interface Api {
 
     @GET("/device/{id}/{datalimit}")
     Call<DeviceModel> getDevice(@Path("id") String id,@Path("datalimit") int datalimit, @Query("token") String token);
+
+    @FormUrlEncoded
+    @POST("/device")
+    Call<JSONObject> putDevice(@Field("name") String name, @Field("owner") String owner, @Field("product") String product, @Query("token") String token);
 
     @POST("/device/{id}/data")
     Call<JSONArray> putData(@Path("id") String id, @Body ArrayMap data, @Query("token") String token);

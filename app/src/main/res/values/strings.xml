@@ -53,4 +53,16 @@
     <string name="inhours">小时内的数据</string>
     <string name="fetch">抓取</string>
     <string name="next_step">下一步</string>
+    <string name="no_find_device">未找到任何兼容的设备～</string>
+    <string name="choose_device">请选择要入网的设备</string>
+    <string name="current_choose_product">当前选中产品：</string>
+    <string name="current_choose_device">当前选中设备：</string>
+    <string name="current_wifi">当前选定网络：</string>
+    <string name="input_device_name">请填入设备名称</string>
+    <string name="submit">提交</string>
+    <string name="creating_device">正在创建设备&#8230;&#8230;&#8230;</string>
+    <string name="initing_device">正在初始化设备&#8230;&#8230;&#8230;</string>
+    <string name="input_wifi_password">请填入WiFi密码：</string>
+    <string name="connect_device">连接设备</string>
+    <string name="edit">更改</string>
 </resources>

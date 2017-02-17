@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -40,12 +39,10 @@ import net.noahgao.freeiot.util.Auth;
 import net.noahgao.freeiot.util.Badge;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import retrofit2.Call;
@@ -101,6 +98,13 @@ public class DeviceRealtimeFragment extends Fragment {
         socket.off(Socket.EVENT_CONNECT_ERROR);
         socket.off(Socket.EVENT_CONNECT_TIMEOUT);
         socket.off(device.getMeta().getDevice().get_id()+"-web");
+    }
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override

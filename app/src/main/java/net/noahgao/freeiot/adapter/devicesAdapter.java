@@ -54,8 +54,10 @@ public class devicesAdapter extends XRecyclerView.Adapter<devicesAdapter.ViewHol
         viewHolder.mTitleView.setText(mDevice.getName());
         viewHolder.mStatusView.setText(Badge.buildStatus(mDevice.getStatus()));
         viewHolder.mDescView.setText(mDevice.getProduct().getName() + " (" + mDevice.getProduct().getOwner() + ")");
-        Call<UserModel> call = ApiClient.API.getUser(mDevice.getProduct().getOwner(), Auth.getToken());
-        call.enqueue(new TempCallback<UserModel>(position, mDevice));
+        if(!mDevice.getProduct().getOwner().contains("@")) {
+            Call<UserModel> call = ApiClient.API.getUser(mDevice.getProduct().getOwner(), Auth.getToken());
+            call.enqueue(new TempCallback<UserModel>(position, mDevice));
+        }
         viewHolder.itemView.setTag(datas.get(position));
     }
 

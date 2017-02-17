@@ -23,6 +23,7 @@ import net.noahgao.freeiot.api.ApiClient;
 import net.noahgao.freeiot.model.DeviceModel;
 import net.noahgao.freeiot.model.ProductSimpleModel;
 import net.noahgao.freeiot.ui.DeviceActivity;
+import net.noahgao.freeiot.ui.InitDeviceActivity;
 import net.noahgao.freeiot.ui.MainActivity;
 import net.noahgao.freeiot.util.Auth;
 
@@ -102,8 +103,7 @@ public class IndexFragment extends Fragment {
                                 activiteDeviceBuild();
                                 break;
                             case 1:
-                                Toast.makeText(getActivity(),"请在产品广场选择要入网的产品后点击>按钮继续",Toast.LENGTH_LONG).show();
-                                ((MainActivity) getActivity()).changePage(1);
+                                startActivity(new Intent(getActivity(), InitDeviceActivity.class));
                         }
                     }
                 });

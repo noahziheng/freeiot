@@ -52,11 +52,16 @@ public class InitializeActivity extends AppCompatActivity {
                 InitializeActivity.this.finish();
             }
         },
-                Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_CONTACTS,
-                Manifest.permission.READ_PHONE_STATE
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.CHANGE_NETWORK_STATE,
+                Manifest.permission.CHANGE_WIFI_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
         );
     }
 
@@ -71,8 +76,7 @@ public class InitializeActivity extends AppCompatActivity {
      */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
-                .setName("Initialize Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
+                .setName("Initialize Page")
                 .setUrl(Uri.parse("https://iot.noahgao.net://"))
                 .build();
         return new Action.Builder(Action.TYPE_VIEW)
