@@ -13,6 +13,7 @@ import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.model.DataModel;
 import net.noahgao.freeiot.util.Badge;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,7 +44,8 @@ public class datasAdapter extends XRecyclerView.Adapter<datasAdapter.BodyViewHol
         DataModel mData = listData.get(position);
         holder.typeView.setText(Badge.buildMsgType(mData.getType()));
         holder.labelView.setText(mData.getLabel());
-        holder.timeView.setText(FuzzyDateTimeFormatter.getTimeAgo(mContext, mData.getCreated_at()));
+        if(mData.getCreated_at().before(new Date())) holder.timeView.setText(FuzzyDateTimeFormatter.getTimeAgo(mContext, mData.getCreated_at()));
+        else holder.timeView.setText("刚刚");
         holder.contentView.setText(getContent(mData.getContent().toString()));
     }
 

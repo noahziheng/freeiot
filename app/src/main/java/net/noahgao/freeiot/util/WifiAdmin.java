@@ -1,6 +1,4 @@
 package net.noahgao.freeiot.util;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 import android.content.Context;
@@ -9,8 +7,8 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 /**
- * WIFI管理类
- * @author ZHF
+ * WIFI管理工具类
+ * @author ZHF / Ziheng Gao Refactory on 2017.2
  *
  */
 public class WifiAdmin {
@@ -26,7 +24,7 @@ public class WifiAdmin {
     public WifiManager mWifiManager;
 
     /**
-     * 获取该类的实例（懒汉）
+     * 获取该类的实例
      * @param context
      * @return
      */
@@ -48,7 +46,7 @@ public class WifiAdmin {
      * @param str  热点名称
      * @return
      */
-    private WifiConfiguration isExsits(String str) {
+    public WifiConfiguration isExsits(String str) {
         Iterator<WifiConfiguration> localIterator = this.mWifiManager.getConfiguredNetworks().iterator();
         WifiConfiguration localWifiConfiguration;
         do {
@@ -85,158 +83,88 @@ public class WifiAdmin {
             mWifiManager.setWifiEnabled(false);
         }
     }
-    /**端口指定id的wifi**/
-    public void disconnectWifi(int paramInt) {
-        this.mWifiManager.disableNetwork(paramInt);
-    }
-
-    /**添加指定网络**/
-    public void addNetwork(WifiConfiguration paramWifiConfiguration) {
-        int i = mWifiManager.addNetwork(paramWifiConfiguration);
-        mWifiManager.enableNetwork(i, true);
-    }
 
     /**
-     * 连接指定配置好的网络
-     * @param index 配置好网络的ID
-     */
-    public void connectConfiguration(int index) {
-        // 索引大于配置好的网络索引返回
-        if (index > mWifiConfiguration.size()) {
-            return;
-        }
-        //连接配置好的指定ID的网络
-        mWifiManager.enableNetwork(mWifiConfiguration.get(index).networkId, true);
-    }
-
-    /**
-     * 根据wifi信息创建或关闭一个热点
-     * @param paramWifiConfiguration
-     * @param paramBoolean 关闭标志
-     */
-    @SuppressWarnings({"unchecked"})
-    public void createWifiAP(WifiConfiguration paramWifiConfiguration,boolean paramBoolean) {
-        try {
-            Class localClass = this.mWifiManager.getClass();
-            Class[] arrayOfClass = new Class[2];
-            arrayOfClass[0] = WifiConfiguration.class;
-            arrayOfClass[1] = Boolean.TYPE;
-            Method localMethod = localClass.getMethod("setWifiApEnabled",arrayOfClass);
-            WifiManager localWifiManager = this.mWifiManager;
-            Object[] arrayOfObject = new Object[2];
-            arrayOfObject[0] = paramWifiConfiguration;
-            arrayOfObject[1] = paramBoolean;
-            localMethod.invoke(localWifiManager, arrayOfObject);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     * 创建一个wifi信息
-     * @param ssid 名称
-     * @param passawrd 密码
-     * @param paramInt 有3个参数，1是无密码，2是简单密码，3是wap加密
-     * @param type 是"ap"还是"wifi"
+     * 添加到指定Wifi网络 /切换到指定Wifi网络
+     * @param wf
      * @return
      */
-    public WifiConfiguration createWifiInfo(String ssid, String passawrd,int paramInt, String type) {
-        //配置网络信息类
-        WifiConfiguration localWifiConfiguration1 = new WifiConfiguration();
-        //设置配置网络属性
-        localWifiConfiguration1.allowedAuthAlgorithms.clear();
-        localWifiConfiguration1.allowedGroupCiphers.clear();
-        localWifiConfiguration1.allowedKeyManagement.clear();
-        localWifiConfiguration1.allowedPairwiseCiphers.clear();
-        localWifiConfiguration1.allowedProtocols.clear();
+    public void addNetwork(WifiConfiguration wf){
 
-        if(type.equals("wt")) { //wifi连接
-            localWifiConfiguration1.SSID = ("\"" + ssid + "\"");
-            WifiConfiguration localWifiConfiguration2 = isExsits(ssid);
-            if(localWifiConfiguration2 != null) {
-                mWifiManager.removeNetwork(localWifiConfiguration2.networkId); //从列表中删除指定的网络配置网络
-            }
-            if(paramInt == 1) { //没有密码
-                localWifiConfiguration1.wepKeys[0] = "";
-                localWifiConfiguration1.allowedKeyManagement.set(0);
-                localWifiConfiguration1.wepTxKeyIndex = 0;
-            } else if(paramInt == 2) { //简单密码
-                localWifiConfiguration1.hiddenSSID = true;
-                localWifiConfiguration1.wepKeys[0] = ("\"" + passawrd + "\"");
-            } else { //wap加密
-                localWifiConfiguration1.preSharedKey = ("\"" + passawrd + "\"");
-                localWifiConfiguration1.hiddenSSID = true;
-                localWifiConfiguration1.allowedAuthAlgorithms.set(0);
-                localWifiConfiguration1.allowedGroupCiphers.set(2);
-                localWifiConfiguration1.allowedKeyManagement.set(1);
-                localWifiConfiguration1.allowedPairwiseCiphers.set(1);
-                localWifiConfiguration1.allowedGroupCiphers.set(3);
-                localWifiConfiguration1.allowedPairwiseCiphers.set(2);
-            }
-        }else {//"ap" wifi热点
-            localWifiConfiguration1.SSID = ssid;
-            localWifiConfiguration1.allowedAuthAlgorithms.set(1);
-            localWifiConfiguration1.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-            localWifiConfiguration1.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-            localWifiConfiguration1.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
-            localWifiConfiguration1.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
-            localWifiConfiguration1.allowedKeyManagement.set(0);
-            localWifiConfiguration1.wepTxKeyIndex = 0;
-            if (paramInt == 1) {  //没有密码
-                localWifiConfiguration1.wepKeys[0] = "";
-                localWifiConfiguration1.allowedKeyManagement.set(0);
-                localWifiConfiguration1.wepTxKeyIndex = 0;
-            } else if (paramInt == 2) { //简单密码
-                localWifiConfiguration1.hiddenSSID = true;//网络上不广播ssid
-                localWifiConfiguration1.wepKeys[0] = passawrd;
-            } else if (paramInt == 3) {//wap加密
-                localWifiConfiguration1.preSharedKey = passawrd;
-                localWifiConfiguration1.allowedAuthAlgorithms.set(0);
-                localWifiConfiguration1.allowedProtocols.set(1);
-                localWifiConfiguration1.allowedProtocols.set(0);
-                localWifiConfiguration1.allowedKeyManagement.set(1);
-                localWifiConfiguration1.allowedPairwiseCiphers.set(2);
-                localWifiConfiguration1.allowedPairwiseCiphers.set(1);
-            }
+        //连接新的连接
+        int netId = mWifiManager.addNetwork(wf);
+        mWifiManager.enableNetwork(netId, true);
+        mWifiManager.saveConfiguration();
+        mWifiManager.reconnect();
+    }
+
+    /**
+     * 关闭当前的Wifi网络
+     * @return
+     */
+    public boolean disconnectCurrentNetwork(){
+        if(mWifiManager != null && mWifiManager.isWifiEnabled()){
+            int netId = mWifiManager.getConnectionInfo().getNetworkId();
+            mWifiManager.disableNetwork(netId);
+            return mWifiManager.disconnect();
         }
-        return localWifiConfiguration1;
+        return false;
     }
 
-    /**获取热点名**/
-    public String getApSSID() {
-        try {
-            Method localMethod = this.mWifiManager.getClass().getDeclaredMethod("getWifiApConfiguration");
-            if (localMethod == null) return null;
-            Object localObject1 = localMethod.invoke(this.mWifiManager);
-            if (localObject1 == null) return null;
-            WifiConfiguration localWifiConfiguration = (WifiConfiguration) localObject1;
-            if (localWifiConfiguration.SSID != null) return localWifiConfiguration.SSID;
-            Field localField1 = WifiConfiguration.class .getDeclaredField("mWifiApProfile");
-            if (localField1 == null) return null;
-            localField1.setAccessible(true);
-            Object localObject2 = localField1.get(localWifiConfiguration);
-            localField1.setAccessible(false);
-            if (localObject2 == null)  return null;
-            Field localField2 = localObject2.getClass().getDeclaredField("SSID");
-            localField2.setAccessible(true);
-            Object localObject3 = localField2.get(localObject2);
-            if (localObject3 == null) return null;
-            localField2.setAccessible(false);
-            return (String) localObject3;
-        } catch (Exception ignored) {
+    /**
+     * 创建WifiConfiguration
+     *
+     * @param SSID
+     * @param Password
+     * @param Type
+     * @return
+     */
+    public WifiConfiguration createWifiCfg(String SSID, String Password, int Type) {
+        WifiConfiguration config = new WifiConfiguration();
+        config.allowedAuthAlgorithms.clear();
+        config.allowedGroupCiphers.clear();
+        config.allowedKeyManagement.clear();
+        config.allowedPairwiseCiphers.clear();
+        config.allowedProtocols.clear();
+        config.SSID = "\"" + SSID + "\"";
+
+        WifiConfiguration tempConfig = isExsits(SSID);
+        if (tempConfig != null) {
+            mWifiManager.removeNetwork(tempConfig.networkId);
         }
-        return null;
-    }
 
-    /**获取wifi名**/
-    public String getBSSID() {
-        if (this.mWifiInfo == null)
-            return "NULL";
-        return this.mWifiInfo.getBSSID();
-    }
-
-    /**得到配置好的网络 **/
-    public List<WifiConfiguration> getConfiguration() {
-        return this.mWifiConfiguration;
+        if (Type == 1) //WIFICIPHER_NOPASS
+        {
+          /*  config.wepKeys[0] = "";//连接无密码热点时加上这两句会出错
+            config.wepTxKeyIndex = 0;*/
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+        }
+        if (Type == 2) //WIFICIPHER_WEP
+        {
+            config.hiddenSSID = true;
+            config.wepKeys[0] = "\"" + Password + "\"";
+            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+            config.wepTxKeyIndex = 0;
+        }
+        if (Type == 3) //WIFICIPHER_WPA
+        {
+            config.preSharedKey = "\"" + Password + "\"";
+            config.hiddenSSID = true;
+            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+            //config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+            config.status = WifiConfiguration.Status.ENABLED;
+        }
+        return config;
     }
 
     /**获取ip地址**/
@@ -268,6 +196,7 @@ public class WifiAdmin {
     }
     /** 得到网络列表**/
     public List<ScanResult> getWifiList() {
+        this.mWifiList = this.mWifiManager.getScanResults();
         return this.mWifiList;
     }
 
@@ -285,16 +214,8 @@ public class WifiAdmin {
         return localStringBuilder;
     }
 
-    /** 设置wifi搜索结果 **/
-    public void setWifiList() {
-        this.mWifiList = this.mWifiManager.getScanResults();
-    }
     /**开始搜索wifi**/
     public boolean startScan() {
         return this.mWifiManager.startScan();
-    }
-    /**得到接入点的BSSID**/
-    public String GetBSSID() {
-        return (mWifiInfo == null) ? "NULL" : mWifiInfo.getBSSID();
     }
 }

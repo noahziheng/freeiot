@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,7 +16,6 @@ import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
 
 import net.noahgao.freeiot.R;
-import net.noahgao.freeiot.adapter.initDevicePageAdapter;
 import net.noahgao.freeiot.model.WifiResultModel;
 import net.noahgao.freeiot.ui.pages.InitDeviceCreateFragment;
 import net.noahgao.freeiot.ui.pages.InitDeviceFindFragment;

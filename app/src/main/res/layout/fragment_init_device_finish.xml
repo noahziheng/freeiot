@@ -1,13 +1,47 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_marginBottom="50dp"
     tools:context="net.noahgao.freeiot.ui.pages.InitDeviceFinishFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <ImageView
+        android:id="@+id/device_init_done"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/ic_done_black_24dp"
+        android:layout_margin="10dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/all_finish"
+        android:textSize="24sp"
+        android:layout_margin="20dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tip_init"
+        android:gravity="center"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/finish_tv_version"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_margin="2dp" />
 
-</FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/finish_tv_ota"
+        android:gravity="center"
+        android:layout_margin="2dp" />
+
+
+</LinearLayout>

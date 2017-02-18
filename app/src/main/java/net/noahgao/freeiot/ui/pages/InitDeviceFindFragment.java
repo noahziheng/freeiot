@@ -116,7 +116,6 @@ public class InitDeviceFindFragment extends Fragment {
 
     class WifiReceiver extends BroadcastReceiver {
         public void onReceive(Context c, Intent intent) {
-            mWifi.setWifiList();
             listWifi = mWifi.getWifiList();
             if(listWifi.size() == 0)
                 DialogUtil.showSingleDialog(getActivity(), "警告", "设备寻找出错，是否存在以下问题：\n1.您的周围没有任何Wifi热点\n2.Android M（6.0）以上用户需打开位置开关并给予相应权限", "确定", new DialogInterface.OnClickListener() {
@@ -235,6 +234,5 @@ public class InitDeviceFindFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
         void onReadyForNext();
-        void onReadyForFinish();
     }
 }

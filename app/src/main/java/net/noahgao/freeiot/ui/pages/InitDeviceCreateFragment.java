@@ -141,6 +141,5 @@ public class InitDeviceCreateFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
         void onReadyForNext();
-        void onReadyForFinish();
     }
 }

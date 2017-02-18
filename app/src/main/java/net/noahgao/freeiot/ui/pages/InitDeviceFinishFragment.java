@@ -1,14 +1,19 @@
 package net.noahgao.freeiot.ui.pages;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import net.noahgao.freeiot.R;
+import net.noahgao.freeiot.model.WifiResultModel;
+import net.noahgao.freeiot.ui.InitDeviceActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,14 +24,6 @@ import net.noahgao.freeiot.R;
  * create an instance of this fragment.
  */
 public class InitDeviceFinishFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,23 +37,13 @@ public class InitDeviceFinishFragment extends Fragment {
      *
      * @return A new instance of fragment InitDeviceFinishFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static InitDeviceFinishFragment newInstance() {
-        InitDeviceFinishFragment fragment = new InitDeviceFinishFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, "");
-        args.putString(ARG_PARAM2, "");
-        fragment.setArguments(args);
-        return fragment;
+        return new InitDeviceFinishFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -66,11 +53,16 @@ public class InitDeviceFinishFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_init_device_finish, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        WifiResultModel mResult = ((InitDeviceActivity) getActivity()).getmResult();
+        ((TextView) view.findViewById(R.id.finish_tv_ota)).setText("设备固件OTA支持：");
+        ((TextView) view.findViewById(R.id.finish_tv_version)).setText("FreeIOT固件版本：v"+ mResult.getVersion());
+        if(!mResult.isOtaSupport()) ((TextView) view.findViewById(R.id.finish_tv_ota)).append("不支持");
+        else ((TextView) view.findViewById(R.id.finish_tv_ota)).append("支持");
+        mListener.onReadyForFinish();
     }
 
     @Override
@@ -102,7 +94,6 @@ public class InitDeviceFinishFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
-        void onReadyForNext();
         void onReadyForFinish();
     }
 }

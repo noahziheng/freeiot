@@ -21,6 +21,8 @@ public class WifiResultModel extends Model {
     private String device;
     private String deviceName;
     private String deviceSecret;
+    private String version;
+    private boolean otaSupport;
     private boolean isSelected = false;
 
     public WifiResultModel (@Nullable String product) throws IOException {
@@ -88,5 +90,21 @@ public class WifiResultModel extends Model {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public boolean isOtaSupport() {
+        return otaSupport;
+    }
+
+    public void setOtaSupport(boolean otaSupport) {
+        this.otaSupport = otaSupport;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

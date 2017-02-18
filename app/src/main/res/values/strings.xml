@@ -65,4 +65,6 @@
     <string name="input_wifi_password">请填入WiFi密码：</string>
     <string name="connect_device">连接设备</string>
     <string name="edit">更改</string>
+    <string name="all_finish">所有操作均已完成！</string>
+    <string name="tip_init">将设备断开电源后重新接通即可使设备正式接入FreeIOT网络，尽情享受物联时代吧！</string>
 </resources>
