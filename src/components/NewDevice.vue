@@ -57,7 +57,8 @@
       <span class="guide-text">错误：当前产品原型未定义</span><br><br>
     </template>
     <template v-if="page === 3">
-      <span class="guide-text">Web版该功能暂未上线</span><br><br>
+      <span class="guide-text">Web版该功能暂未上线,请点击下方链接下载AndroidAPP</span><br><br>
+      <a href="https://fir.im/3b9a">Fir.im通道</a>
     </template>
     <template v-if="page === 4">
       <span class="guide-text">设备入网流程已全部完成</span><br><br>
