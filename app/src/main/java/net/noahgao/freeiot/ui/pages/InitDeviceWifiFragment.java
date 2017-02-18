@@ -62,7 +62,6 @@ public class InitDeviceWifiFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private wifiResultsAdapter mAdapter;
-    private boolean mT=false;
 
     public InitDeviceWifiFragment() {
         // Required empty public constructor
