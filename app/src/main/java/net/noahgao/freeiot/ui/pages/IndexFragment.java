@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2017. Noah Gao <noahgaocn@gmail.com>
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package net.noahgao.freeiot.ui.pages;
 
 import android.content.Context;
@@ -24,7 +40,6 @@ import net.noahgao.freeiot.model.DeviceModel;
 import net.noahgao.freeiot.model.ProductSimpleModel;
 import net.noahgao.freeiot.ui.DeviceActivity;
 import net.noahgao.freeiot.ui.InitDeviceActivity;
-import net.noahgao.freeiot.ui.MainActivity;
 import net.noahgao.freeiot.util.Auth;
 
 import java.util.ArrayList;
@@ -42,6 +57,7 @@ import retrofit2.Response;
  * Use the {@link IndexFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@SuppressWarnings("unused")
 public class IndexFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;

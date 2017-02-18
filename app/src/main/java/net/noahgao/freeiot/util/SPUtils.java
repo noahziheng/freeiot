@@ -13,6 +13,7 @@ import java.util.Map;
  * 时间: 2016/11/18
  * 功能描述: Sp存储工具类
  */
+@SuppressWarnings("unused")
 public class SPUtils {
     /**
      * 保存在手机里面的文件名
