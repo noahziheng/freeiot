@@ -15,8 +15,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 获取设备信息 -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- *Need Runtime* -->
 
 
@@ -99,6 +99,8 @@
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="${BUG_HD_SDK_GENERAL_KEY}" />
+
+        <activity android:name=".ui.AboutActivity"></activity>
     </application>
 
 </manifest>

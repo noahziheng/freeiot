@@ -110,7 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
                     UpdateManager.doUpdate(getActivity());
                     break;
                 case KEY_ABOUT:
-                    //intent = new Intent(getActivity(), AboutActivity.class);
+                    startActivity(new Intent(getActivity(), AboutActivity.class));
                     break;
                 case KEY_LOGOUT:
                     this.logout();

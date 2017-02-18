@@ -61,7 +61,7 @@ public class InitializeActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.splash);
-        PackageInfo packageInfo = null;
+        PackageInfo packageInfo;
         try {
             packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             ((TextView) findViewById(R.id.tv_version)).setText(packageInfo.versionName + "." + packageInfo.versionCode);
