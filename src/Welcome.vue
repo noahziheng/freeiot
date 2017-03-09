@@ -18,7 +18,7 @@
         </h1>
         <div class="mu-banner-actions">
           <mu-raised-button label="进入控制台" href="/dashboard" class="mu-banner-button"/>
-          <mu-raised-button label="查看文档" href="/docs" primary/>
+          <mu-raised-button label="查看文档" href="http://doc.iot.noahgao.net" primary/>
         </div>
       </div>
       <div class="mu-banner-appbar-height"></div>

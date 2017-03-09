@@ -59,7 +59,7 @@ export default {
       })
     },
     goToDoc () {
-      location.href = '//doc.iot.noahgao.net'
+      location.href = 'http://doc.iot.noahgao.net'
     },
     sortUpdate (a, b) {
       if (a.updated_at < b.updated_at) {
