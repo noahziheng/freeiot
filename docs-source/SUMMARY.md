@@ -16,3 +16,4 @@
 * [协助开发](contribute/README.md)
   - [API文档](contribute/api.md)
   - [模块补完计划](contribute/newmod.md)
+  - [自部署指南](contribute/install.md)
