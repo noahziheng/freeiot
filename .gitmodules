@@ -9,4 +9,4 @@
 	url = https://github.com/noahziheng/freeiot-esp8266.git
 [submodule "android"]
 	path = android
-	url = https://github.com/noahziheng/freeiot-android.git
+	url = git@github.com:noahziheng/freeiot-android.git
