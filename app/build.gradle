@@ -1,16 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'im.fir.plugin.gradle'
-
-fir {
-    apiToken FIR_API_TOKEN
-    changeLog '默认更新日志'
-}
-
-//可选 如需实现自动上传符号表到 BugHD 功能，为必填项
-bughd {
-    projectId BUG_HD_PRODUCT_ID
-    apiToken BUGHD_API_TOKEN
-}
 
 android {
     compileSdkVersion 25
