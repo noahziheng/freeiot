@@ -1,7 +1,7 @@
 # FreeIOT
 > English documention on the way,but we only provide chinese version now.
 
-FreeIOT是一个自由、开源的物联网开发套件/平台，项目致力于提高物联网开发者的开发体验，降低物联网设备的开发门槛，将在保证性能的前提下提供最优的体验。本项目是套件中的标准客户端-Android
+FreeIOT是一个自由、开源的物联网开发套件/平台，项目致力于提高物联网开发者的开发体验，降低物联网设备的开发门槛，将在保证性能的前提下提供最优的体验。
 
 ## 线上地址
 - 主页：[https://iot.noahgao.net](https://iot.noahgao.net)
