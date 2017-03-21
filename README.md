@@ -9,7 +9,7 @@ FreeIOT是一个自由、开源的物联网开发套件/平台，项目致力于
 - 文档：[http://doc.iot.noahgao.net](http://doc.iot.noahgao.net)
 
 ## 项目说明
-> 本项目是FreeIOT的API服务端项目。
+> 本项目是FreeIOT的cAPI服务端项目。
 
 本项目使用[![generator-api](https://img.shields.io/badge/built%20with-generator--api-green.svg)](https://github.com/ndelvalle/generator-api)开发
 
