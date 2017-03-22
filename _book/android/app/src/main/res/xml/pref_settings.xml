@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017. Noah Gao <noahgaocn@gmail.com>
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="消息">
+        <Preference
+            android:title="消息设置"
+            app:key="key_notification_settings"
+            app:widgetLayout="@layout/preference_arrow_right" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="账号">
+        <Preference
+            android:title="账号与安全"
+            app:key="key_account"
+            app:widgetLayout="@layout/preference_arrow_right" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="其他">
+        <Preference
+            android:title="意见反馈"
+            app:key="key_feedback"
+            app:widgetLayout="@layout/preference_arrow_right" />
+        <Preference
+            android:title="检测更新"
+            app:key="key_update"
+            app:widgetLayout="@layout/preference_arrow_right" />
+        <Preference
+            android:title="关于我们"
+            app:key="key_about"
+            app:widgetLayout="@layout/preference_arrow_right" />
+        <Preference
+            android:title="退出登录"
+            app:key="key_logout" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

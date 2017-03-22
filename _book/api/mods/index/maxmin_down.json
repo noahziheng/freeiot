@@ -1,0 +1,167 @@
+{
+  "name":"上下限阈值控制器",
+  "vars": [
+    {
+      "remark": "上限数据点",
+      "content": [
+        {
+          "label": "name_h",
+          "type": "text",
+          "remark": "上限名称"
+        },
+        {
+          "label": "label_h",
+          "type": "text",
+          "remark": "上限上传标志"
+        },
+        {
+          "label": "controll_default_h",
+          "type": "text",
+          "remark": "开机默认值"
+        },
+        {
+          "label": "controll_max_h",
+          "type": "number",
+          "remark": "上限最大值",
+          "default": -1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "controll_min_h",
+          "type": "number",
+          "remark": "上限最小值",
+          "default": -1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "controll_step_h",
+          "type": "number",
+          "remark": "上限控制点步长",
+          "default": 1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "format_type_h",
+          "type": "select",
+          "remark": "上限格式类型",
+          "vars": ["int", "float", "boolean", "string"]
+        },
+        {
+          "label": "format_unit_h",
+          "type": "text",
+          "remark": "上限单位"
+        },
+        {
+          "label": "format_round_h",
+          "type": "number",
+          "remark": "上限小数点后数字位数(仅float类型生效)",
+          "default": 0,
+          "vars": {
+            "max": 9,
+            "min": 1,
+            "step": 1
+          }
+        }
+      ]
+    },
+    {
+      "remark": "下限数据点",
+      "content": [
+        {
+          "label": "name_l",
+          "type": "text",
+          "remark": "下限名称"
+        },
+        {
+          "label": "label_l",
+          "type": "text",
+          "remark": "下限上传标志"
+        },
+        {
+          "label": "controll_default_l",
+          "type": "text",
+          "remark": "开机默认值"
+        },
+        {
+          "label": "controll_max_l",
+          "type": "number",
+          "remark": "下限最大值",
+          "default": -1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "controll_min_l",
+          "type": "number",
+          "remark": "下限最小值",
+          "default": -1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "controll_step_l",
+          "type": "number",
+          "remark": "下限控制点步长",
+          "default": 1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "format_type_l",
+          "type": "select",
+          "remark": "下限格式类型",
+          "vars": ["int", "float", "boolean", "string"]
+        },
+        {
+          "label": "format_unit_l",
+          "type": "text",
+          "remark": "下限单位"
+        },
+        {
+          "label": "format_round_l",
+          "type": "number",
+          "remark": "下限小数点后数字位数(仅float类型生效)",
+          "default": 0,
+          "vars": {
+            "max": 9,
+            "min": 1,
+            "step": 1
+          }
+        }
+      ]
+    }
+  ],
+  "global": [
+    {
+      "label": "driver",
+      "type": "select",
+      "remark": "驱动程序",
+      "default": "simple",
+      "vars": [
+        "simple",
+        "json"
+      ]
+    }
+  ]
+}

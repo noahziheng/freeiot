@@ -1,0 +1,15 @@
+docker run -d --name mongo -v /data/db/mongo:/data/db mongo
+docker run -d -v /data/www/freeiot/api:/app -p 1883:1883 --link mongo:mongo -e MONGO_DB_URI=mongodb://freeiot:12345678@mongo:27017/freeiot-api -e MQTT_DB_URI=mongodb://freeiot:12345678@mongo:27017/mqtt -e VIRTUAL_HOST=api.iot.noahgao.net -e PORT=80 -e LETSENCRYPT_HOST=api.iot.noahgao.net -e LETSENCRYPT_EMAIL=noahgaocn@gmail.com --name freeiot-api daocloud.io/noahziheng/freeiot-api npm start
+docker run --name freeiot-web -v /data/www/freeiot/web/dist:/usr/share/nginx/html:ro -v /data/www/freeiot/web/default.conf:/etc/nginx/conf.d/default.conf:ro -e VIRTUAL_HOST=iot.noahgao.net -e LETSENCRYPT_HOST=iot.noahgao.net -e LETSENCRYPT_EMAIL=noahgaocn@gmail.com -d nginx:alpine
+docker run --name mongo -d -v /data/db/mongo:/data/db mongo --auth
+docker run --name freeiot-ota -v /data/www/freeiot/ota:/usr/share/nginx/html:ro -p 5000:80 -d nginx:alpine
+
+docker exec -it mongo mongo admin
+db.createUser({ user: 'freeiot', pwd: 'some-password', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+db.createUser({ user: 'freeiot', pwd: 'some-password', roles: [ { role: "readWrite", db: "freeiot-api" } ] });
+db.createUser({ user: 'freeiot', pwd: 'some-password', roles: [ { role: "readWrite", db: "mqtt" } ] });
+
+db.auth('freeiot','some-password');
+
+//dev 
+docker run -d -v /home/noah/Code/freeiot/api:/app -p 1883:1883 --link mongo:mongo -e MONGO_DB_URI=mongodb://freeiot:ertgvf579634@mongo:27017/freeiot-api -e MQTT_DB_URI=mongodb://freeiot:ertgvf579634@mongo:27017/mqtt -p 80:80 -e PORT=80 --name freeiot-api daocloud.io/noahziheng/freeiot-api npm start

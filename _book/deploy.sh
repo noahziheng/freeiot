@@ -1,0 +1,1 @@
+ssh root@115.28.43.98 "rm -rf /data/www/freeiot/ota/*" ; scp -r ./ota/* root@115.28.43.98:/data/www/freeiot/ota/

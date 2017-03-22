@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  web:
+    command: npm start
+    image: daocloud.io/noahziheng/freeiot-api
+    volumes:
+      - ./api:/app
+    ports:
+      - "1883:1883"
+    expose:
+      - "80"
+    links:
+      - mongo
+    environment:
+      - MONGO_DB_URI=mongodb://mongo:27017/freeiot-api
+      - MQTT_DB_URI=mongodb://mongo:27017/mqtt
+      - VIRTUAL_HOST=api.iot.noahgao.net
+      - LETSENCRYPT_HOST=api.iot.noahgao.net
+      - LETSENCRYPT_EMAIL=noahgaocn@gmail.com
+      - NODE_ENV=production
+
+
+  mongo:
+    image: mongo
+    expose:
+      - "27017"
+    volumes:
+      - /data/db/mongo-freeiot:/data/db
