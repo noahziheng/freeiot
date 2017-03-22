@@ -16,7 +16,7 @@
 * [嵌入式客户端](firmware/README.md)
   - [概述](firmware/main.md)
   - [FreeIOT Firmware](firmware/firmware.md)
-    - [ESP8266 Firmware](firmware/esp8266.md)
+    - [ESP8266](firmware/esp8266.md)
 * [常见问题解答(FAQ)](faq.md)
   - [Web客户端常见问题](faq.md#web)
   - [Android客户端常见问题](faq.md#android)
