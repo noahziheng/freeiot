@@ -1,4 +1,4 @@
-# FreeIOT ESP8266 Firmware
+# FreeIOT Firmware For ESP8266
 > English documention on the way,but we only provide chinese version now.
 
 FreeIOT是一个自由、开源的物联网开发套件/平台，项目致力于提高物联网开发者的开发体验，降低物联网设备的开发门槛，将在保证性能的前提下提供最优的体验。本项目是套件中的嵌入式客户端-ESP8266 Firmware
@@ -18,7 +18,7 @@ FreeIOT是一个自由、开源的物联网开发套件/平台，项目致力于
 - [FreeIOT API](https://github.com/noahziheng/freeiot-api)
 - [FreeIOT Web](https://github.com/noahziheng/freeiot-web)
 - [FreeIOT Android](https://github.com/noahziheng/freeiot-android)
-- [FreeIOT ESP8266](https://github.com/noahziheng/freeiot-esp8266)
+- [FreeIOT Firmware For ESP8266](https://github.com/noahziheng/freeiot-esp8266)
 
 ## 捐赠
 
