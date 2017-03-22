@@ -11,7 +11,7 @@
     <mu-list-item v-if="$store.state.user.role === 3" href="/useradmin" title="用户管理面板"/>
     <mu-list-item href="http://doc.iot.noahgao.net" title="文档"/>
     <mu-list-item href="//fir.im/3b9a" title="Android客户端"/>
-    <mu-list-item href="//doc.iot.noahgao.net" title="ESP8266 Firmware"/>
+    <mu-list-item href="http://doc.iot.noahgao.net/firmware/firmware.html" title="FreeIOT Firmware"/>
   </mu-list>
   <mu-divider/>
   <mu-sub-header>友情链接</mu-sub-header>
