@@ -19,8 +19,6 @@ const httpserver = require('http').Server(app)
 const io = require('socket.io')(httpserver)
 const mosca = require('mosca')
 
-const schedule = require('node-schedule')
-
 mongoose.Promise = bluebird
 mongoose.connect(config.mongo.url)
 
@@ -65,7 +63,6 @@ app.use(jwt({ secret: config.key.jwt,
       return next()
     }
   })
-
 
 // Run
 const server = new mosca.Server(config.mqtt)   // here we start mosca

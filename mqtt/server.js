@@ -30,71 +30,74 @@ class MsgServer {
     console.log('clean Action Finished:' + new Date())
     const clientMeta = client.id.split('/')
     console.log(clientMeta[1] + ' Request add')
-    const clientWillMeta = client.will.payload.toString().split('/')
-    console.log(clientWillMeta[0] + ' has secret ' + clientWillMeta[1])
-    if (clientMeta[1] === clientWillMeta[0]) {
-      for (let e in this.devices) {
-        if (this.devices[e]._id === clientWillMeta[0]) {
-          var f = true
-          console.log(clientWillMeta[0] + ' is in the list')
-          break
+    if (!client.will || !clientMeta[1]) client.close()
+    else {
+      const clientWillMeta = client.will.payload.toString().split('/')
+      console.log(clientWillMeta[0] + ' has secret ' + clientWillMeta[1])
+      if (clientMeta[1] === clientWillMeta[0]) {
+        for (let e in this.devices) {
+          if (this.devices[e]._id === clientWillMeta[0]) {
+            var f = true
+            console.log(clientWillMeta[0] + ' is in the list')
+            break
+          }
         }
-      }
-      if (!f) {
-        deviceFacade.findById(clientWillMeta[0]).select('product owner secret status').populate('product').populate('owner').exec().then(doc => {
-          if (doc === null) {
-            console.log('Cannot found ' + clientWillMeta[0] + ',removed')
-            client.close()
-          } else {
-            if (doc.secret === clientWillMeta[1]) {
-              let e = this.devices.push(doc) - 1
-              let modsP = []
-              for (let i in this.devices[e].product.mods) {
-                if (typeof this.devices[e].product.mods[i].origin === 'string') {
-                  let t = modtool(this.devices[e].product.mods[i].origin, this.devices[e].product.mods[i].vars, this.devices[e].product.mods[i].hidden.toBSON())
-                  if (t.downlink) {
-                    for (let i in t.downlink) {
-                      if (t.downlink[i].controll.default) {
-                        let driver = require('../mods/drivers/' + t.driver + '.js')
-                        let message = {
-                          topic: clientWillMeta[0] + '-d',
-                          payload: '',
-                          qos: 0,
-                          retain: false
+        if (!f) {
+          deviceFacade.findById(clientWillMeta[0]).select('product owner secret status').populate('product').populate('owner').exec().then(doc => {
+            if (doc === null) {
+              console.log('Cannot found ' + clientWillMeta[0] + ',removed')
+              client.close()
+            } else {
+              if (doc.secret === clientWillMeta[1]) {
+                let e = this.devices.push(doc) - 1
+                let modsP = []
+                for (let i in this.devices[e].product.mods) {
+                  if (typeof this.devices[e].product.mods[i].origin === 'string') {
+                    let t = modtool(this.devices[e].product.mods[i].origin, this.devices[e].product.mods[i].vars, this.devices[e].product.mods[i].hidden.toBSON())
+                    if (t.downlink) {
+                      for (let i in t.downlink) {
+                        if (t.downlink[i].controll.default) {
+                          let driver = require('../mods/drivers/' + t.driver + '.js')
+                          let message = {
+                            topic: clientWillMeta[0] + '-d',
+                            payload: '',
+                            qos: 0,
+                            retain: false
+                          }
+                          message.payload = driver.encode({'t.downlink[i].label': t.downlink[i].controll.default})
+                          client.server.publish(message)
                         }
-                        message.payload = driver.encode({'t.downlink[i].label': t.downlink[i].controll.default})
-                        client.server.publish(message)
                       }
                     }
+                    modsP.push(t)
                   }
-                  modsP.push(t)
                 }
+                this.mods[e] = modsP
+                let obj = {
+                  type: 3, // 0-上行报告 1-下行指令
+                  device: clientWillMeta[0],
+                  label: 'SYS',
+                  content: 'online'
+                }
+                dataFacade.create(obj).then(doc => {
+                  this.io.emit(clientWillMeta[0] + '-web', doc)
+                })
+                doc.status = 3
+                doc.save()
+              } else {
+                console.log(clientWillMeta[0] + '\'s secret is wrong')
+                client.close()
               }
-              this.mods[e] = modsP
-              let obj = {
-                type: 3, // 0-上行报告 1-下行指令
-                device: clientWillMeta[0],
-                label: 'SYS',
-                content: 'online'
-              }
-              dataFacade.create(obj).then(doc => {
-                this.io.emit(clientWillMeta[0] + '-web', doc)
-              })
-              doc.status = 3
-              doc.save()
-            } else {
-              console.log(clientWillMeta[0] + '\'s secret is wrong')
-              client.close()
             }
-          }
-        }).catch(err => {
-          console.error(err.message)
-          client.close()
-        })
+          }).catch(err => {
+            console.error(err.message)
+            client.close()
+          })
+        }
+      } else {
+        console.log(clientWillMeta[0] + ' have a wrong will')
+        client.close()
       }
-    } else {
-      console.log(clientWillMeta[0] + ' have a wrong will')
-      client.close()
     }
   }
 
