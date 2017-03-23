@@ -1,1 +1,0 @@
-docker run --name freeiot-web -v ./dist:/usr/share/nginx/html:ro -e "VIRTUAL_HOST=noahgao.net,www.noahgao.net" -e "LETSENCRYPT_HOST=noahgao.net,www.noahgao.net" -e "LETSENCRYPT_EMAIL=noahgaocn@gmail.com" -d nginx
