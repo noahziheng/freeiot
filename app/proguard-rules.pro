@@ -15,6 +15,15 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--libraryjars libs/pgyer_sdk_x.x.jar
--dontwarn com.pgyersdk.**
--keep class com.pgyersdk.** { *; }
+
+# ProGuard configurations for Bugtags
+-keepattributes LineNumberTable,SourceFile
+
+-keep class com.bugtags.library.** {*;}
+-dontwarn com.bugtags.library.**
+-keep class io.bugtags.** {*;}
+-dontwarn io.bugtags.**
+-dontwarn org.apache.http.**
+-dontwarn android.net.http.AndroidHttpClient
+
+# End Bugtags

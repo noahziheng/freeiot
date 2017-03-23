@@ -16,10 +16,10 @@
 
 package net.noahgao.freeiot.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductActivity extends AppCompatActivity {
+public class ProductActivity extends BaseActivity {
 
     private ProductModel<UserModel> product;
 
@@ -53,6 +53,7 @@ public class ProductActivity extends AppCompatActivity {
 
         Call<ProductModel<UserModel>> call = ApiClient.API.getProduct(getIntent().getStringExtra("id"), Auth.getToken());
         call.enqueue(new Callback<ProductModel<UserModel>>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<ProductModel<UserModel>> call, Response<ProductModel<UserModel>> response) {
                 if(response.isSuccessful()) {

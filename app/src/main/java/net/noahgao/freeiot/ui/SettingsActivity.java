@@ -16,21 +16,26 @@
 
 package net.noahgao.freeiot.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v14.preference.PreferenceFragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import com.bugtags.library.Bugtags;
 
 import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.util.Auth;
+import net.noahgao.freeiot.util.DialogUtil;
 import net.noahgao.freeiot.util.UpdateManager;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +96,28 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(new Intent(getActivity(), AccountActivity.class));
                     break;
                 case KEY_FEEDBACK:
+                    DialogUtil.showDoubleDialog(getActivity(), "意见反馈", "如您遇到了BUG，请在事发页面摇一摇手机，即可截图反馈～", "我有建议", "好的", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            final EditText t = new EditText(getActivity());
+                            t.setSingleLine(false);
+                            t.setMaxLines(5);
+                            new AlertDialog.Builder(getActivity()).setTitle("请输入")
+                                    .setView(t)
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            Bugtags.sendFeedback(t.getText().toString());
+                                            DialogUtil.showSingleDialog(getActivity(),"完成",null,"确定",null);
+                                        }
+                                    })
+                                    .setNegativeButton("取消", null)
+                                    .show();
+                        }
+                    });
+                    /*
                     Intent email = new Intent(Intent.ACTION_SEND);
                     email.setType("message/rfc822");
                     email.putExtra(Intent.EXTRA_EMAIL, new String[] {"noahgaocn@outlook.com"});
@@ -105,7 +132,7 @@ public class SettingsActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     startActivity(Intent.createChooser(email, "请选择您的邮件客户端"));
-                    break;
+                    break;*/
                 case KEY_UPDATE:
                     UpdateManager.doUpdate(getActivity());
                     break;

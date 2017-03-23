@@ -22,7 +22,6 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
@@ -46,8 +45,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.auth0.android.jwt.JWT;
+import com.bugtags.library.Bugtags;
+
 import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.util.Auth;
+import net.noahgao.freeiot.util.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +61,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -80,7 +84,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(Auth.check()) mTurnToMain();
+        if(Auth.check()){
+            if(!new JWT(Auth.getToken()).isExpired(10)) mTurnToMain();
+            else DialogUtil.showSingleDialog(LoginActivity.this,"Token过期","您的身份认证已经到期，请您重新登录!","确定",null);
+        }
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -163,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void mTurnToMain () {
+        Bugtags.setUserData("user", JSON.toJSONString(Auth.getUser()));
         Intent intentLogin= new Intent(LoginActivity.this,MainActivity.class);
         //intentLogin.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//LoginActivity不添加到后退栈
         startActivity(intentLogin);

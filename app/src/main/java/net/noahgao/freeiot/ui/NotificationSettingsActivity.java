@@ -19,7 +19,6 @@ package net.noahgao.freeiot.ui;
 import android.support.v14.preference.PreferenceFragment;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +27,7 @@ import android.view.MenuItem;
 import net.noahgao.freeiot.R;
 import net.noahgao.freeiot.util.Auth;
 
-public class NotificationSettingsActivity extends AppCompatActivity {
+public class NotificationSettingsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -23,6 +23,7 @@ import android.content.pm.PackageManager;
 import android.support.multidex.MultiDex;
 import android.widget.Toast;
 
+import com.bugtags.library.Bugtags;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
@@ -31,7 +32,6 @@ import net.noahgao.freeiot.util.Auth;
 
 import java.net.URISyntaxException;
 
-import im.fir.sdk.FIR;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import okhttp3.OkHttpClient;
@@ -75,8 +75,7 @@ public class MainApplication extends Application {
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
-        FIR.init(this);
-        FIR.sendCrashManually(new Exception("Non-fatal"));
+        Bugtags.start(BuildConfig.BUGTAGS_APP_KEY, this, Bugtags.BTGInvocationEventShake);
 
 
         ApiClient.initialize();

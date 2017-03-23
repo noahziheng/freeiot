@@ -55,7 +55,7 @@ public class DialogUtil {
                 .setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(positive, listener)
-                .setNegativeButton(negative, listener)
+                .setNegativeButton(negative, null)
                 .create();
     }
 }

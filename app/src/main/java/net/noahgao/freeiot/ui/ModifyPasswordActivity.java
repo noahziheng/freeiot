@@ -17,7 +17,6 @@
 package net.noahgao.freeiot.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -32,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ModifyPasswordActivity extends AppCompatActivity {
+public class ModifyPasswordActivity extends BaseActivity {
 
     private EditText mEdtOldPassword;
     private EditText mEdtNewPassword;

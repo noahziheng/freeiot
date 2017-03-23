@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -42,7 +41,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DeviceActivity extends AppCompatActivity implements DeviceRealtimeFragment.OnFragmentInteractionListener,DeviceHistoryFragment.OnFragmentInteractionListener,DeviceOptionsFragment.OnFragmentInteractionListener {
+public class DeviceActivity extends BaseActivity implements DeviceRealtimeFragment.OnFragmentInteractionListener,DeviceHistoryFragment.OnFragmentInteractionListener,DeviceOptionsFragment.OnFragmentInteractionListener {
 
     public DeviceModel device;
     private devicePageAdapter pagerAdapter;
@@ -87,7 +86,7 @@ public class DeviceActivity extends AppCompatActivity implements DeviceRealtimeF
             @Override
             public void onFailure(Call<DeviceModel> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(DeviceActivity.this,t.getMessage(),Toast.LENGTH_LONG);
+                Toast.makeText(DeviceActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });

@@ -16,13 +16,12 @@
 
 package net.noahgao.freeiot.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import us.feras.mdv.MarkdownView;
 
-public class ReadmeActivity extends AppCompatActivity {
+public class ReadmeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

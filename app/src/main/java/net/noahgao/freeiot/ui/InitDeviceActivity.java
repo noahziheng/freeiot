@@ -22,7 +22,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +41,7 @@ import net.noahgao.freeiot.util.WifiAdmin;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InitDeviceActivity extends AppCompatActivity implements
+public class InitDeviceActivity extends BaseActivity implements
         InitDeviceFindFragment.OnFragmentInteractionListener,
         InitDeviceWifiFragment.OnFragmentInteractionListener,
         InitDeviceCreateFragment.OnFragmentInteractionListener,
