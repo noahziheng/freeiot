@@ -19,13 +19,13 @@ class DataModel extends Model {
         if (m.uplink) {
           for (let i in m.uplink) {
             con.label = m.uplink[i].label
-            t.push(super.findOne(con))
+            t.push(super.findOne(con)).sort({created_at: 'descending'})
           }
         }
         if (m.downlink) {
           for (let i in m.downlink) {
             con.label = m.downlink[i].label
-            t.push(super.findOne(con))
+            t.push(super.findOne(con)).sort({created_at: 'descending'})
           }
         }
       }
