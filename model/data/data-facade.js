@@ -16,13 +16,13 @@ class DataModel extends Model {
       let t = []
       for (let p in device.product.mods.toBSON()) {
         let m = modtool(device.product.mods[p].origin, device.product.mods[p].vars)
-        if(m.uplink) {
+        if (m.uplink) {
           for (let i in m.uplink) {
             con.label = m.uplink[i].label
             t.push(super.findOne(con))
           }
         }
-        if(m.downlink) {
+        if (m.downlink) {
           for (let i in m.downlink) {
             con.label = m.downlink[i].label
             t.push(super.findOne(con))
