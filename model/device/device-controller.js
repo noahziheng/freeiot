@@ -11,6 +11,7 @@ class DeviceController extends Controller {
       if (!doc) { return res.status(404).end() }
       if (!req.params.datalimit) req.params.datalimit = 0
       dataFacade.getDatas(req.params.id, req.params.datalimit, doc).then(datas => {
+        datas = datas.filter((n) => (n !== undefined) && (n !== null))
         let result = {meta: { device: doc, datalimit: req.params.datalimit }, data: datas}
         if (req.user.role === 3 || doc.owner._id === req.user.id || doc.product.owner._id === req.user.id) {
           this.facade.getSecret(req.params.id).then(r => {
