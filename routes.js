@@ -6,13 +6,13 @@ const product = require('./model/product/product-router')
 const device = require('./model/device/device-router')
 const mod = require('./model/mod/mod-router')
 
-const config = require('./config')
+const config = require('./version.json')
 
 router.route('/').get((req, res) => {
   res.json({
     message: 'Welcome to FreeIOT API!',
-    version: config.version,
-    build_version: config.build_version
+    version: 'v' + config.version,
+    build_version: config.build
   })
 })
 
