@@ -74,6 +74,7 @@
             按数据提交时间查询：
           </mu-sub-header>
           <mu-select-field v-model="datalimit" @change="handleDatalimit">
+            <mu-menu-item :value="-1" title="最近一次数据"/>
             <mu-menu-item :value="1" title="1小时内"/>
             <mu-menu-item :value="2" title="2小时内"/>
             <mu-menu-item :value="3" title="3小时内"/>
@@ -166,7 +167,7 @@ export default {
           owner: ''
         }
       },
-      datalimit: 1,
+      datalimit: -1,
       toast: false,
       toastMsg: '',
       tmp_label: '',
@@ -286,7 +287,7 @@ export default {
       this.tabValue = value
     },
     getDevice () {
-      fetch(this.$root.apiurl + '/device/' + this.$route.params.id + '/' + this.datalimit + '?token=' + this.user.token).then(res => res.json()).then(json => {
+      fetch(this.$root.apiurl + '/device/' + this.$route.params.id + (this.datalimit !== -1 ? '/' + this.datalimit : '') + '?token=' + this.user.token).then(res => res.json()).then(json => {
         if (json.msg !== undefined) this.$store.commit('error', '查询失败（ ' + json.msg + ' ）')
         else {
           fetch(this.$root.apiurl + '/user/' + json.meta.device.product.owner + '?token=' + this.user.token).then(res => res.json()).then(newjson => {
