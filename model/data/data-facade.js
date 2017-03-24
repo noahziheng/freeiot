@@ -4,7 +4,9 @@ const modtool = require('../../mods/tool')
 
 class DataModel extends Model {
   getDatas (id, datalimit, device) {
-    let con = { device: id }
+    let con = {
+      device: id
+    }
     let timestamp = new Date().getTime()
     if (datalimit !== 0) {
       con.created_at = {
@@ -19,13 +21,13 @@ class DataModel extends Model {
         if (m.uplink) {
           for (let i in m.uplink) {
             con.label = m.uplink[i].label
-            t.push(super.findOne(con)).sort({created_at: 'descending'})
+            t.push(this.Schema.findOne(con).sort({created_at: 'descending'}).exec())
           }
         }
         if (m.downlink) {
           for (let i in m.downlink) {
             con.label = m.downlink[i].label
-            t.push(super.findOne(con)).sort({created_at: 'descending'})
+            t.push(this.Schema.findOne(con).sort({created_at: 'descending'}).exec())
           }
         }
       }
