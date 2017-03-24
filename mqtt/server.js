@@ -4,6 +4,7 @@
  * Author Noah Gao
  */
 const deviceFacade = require('../model/device/device-schema')
+const lib = require('./lib')
 const dataFacade = require('../model/data/data-facade')
 const modtool = require('../mods/tool')
 
@@ -18,6 +19,7 @@ class MsgServer {
   }
 
   setup () {
+    lib.setup(this.io)
     console.log('FreeIOT MQTT Server Daemon is up and running')
   }
 
@@ -129,10 +131,10 @@ class MsgServer {
             let data = []
             let types = []
             for (let i in this.mods[e]) {
-              let t = this.parser('uplink', this.mods[e][i], packet.payload.toString())
-              if (this.isEmptyObject(t)) {
-                t = this.parser('downlink', this.mods[e][i], packet.payload.toString())
-                if (!this.isEmptyObject(t)) types[data.push(t) - 1] = 2
+              let t = lib.parser('uplink', this.mods[e][i], packet.payload.toString())
+              if (lib.isEmptyObject(t)) {
+                t = lib.parser('downlink', this.mods[e][i], packet.payload.toString())
+                if (!lib.isEmptyObject(t)) types[data.push(t) - 1] = 2
               } else {
                 types[data.push(t) - 1] = 0
               }
@@ -157,18 +159,6 @@ class MsgServer {
       default:
         break
     }
-  }
-
-  parser (type, mod, data) {
-    const driver = require('../mods/drivers/' + mod.driver + '.js')
-    return driver.parse(type, mod, data)
-  }
-
-  isEmptyObject (obj) {
-    for (let i in obj) {
-      return false
-    }
-    return true
   }
 }
 

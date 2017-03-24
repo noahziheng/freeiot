@@ -9,10 +9,8 @@ class DeviceController extends Controller {
     return this.facade.findById(req.params.id)
     .then(doc => {
       if (!doc) { return res.status(404).end() }
-      if (!req.params.datalimit) req.params.datalimit = 1
-      let timestamp = new Date().getTime()
-      let con = {device: req.params.id, created_at: {'$gte': new Date(timestamp - req.params.datalimit * 60 * 60 * 1000), '$lt': new Date()}}
-      dataFacade.find(con).then(datas => {
+      if (!req.params.datalimit) req.params.datalimit = 0
+      dataFacade.getDatas(req.params.id, req.params.datalimit, doc).then(datas => {
         let result = {meta: { device: doc, datalimit: req.params.datalimit }, data: datas}
         if (req.user.role === 3 || doc.owner._id === req.user.id || doc.product.owner._id === req.user.id) {
           this.facade.getSecret(req.params.id).then(r => {
