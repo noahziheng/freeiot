@@ -36,7 +36,7 @@ app.use(jwt({ secret: config.key.jwt,
       return t
     }
     return null
-  } }).unless({ path: ['/', '/user/auth', '/mod', { url: /^\/mod\/.*/, methods: 'POST' }, { url: '/user', methods: 'POST' }] }), // 首页、用户鉴权及注册不受JWT保护
+  } }).unless({ path: ['/', '/user/auth', '/mod', { url: /^\/mod\/.*/, methods: 'POST' }, { url: /^\/user\/finish\/.*/, methods: 'POST' }, { url: '/user', methods: 'POST' }] }), // 首页、用户鉴权及注册不受JWT保护
   (err, req, res, next) => {
     // Error handler(Global in Routes)
     // Check JWT's UnauthorizedError mainly
