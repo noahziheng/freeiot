@@ -17,6 +17,10 @@
       </mu-col>
       <mu-col width="0" tablet="0" desktop="35"></mu-col>
     </mu-row>
+    <mu-dialog :open="dialog" title="邮箱验证">
+      验证邮件已发到您的邮箱，请您按邮件内提示进行下一步
+      <mu-flat-button label="确定" slot="actions" @click="close" primary/>
+    </mu-dialog>
   </div>
 </template>
 
@@ -26,7 +30,8 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      dialog: false
     }
   },
   created () {
@@ -55,11 +60,15 @@ export default {
       }).then(json => {
         if (json.msg !== undefined) this.$store.commit('error', '注册失败（ ' + json.msg + ' ）')
         else {
-          this.$store.dispatch('login', {email: this.email, password: this.password})
+          this.dialog = true
+          // this.$store.dispatch('login', {email: this.email, password: this.password})
         }
       }).catch(ex => {
         console.log('parsing failed', ex)
       })
+    },
+    close: function () {
+      this.dialog = false
     }
   }
 }
