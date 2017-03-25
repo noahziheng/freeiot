@@ -347,7 +347,12 @@ export default {
         let finish = {}
         for (let i in this.datas) {
           if (!finish[this.datas[i].label]) {
-            if (this.datas[i] !== undefined && this.datas[i].label !== 'SYS') this.points[this.datas[i].label].content = this.datas[i].content
+            if (this.datas[i] !== undefined && this.points[this.datas[i].label] !== undefined) {
+              if (this.datas[i].content !== undefined && this.datas[i].label !== 'SYS') {
+                if (this.points[this.datas[i].label].format.type === 'boolean') this.datas[i].content = Boolean(this.datas[i].content)
+                this.points[this.datas[i].label].content = this.datas[i].content
+              }
+            }
             finish[this.datas[i].label] = true
           }
         }
@@ -356,10 +361,11 @@ export default {
     initRealtime () {
       this.$options.sockets[this.$route.params.id + '-web'] = (data) => {
         this.datas.push(data)
-        if (data.label !== 'SYS') this.points[data.label].content = data.content
-        else this.showToast(this.getContent(data.content, true))
+        if (data.label !== 'SYS') {
+          if (this.points[data.label].format.type === 'boolean') data.content = Boolean(data.content)
+          this.points[data.label].content = data.content
+        } else this.showToast(this.getContent(data.content, true))
         Vue.set(this, 'datas', this.datas.sort(this.sortCreate))
-        console.log(data)
       }
     },
     viewSecretMethod () {

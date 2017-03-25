@@ -56,7 +56,6 @@ export default {
       this.$store.commit('error', '您的浏览器不支持HTML5特性,可能造成使用不便')
     }
     this.$store.dispatch('getMods')
-    console.log(this.$route)
     if (this.$route.name !== ('login' && 'reg' && 'finish') && (!this.$store.user && !localLogined)) {
       this.$router.push('/login')
     }
