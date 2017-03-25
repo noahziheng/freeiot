@@ -27,7 +27,7 @@ import android.net.wifi.WifiManager;
  * @author ZHF / Ziheng Gao Refactory on 2017.2
  *
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public class WifiAdmin {
     private static  WifiAdmin wifiAdmin = null;
 
@@ -126,6 +126,12 @@ public class WifiAdmin {
             return mWifiManager.disconnect();
         }
         return false;
+    }
+
+    public boolean getWifiState() {
+        final int wifiState = mWifiManager.getWifiState();
+        boolean isEnabled = wifiState == WifiManager.WIFI_STATE_ENABLED;
+        return isEnabled;
     }
 
     /**

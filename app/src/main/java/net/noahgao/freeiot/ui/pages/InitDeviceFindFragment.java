@@ -17,14 +17,11 @@
 package net.noahgao.freeiot.ui.pages;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiManager;
+import android.net.wifi.WifiInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -62,7 +59,6 @@ public class InitDeviceFindFragment extends Fragment {
     private WifiAdmin mWifi;
     private List<ScanResult> listWifi = new ArrayList<>();
     private List<WifiResultModel> listResults = new ArrayList<>();
-    private WifiReceiver receiverWifi;
     private ProgressDialog mProgressDialog;
 
     private View mEmptyView;
@@ -89,9 +85,7 @@ public class InitDeviceFindFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mWifi = WifiAdmin.getInstance(getActivity());
-        receiverWifi = new WifiReceiver();
         mRefreshListener = new refreshListener();
-        initwifi();
     }
 
     public class refreshListener implements View.OnClickListener {
@@ -104,8 +98,38 @@ public class InitDeviceFindFragment extends Fragment {
     public void initwifi() {
         if (mWifi != null) {
             mWifi.OpenWifi();
+            mProgressDialog = ProgressDialog.show(getActivity(),"提示","正在寻找设备");
             if(mWifi.startScan()){
-                mProgressDialog = ProgressDialog.show(getActivity(),"提示","正在寻找设备");
+                boolean t = mWifi.getWifiState();
+                listWifi = mWifi.getWifiList();
+                if(listWifi.size() == 0)
+                    DialogUtil.showSingleDialog(getActivity(), "警告", "设备寻找出错，是否存在以下问题：\n1.您的周围没有任何Wifi热点\n2.Android M（6.0）以上用户需打开位置开关并给予相应权限", "确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            getActivity().finish();
+                        }
+                    });
+                else {
+                    final Handler mHandler = new deviceFindHandler(InitDeviceFindFragment.this);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(mProgressDialog!=null) mProgressDialog.dismiss();
+                            listResults.clear();
+                            for(ScanResult o: listWifi) {
+                                if(o.SSID.startsWith("FIOT_")) {
+                                    try {
+                                        listResults.add(new WifiResultModel(o.SSID.replaceAll("FIOT_","")));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            mHandler.sendEmptyMessage(0);
+                        }
+                    }).start();
+                }
             }
         } else {
             DialogUtil.showSingleDialog(getActivity(), "系统警告", "Wifi状态异常\n入网向导错误101", "确定", new DialogInterface.OnClickListener() {
@@ -115,52 +139,6 @@ public class InitDeviceFindFragment extends Fragment {
                     getActivity().finish();
                 }
             });
-        }
-    }
-
-    @Override
-    public void onPause() {
-        getActivity().unregisterReceiver(receiverWifi);
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        super.onResume();
-    }
-
-    class WifiReceiver extends BroadcastReceiver {
-        public void onReceive(Context c, Intent intent) {
-            listWifi = mWifi.getWifiList();
-            if(listWifi.size() == 0)
-                DialogUtil.showSingleDialog(getActivity(), "警告", "设备寻找出错，是否存在以下问题：\n1.您的周围没有任何Wifi热点\n2.Android M（6.0）以上用户需打开位置开关并给予相应权限", "确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        getActivity().finish();
-                    }
-                });
-            else {
-                final Handler mHandler = new deviceFindHandler(InitDeviceFindFragment.this);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(mProgressDialog!=null) mProgressDialog.dismiss();
-                        listResults.clear();
-                        for(ScanResult o: listWifi) {
-                            if(o.SSID.startsWith("FIOT_")) {
-                                try {
-                                    listResults.add(new WifiResultModel(o.SSID.replaceAll("FIOT_","")));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                        mHandler.sendEmptyMessage(0);
-                    }
-                }).start();
-            }
         }
     }
     public static class deviceFindHandler extends Handler {
@@ -190,6 +168,17 @@ public class InitDeviceFindFragment extends Fragment {
             }
         }
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        initwifi();
+        super.onResume();
     }
 
     @Override
