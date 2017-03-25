@@ -1,0 +1,4 @@
+{
+  "title": "FreeIOT 注册验证邮件",
+  "msg": "您刚刚申请注册了FreeIOT，请点击以下链接继续：<br> <a href=\"https://iot.noahgao.net/user/finish/{{id}}\">https://iot.noahgao.net/user/finish/{{id}}</a>"
+}

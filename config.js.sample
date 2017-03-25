@@ -19,6 +19,10 @@ const config = {
   key: {
     jwt: '',
     pass: ''
+  },
+  mail: {
+    user: 'noreply@noahgao.net', // user name
+    pass: ''         // password
   }
 }
 

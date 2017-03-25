@@ -8,6 +8,8 @@ router.route('/')
 
 router.route('/auth').post((...args) => controller.auth(...args))
 
+router.route('/finish/:id').post((...args) => controller.finish(...args))
+
 router.route('/:id')
   .put((...args) => controller.update(...args))
   .get((...args) => controller.findById(...args))
