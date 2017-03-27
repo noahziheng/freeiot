@@ -90,8 +90,9 @@ class UserController extends Controller {
       doc.finish = ctyptopass()
       doc.save()
       require('../../lib/mail').send(doc.email, 'forgot', {id: doc.finish})
-      doc.finish = undefined
-      return res.status(200).json(doc)
+      let r = doc.toBSON()
+      r.finish = undefined
+      return res.status(200).json(r)
     })
   }
 
