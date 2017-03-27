@@ -16,6 +16,7 @@
 
 package net.noahgao.freeiot.util;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.ArrayMap;
 
@@ -72,7 +73,7 @@ public class Auth {
             mUser = result.body();
             mUser.initUser(null);
             //保存登录状态
-            if(ssharedPref != null) {
+            if(ssharedPref != null && mUser.getRole() != -1) {
                 SharedPreferences.Editor editor = ssharedPref.edit();
                 editor.putString("AUTH", JSON.toJSONString(mUser));
                 editor.apply();
@@ -98,7 +99,6 @@ public class Auth {
         try {
             result = ApiClient.API.reg(email, password).execute();
             if(!result.isSuccessful()) result=null;
-            else result = ApiClient.API.auth(email, password).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }

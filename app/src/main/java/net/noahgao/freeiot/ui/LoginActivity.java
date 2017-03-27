@@ -356,7 +356,8 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             showProgress(false);
 
             if (success) {
-                mTurnToMain();
+                if(Auth.getUser().getRole() != -1) mTurnToMain();
+                else DialogUtil.showSingleDialog(LoginActivity.this,"提示","您是新用户，验证邮件已发到您的邮箱，请按其中提示完成验证后再尝试登录","确定",null);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
