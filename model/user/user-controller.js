@@ -75,6 +75,7 @@ class UserController extends Controller {
       if (req.body.password) {
         if (doc.role !== -1) return res.status(500).json({ msg: 'The E-mail had finish registered!' })
         doc.role = 0
+        doc.finish = undefined
         doc.save()
       }
       return res.status(200).json(doc)
