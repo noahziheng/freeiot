@@ -89,7 +89,7 @@ class UserController extends Controller {
       if (doc.role === -1) return res.status(500).json({ msg: 'The E-mail havn\'t finish registered!' })
       doc.finish = ctyptopass()
       doc.save()
-      require('../../lib/mail').send(doc.email, 'forgot', {id: doc.finish})
+      require('../../lib/mail').send(doc.email, 'forgot', {id: doc.finish, token: jwt.sign({ id: doc._id, email: doc.email, role: doc.role }, config.key.jwt, { expiresIn: '7d' })})
       return res.status(200).json(doc)
     })
   }

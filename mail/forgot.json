@@ -1,4 +1,4 @@
 {
   "title": "FreeIOT 密码重置邮件",
-  "msg": "您刚刚申请重置FreeIOT密码，请点击以下链接继续：<br> <a href=\"https://iot.noahgao.net/user/forgot/{{id}}\">https://iot.noahgao.net/user/forgot/{{id}}</a>"
+  "msg": "您刚刚申请重置FreeIOT密码，请点击以下链接继续：<br> <a href=\"https://iot.noahgao.net/user/forgot/{{id}}/{{token}}\">https://iot.noahgao.net/user/forgot/{{id}}/{{token}}</a>"
 }
