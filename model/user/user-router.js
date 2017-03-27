@@ -9,6 +9,7 @@ router.route('/')
 router.route('/auth').post((...args) => controller.auth(...args))
 
 router.route('/finish/:id').post((...args) => controller.finish(...args))
+router.route('/forgot').post((...args) => controller.forgot(...args))
 
 router.route('/:id')
   .put((...args) => controller.update(...args))

@@ -72,11 +72,24 @@ class UserController extends Controller {
     if (req.body.password) con.password = ctyptopass(req.body.password)
     this.facade.findOne(con).then((doc) => {
       if (!doc) return res.status(500).json({ msg: 'The E-mail don\'t have  register record!' })
-      if (doc.role !== -1) return res.status(500).json({ msg: 'The E-mail had finish registered!' })
       if (req.body.password) {
+        if (doc.role !== -1) return res.status(500).json({ msg: 'The E-mail had finish registered!' })
         doc.role = 0
         doc.save()
       }
+      return res.status(200).json(doc)
+    })
+  }
+
+  forgot (req, res, next) {
+    if (!req.body.email) return res.status(502).json({ msg: 'Bad Request' })
+    let con = {email: req.body.email}
+    this.facade.findOne(con).then((doc) => {
+      if (!doc) return res.status(500).json({ msg: 'The E-mail don\'t have  register record!' })
+      if (doc.role === -1) return res.status(500).json({ msg: 'The E-mail havn\'t finish registered!' })
+      doc.finish = ctyptopass()
+      doc.save()
+      require('../../lib/mail').send(doc.email, 'forgot', {id: doc.finish})
       return res.status(200).json(doc)
     })
   }
