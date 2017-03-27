@@ -12,6 +12,7 @@
           <mu-card-actions>
             <mu-flat-button label="登录" @click="login" primary/>
             <mu-flat-button label="注册" @click="$router.push('/reg')"/>
+            <mu-flat-button label="忘记密码？" style="margin: 12px;" secondary @click="$router.push('/user/forgot')">
           </mu-card-actions>
         </mu-card>
       </mu-col>

@@ -56,13 +56,23 @@ export default {
       this.$store.commit('error', '您的浏览器不支持HTML5特性,可能造成使用不便')
     }
     this.$store.dispatch('getMods')
-    if (this.$route.name !== ('login' && 'reg' && 'finish') && (!this.$store.user && !localLogined)) {
+    if (!this.route_unless() && (!this.$store.user && !localLogined)) {
       this.$router.push('/login')
     }
   },
   methods: {
     drawer_toggle () {
       this.open = !this.open
+    },
+    route_unless () {
+      let a = [
+        'login',
+        'reg',
+        'finish',
+        'forgot',
+        'finishforgot'
+      ]
+      return a.indexOf(this.$route.name) !== -1
     }
   }
 }
