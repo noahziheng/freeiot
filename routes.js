@@ -5,6 +5,7 @@ const user = require('./model/user/user-router')
 const product = require('./model/product/product-router')
 const device = require('./model/device/device-router')
 const mod = require('./model/mod/mod-router')
+const notification = require('./notification/routes')
 
 const config = require('./version.json')
 
@@ -20,5 +21,6 @@ router.use('/user', user)
 router.use('/product', product)
 router.use('/device', device)
 router.use('/mod', mod)
+router.use('/notification', notification)
 
 module.exports = router
