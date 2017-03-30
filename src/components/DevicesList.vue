@@ -17,11 +17,17 @@
           <mu-td>{{ item.name }}</mu-td>
           <mu-td>
             <mu-flat-button labelClass="dev-btn" label="查看" @click="$router.push('/device/' + item._id)" primary/>
-            <mu-flat-button labelClass="dev-btn" label="删除" @click="delete(item._id)" primary/>
+            <mu-flat-button labelClass="dev-btn" label="删除" @click="openDialog(index)" primary/>
           </mu-td>
         </mu-tr>
       </mu-tbody>
     </mu-table>
+    <mu-dialog :open="dialog" title="删除确认">
+      真的要删吗？～
+      <mu-flat-button label="取消" slot="actions" @click="closeDialog" primary/>
+      <mu-flat-button label="确定" slot="actions" @click="deleteItem" primary/>
+    </mu-dialog>
+    <mu-toast v-if="toast" :message="toastMsg" @close="hideToast"/>
   </div>
 </template>
 
@@ -32,6 +38,10 @@ import DeviceStatus from './DeviceStatus'
 export default {
   data () {
     return {
+      dialog: false,
+      deleteIndex: 0,
+      toast: false,
+      toastMsg: '',
       devices: []
     }
   },
@@ -52,6 +62,41 @@ export default {
     })
   },
   methods: {
+    showToast (val) {
+      this.toast = true
+      this.toastMsg = val
+      if (this.toastTimer) clearTimeout(this.toastTimer)
+      this.toastTimer = setTimeout(() => { this.toast = false }, 1200)
+    },
+    hideToast () {
+      this.toast = false
+      this.toastMsg = ''
+      if (this.toastTimer) clearTimeout(this.toastTimer)
+    },
+    openDialog (val) {
+      this.deleteIndex = val
+      this.dialog = true
+    },
+    closeDialog () {
+      this.dialog = false
+    },
+    deleteItem () {
+      console.log(this.devices[this.deleteIndex]._id)
+      fetch(this.$root.apiurl + '/device/' + this.devices[this.deleteIndex]._id + '?token=' + this.user.token, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json()).then(json => {
+        if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
+        else {
+          this.devices.splice(this.deleteIndex, 1)
+          this.closeDialog()
+        }
+      }).catch(ex => {
+        console.log('parsing failed', ex)
+      })
+    },
     sortStatus (a, b) {
       if (a.status < b.status) {
         return 1

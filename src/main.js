@@ -43,7 +43,6 @@ new Vue({
   store,
   router,
   created () {
-    console.log(this.$route)
     if (this.$route.path !== '/') {
       this.app = true
     }
