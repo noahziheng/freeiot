@@ -86,7 +86,10 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
         if(Auth.check()){
             if(!new JWT(Auth.getToken()).isExpired(10)) mTurnToMain();
-            else DialogUtil.showSingleDialog(LoginActivity.this,"Token过期","您的身份认证已经到期，请您重新登录!","确定",null);
+            else {
+                Auth.logout();
+                DialogUtil.showSingleDialog(LoginActivity.this,"Token过期","您的身份认证已经到期，请您重新登录!","确定",null);
+            }
         }
 
         // Set up the login form.
