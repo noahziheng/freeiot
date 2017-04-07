@@ -9,6 +9,7 @@ import Product from './pages/Product'
 import Device from './pages/Device'
 import NewProduct from './pages/NewProduct'
 import UserAdmin from './pages/UserAdmin'
+import Notifications from './pages/Notifications'
 
 const routes = [
   { name: 'dashboard', path: '/dashboard', component: Hello },
@@ -22,6 +23,7 @@ const routes = [
   { name: 'newproduct', path: '/newproduct', component: NewProduct },
   { name: 'editproduct', path: '/newproduct/:id', component: NewProduct },
   { name: 'useradmin', path: '/useradmin', component: UserAdmin },
+  { name: 'notifications', path: '/notifications', component: Notifications },
   { name: 'notfound', path: '*', component: NotFound }
 ]
 export default routes

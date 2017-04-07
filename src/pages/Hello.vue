@@ -34,6 +34,9 @@
             <mu-flat-button label="添加新产品" @click="$router.push('/newproduct')" secondary/>
           </mu-card-actions>
         </mu-card>
+        <mu-card class="hello-card notifications-panel">
+          <Notifications />
+        </mu-card>
       </mu-col>
     </mu-row>
     <mu-dialog :open="dialog" title="添加新设备">
@@ -54,6 +57,7 @@
 import Developer from '../components/Developer'
 import Devices from '../components/Devices'
 import Products from '../components/Products'
+import Notifications from './Notifications'
 
 export default {
   name: 'hello',
@@ -71,7 +75,8 @@ export default {
   components: {
     Developer,
     Devices,
-    Products
+    Products,
+    Notifications
   },
   computed: {
     email: function () {
@@ -171,5 +176,9 @@ export default {
 }
 .hello-tabs .mu-tab-link{
   color: #7e848c;
+}
+.notifications-panel {
+  margin: 1%;
+  text-align: left;
 }
 </style>

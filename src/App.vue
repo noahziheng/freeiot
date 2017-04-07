@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <mu-appbar title="FreeIOT控制台">
+    <mu-appbar title="FreeIOT控制台" v-if="!hide">
       <mu-icon-button icon='menu' slot="left" @click="drawer_toggle()"/>
       <userMenu slot="right"></userMenu>
     </mu-appbar>
-    <app-nav @close="drawer_toggle" :open="open" :docked="docked" />
+    <app-nav @close="drawer_toggle" :open="open" :docked="docked" v-if="!hide" />
     <!-- 路由出口 -->
     <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view></router-view>
@@ -20,7 +20,8 @@ export default {
   data () {
     return {
       open: false,
-      docked: false
+      docked: false,
+      hide: false
     }
   },
   components: {
