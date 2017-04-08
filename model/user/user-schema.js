@@ -26,6 +26,7 @@ const userSchema = new Schema({
   finish: { type: String, unique: true },
   setting: {
     push: {
+      system: { type: Boolean, default: true },
       normal: { type: Boolean, default: true },
       special: { type: Boolean, default: true },
       warning: { type: Boolean, default: true }
