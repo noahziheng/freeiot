@@ -23,9 +23,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import net.noahgao.freeiot.R;
+import net.noahgao.freeiot.api.ApiClient;
+import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.util.Auth;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NotificationSettingsActivity extends BaseActivity {
 
@@ -55,11 +65,11 @@ public class NotificationSettingsActivity extends BaseActivity {
     @SuppressWarnings({"UnusedParameters","unused"})
     public static class NotificationSettingsFragment extends PreferenceFragment {
 
-        private static final String KEY_NOTIFICATION_FOLLOWED   = "key_notification_followed";
-        private static final String KEY_NOTIFICATION_SUBSCRIBED = "key_notification_subscribed";
-        private static final String KEY_NOTIFICATION_UPVOTED    = "key_notification_upvoted";
-        private static final String KEY_NOTIFICATION_COMMENT    = "key_notification_comment";
-        private static final String KEY_NOTIFICATION_MENTION    = "key_notification_mention";
+        private static final String KEY_NOTIFICATION_SYSTEM   = "key_notification_system";
+        private static final String KEY_NOTIFICATION_NORMAL = "key_notification_normal";
+        private static final String KEY_NOTIFICATION_SPECIAL    = "key_notification_special";
+        private static final String KEY_NOTIFICATION_WARNING    = "key_notification_warning";
+        private UserModel.SettingBean.PushSettingBean t = null;
 
 
         @Override
@@ -68,42 +78,61 @@ public class NotificationSettingsActivity extends BaseActivity {
             setHasOptionsMenu(true);
 
             if (Auth.check()) {
-                //TODO: 读取原有通知设置
-                Log.i("TAG","READ PREF");
+                Call<UserModel> call = ApiClient.API.getUser(Auth.getUser().get_id(), Auth.getToken());
+                call.enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        t = response.body().getSetting().getPush();
+                        ((SwitchPreference) findPreference(KEY_NOTIFICATION_SYSTEM)).setChecked(checkNull(t.getSystem()));
+                        ((SwitchPreference) findPreference(KEY_NOTIFICATION_NORMAL)).setChecked(checkNull(t.getNormal()));
+                        ((SwitchPreference) findPreference(KEY_NOTIFICATION_SPECIAL)).setChecked(checkNull(t.getSpecial()));
+                        ((SwitchPreference) findPreference(KEY_NOTIFICATION_WARNING)).setChecked(checkNull(t.getWarning()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        Toast.makeText(getActivity(), "推送设置抓取失败，请检查网络！",Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+                    }
+                });
             }
+        }
+
+        private Boolean checkNull(Boolean t) {
+            if(t == null) return false;
+            else return t;
         }
 
         @Override
         public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
             inflater.inflate(R.menu.menu_save, menu);
-        }
+            menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if(t == null) return false;
+                    UserModel tmp = Auth.getUser();
+                    tmp.initSetting();
+                    t.setSystem(((SwitchPreference) findPreference(KEY_NOTIFICATION_SYSTEM)).isChecked());
+                    t.setNormal(((SwitchPreference) findPreference(KEY_NOTIFICATION_NORMAL)).isChecked());
+                    t.setSpecial(((SwitchPreference) findPreference(KEY_NOTIFICATION_SPECIAL)).isChecked());
+                    t.setWarning(((SwitchPreference) findPreference(KEY_NOTIFICATION_WARNING)).isChecked());
+                    tmp.getSetting().setPush(t);
+                    Call<Object> call = ApiClient.API.modifyPushSetting(Auth.getUser().get_id(), tmp, Auth.getToken());
+                    call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                            Toast.makeText(getActivity(), "保存成功！", Toast.LENGTH_SHORT).show();
+                        }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            if (item.getItemId() == R.id.action_save) {
-                boolean notificationFollowed = ((SwitchPreference) findPreference(KEY_NOTIFICATION_FOLLOWED)).isChecked();
-                boolean notificationSubscribed = ((SwitchPreference) findPreference(KEY_NOTIFICATION_SUBSCRIBED)).isChecked();
-                boolean notificationUpvoted = ((SwitchPreference) findPreference(KEY_NOTIFICATION_UPVOTED)).isChecked();
-                boolean notificationComment = ((SwitchPreference) findPreference(KEY_NOTIFICATION_COMMENT)).isChecked();
-                boolean notificationMention = ((SwitchPreference) findPreference(KEY_NOTIFICATION_MENTION)).isChecked();
-                //TODO: 提交用户通知设置到服务器
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-
-        private boolean isCheckedByKey(String key) {
-            /*key = key.replace("key_", "");
-            if (mUserConfigs == null) {
-                return false;
-            }
-            for (UserConfig userConfig : mUserConfigs) {
-                if (key.equals(userConfig.getKey())) {
-                    return "true".equals(userConfig.getValue());
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                            Toast.makeText(getActivity(), "保存失败！", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return true;
                 }
-            }*/
-            //TODO: 根据设置数组选中对应选项
-            return true;
+            });
+            super.onCreateOptionsMenu(menu,inflater);
         }
     }
 }

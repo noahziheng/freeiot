@@ -19,7 +19,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="消息">
         <Preference
-            android:title="消息设置"
+            android:title="推送设置"
             app:key="key_notification_settings"
             app:widgetLayout="@layout/preference_arrow_right" />
     </PreferenceCategory>

@@ -32,6 +32,7 @@ import net.noahgao.freeiot.util.Auth;
 
 import java.net.URISyntaxException;
 
+import cn.jpush.android.api.JPushInterface;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import okhttp3.OkHttpClient;
@@ -80,6 +81,8 @@ public class MainApplication extends Application {
 
         ApiClient.initialize();
         Auth.initialize(getSharedPreferences("FREEIOT",MODE_PRIVATE));
+        JPushInterface.setDebugMode(false);
+        JPushInterface.init(this);
 
         PackageManager packageManager = getPackageManager();
         try {

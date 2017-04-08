@@ -164,4 +164,74 @@ public class UserModel extends Model {
     public boolean isLoginF() {
         return loginF;
     }
+
+    public class SettingBean {
+        private PushSettingBean push;
+
+        public class PushSettingBean {
+            private Boolean system;
+            private Boolean normal;
+            private Boolean special;
+            private Boolean warning;
+
+            public Boolean getSystem() {
+                return system;
+            }
+
+            public void setSystem(Boolean system) {
+                this.system = system;
+            }
+
+            public Boolean getNormal() {
+                return normal;
+            }
+
+            public void setNormal(Boolean normal) {
+                this.normal = normal;
+            }
+
+            public Boolean getSpecial() {
+                return special;
+            }
+
+            public void setSpecial(Boolean special) {
+                this.special = special;
+            }
+
+            public Boolean getWarning() {
+                return warning;
+            }
+
+            public void setWarning(Boolean warning) {
+                this.warning = warning;
+            }
+        }
+
+        public PushSettingBean getPush() {
+            return push;
+        }
+
+        public void setPush(PushSettingBean push) {
+            this.push = push;
+        }
+
+        public void initPush () {
+            this.push = new PushSettingBean();
+        }
+    }
+
+    private SettingBean setting;
+
+    public SettingBean getSetting() {
+        return setting;
+    }
+
+    public void setSetting(SettingBean setting) {
+        this.setting = setting;
+    }
+
+    public void initSetting() {
+        this.setting = new SettingBean();
+        this.setting.initPush();
+    }
 }

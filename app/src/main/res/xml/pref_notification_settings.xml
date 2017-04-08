@@ -20,20 +20,17 @@
 
     <PreferenceCategory android:title="消息设置">
         <SwitchPreference
-            android:title="有人关注了我"
-            app:key="key_notification_followed" />
+            android:title="系统消息"
+            app:key="key_notification_system" />
         <SwitchPreference
-            android:title="订阅了我的主题"
-            app:key="key_notification_subscribed" />
+            android:title="一般消息"
+            app:key="key_notification_normal" />
         <SwitchPreference
-            android:title="赞了我的文章"
-            app:key="key_notification_upvoted" />
+            android:title="特别消息"
+            app:key="key_notification_special" />
         <SwitchPreference
-            android:title="评论我"
-            app:key="key_notification_comment" />
-        <SwitchPreference
-            android:title="提及我"
-            app:key="key_notification_mention" />
+            android:title="警告消息"
+            app:key="key_notification_warning" />
     </PreferenceCategory>
 
 </PreferenceScreen>

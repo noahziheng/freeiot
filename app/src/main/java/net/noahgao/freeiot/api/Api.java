@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import net.noahgao.freeiot.model.DeviceModel;
 import net.noahgao.freeiot.model.ModModel;
+import net.noahgao.freeiot.model.NotificationMetaModel;
 import net.noahgao.freeiot.model.ProductModel;
 import net.noahgao.freeiot.model.ProductSimpleModel;
 import net.noahgao.freeiot.model.UserModel;
@@ -53,6 +54,9 @@ public interface Api {
     @FormUrlEncoded
     @PUT("/user/{id}")
     Call<Object> modifyPassword(@Path("id") String id, @Field("password") String password,@Query("token") String token);
+
+    @PUT("/user/{id}")
+    Call<Object> modifyPushSetting(@Path("id") String id, @Body UserModel setting, @Query("token") String token);
 
     @GET("/user/{id}")
     Call<UserModel> getUser(@Path("id") String id, @Query("token") String token);
@@ -97,5 +101,8 @@ public interface Api {
 
     @POST("/mod/{id}")
     Call<ModModel> getMod(@Path("id") String id, @Body JSONObject vars, @Query("token") String token);
+
+    @GET("/notification")
+    Call<NotificationMetaModel> getNotificationMeta(@Query("token") String token);
 
 }

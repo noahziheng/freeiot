@@ -16,6 +16,7 @@
 
 package net.noahgao.freeiot.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,16 +31,27 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.noahgao.freeiot.R;
+import net.noahgao.freeiot.api.ApiClient;
+import net.noahgao.freeiot.model.NotificationMetaModel;
 import net.noahgao.freeiot.model.UserModel;
 import net.noahgao.freeiot.ui.pages.IndexFragment;
 import net.noahgao.freeiot.ui.pages.ProductsFragment;
 import net.noahgao.freeiot.util.Auth;
 import net.noahgao.freeiot.util.Badge;
 import net.noahgao.freeiot.util.UpdateManager;
+
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -55,6 +67,9 @@ public class MainActivity extends BaseActivity
     private Fragment currentFragment;
     private int curPageIndex = -1;
 
+    private int hot_number = 0;
+    private TextView ui_hot = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +79,12 @@ public class MainActivity extends BaseActivity
             intentLogin.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//LoginActivity不添加到后退栈
             startActivity(intentLogin);
         }
+        JPushInterface.setAlias(MainActivity.this, Auth.getUser().get_id().replace("-", "@"), new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+                Log.i("PUSH","Alias Set "+i+","+s);
+            }
+        });
         UpdateManager.doUpdate(this, false);
 
         setContentView(R.layout.activity_main);
@@ -85,6 +106,24 @@ public class MainActivity extends BaseActivity
         roleView.setText(Badge.buildRole(mUser.getRole()));
 
         changePage(0);
+    }
+
+    @Override
+    protected void onResume() {
+
+        Call<NotificationMetaModel> modcall = ApiClient.API.getNotificationMeta(Auth.getToken());
+        modcall.enqueue(new Callback<NotificationMetaModel>() {
+            @Override
+            public void onResponse(Call<NotificationMetaModel> call, Response<NotificationMetaModel> response) {
+                updateHotCount(response.body().getUnread());
+            }
+
+            @Override
+            public void onFailure(Call<NotificationMetaModel> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "通知信息请求出错", Toast.LENGTH_SHORT).show();
+            }
+        });
+        super.onResume();
     }
 
     @Override
@@ -129,7 +168,34 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main_toolbar,menu);
+        final MenuItem t = menu.findItem(R.id.notification);
+        final View menu_hotlist = t.getActionView();
+        menu_hotlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(t);
+            }
+        });
+        ui_hot = (TextView) menu_hotlist.findViewById(R.id.hotlist_hot);
+        updateHotCount(hot_number);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void updateHotCount(final int new_hot_number) {
+        hot_number = new_hot_number;
+        if (ui_hot == null) return;
+        runOnUiThread(new Runnable() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void run() {
+                if (new_hot_number == 0)
+                    ui_hot.setVisibility(View.INVISIBLE);
+                else {
+                    ui_hot.setVisibility(View.VISIBLE);
+                    ui_hot.setText(Integer.toString(new_hot_number));
+                }
+            }
+        });
     }
 
     @Override
@@ -140,6 +206,7 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.notification:
                 Toast.makeText(getApplicationContext(), "暂时没有未读的通知", Toast.LENGTH_SHORT).show();
+                updateHotCount(hot_number + 1);
                 break;
         }
         return super.onOptionsItemSelected(item);

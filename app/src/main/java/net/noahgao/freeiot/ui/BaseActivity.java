@@ -20,12 +20,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import com.bugtags.library.Bugtags;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
         //注：回调 1
         Bugtags.onResume(this);
+        JPushInterface.onResume(this);
     }
 
     @Override
@@ -33,6 +36,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onPause();
         //注：回调 2
         Bugtags.onPause(this);
+        JPushInterface.onPause(this);
     }
 
     @Override

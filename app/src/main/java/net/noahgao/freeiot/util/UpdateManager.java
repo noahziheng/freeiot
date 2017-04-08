@@ -48,7 +48,6 @@ public class UpdateManager {
 
     static public void doUpdate(final Activity context, final boolean noupdateToast) {
         final Request request = new Request.Builder().url("http://api.fir.im/apps/latest/58a00c09ca87a8462900008a?api_token=" + BuildConfig.FIR_API_TOKEN).build();
-        System.out.println(request);
         OkHttpClient yOkHttpClient = new OkHttpClient();
         yOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
