@@ -23,7 +23,14 @@ const userSchema = new Schema({
     reason: String
   },
   role: { type: Number, default: -1, min: -1, max: 3 }, // 权限 -1-未注册完成 0-用户 1-开发者(待审核) 2-开发者 3-管理员
-  finish: { type: String, unique: true }
+  finish: { type: String, unique: true },
+  setting: {
+    push: {
+      normal: { type: Boolean, default: true },
+      special: { type: Boolean, default: true },
+      warning: { type: Boolean, default: true }
+    }
+  }
 })
 userSchema.plugin(timestamps, {
   createdAt: 'created_at',

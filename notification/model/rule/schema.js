@@ -10,11 +10,16 @@ const rSchema = new Schema({
     default: shortId.generate
   },
   name: { type: String, required: true },
-  device: {
+  product: {
     type: String,
-    ref: 'Device',
+    ref: 'Product',
     required: true
   },
+  label: [{ type: String, required: true }],
+  level: {
+    type: Number,
+    default: 0
+  }, // 消息类型 0-普通消息 1-特别消息 2-紧急消息
   condition: { type: String, required: true },
   template: { type: String, required: true }
 })

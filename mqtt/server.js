@@ -5,7 +5,6 @@
  */
 const deviceFacade = require('../model/device/device-schema')
 const lib = require('./lib')
-const dataFacade = require('../model/data/data-facade')
 const modtool = require('../mods/tool')
 
 class MsgServer {
@@ -24,12 +23,7 @@ class MsgServer {
   }
 
   handleConnect (client) {
-    dataFacade.find({created_at: {'$lt': new Date(new Date().getTime() - 72 * 60 * 60 * 1000)}}).then(doc => {
-      for (let i in doc) {
-        dataFacade.remove(doc[i]._id).then(r => {})
-      }
-    })
-    console.log('clean Action Finished:' + new Date())
+    lib.clean() // Clean Outdated Data
     const clientMeta = client.id.split('/')
     console.log(clientMeta[1] + ' Request add')
     if (!client.will || !clientMeta[1]) client.close()
@@ -47,11 +41,12 @@ class MsgServer {
         if (!f) {
           deviceFacade.findById(clientWillMeta[0]).select('product owner secret status').populate('product').populate('owner').exec().then(doc => {
             if (doc === null) {
-              console.log('Cannot found ' + clientWillMeta[0] + ',removed')
+              console.log('Cannot found ' + clientWillMeta[0] + ',removed') // Device is not exist in database
               client.close()
             } else {
               if (doc.secret === clientWillMeta[1]) {
                 let e = this.devices.push(doc) - 1
+                // Parse Product's mod
                 let modsP = []
                 for (let i in this.devices[e].product.mods) {
                   if (typeof this.devices[e].product.mods[i].origin === 'string') {
@@ -66,7 +61,9 @@ class MsgServer {
                             qos: 0,
                             retain: false
                           }
-                          message.payload = driver.encode({'t.downlink[i].label': t.downlink[i].controll.default})
+                          let temp = {}
+                          temp[t.downlink[i].label] = t.downlink[i].controll.default
+                          message.payload = driver.encode(temp)
                           client.server.publish(message)
                         }
                       }
@@ -75,15 +72,8 @@ class MsgServer {
                   }
                 }
                 this.mods[e] = modsP
-                let obj = {
-                  type: 3, // 0-上行报告 1-下行指令
-                  device: clientWillMeta[0],
-                  label: 'SYS',
-                  content: 'online'
-                }
-                dataFacade.create(obj).then(doc => {
-                  this.io.emit(clientWillMeta[0] + '-web', doc)
-                })
+                lib.sendSystemMsg(clientWillMeta[0], 'online') // Send Device Online system message
+                this.devices[e].datas = {}
                 doc.status = 3
                 doc.save()
               } else {
@@ -110,15 +100,7 @@ class MsgServer {
         for (let e in this.devices) {
           if (this.devices[e]._id === req[0] && this.devices[e].secret === req[1]) {
             console.log(req[0] + ' removed')
-            let obj = {
-              type: 3, // 0-上行报告 1-下行指令
-              device: req[0],
-              label: 'SYS',
-              content: 'offline'
-            }
-            dataFacade.create(obj).then(doc => {
-              this.io.emit(req[0] + '-web', doc)
-            })
+            lib.sendSystemMsg(req[0], 'offline') // Send Device Offline system message
             delete this.devices[e]
             deviceFacade.findByIdAndUpdate(req[0], {$set: { status: 2 }}, {new: true}).exec()
             break
@@ -141,15 +123,10 @@ class MsgServer {
             }
             for (let i in data) {
               for (let j in data[i]) {
-                let obj = {
-                  type: types[i], // 0-上行报告 1-下行指令
-                  device: this.devices[e]._id, // 设备代号
-                  label: j, // 数据点代号
-                  content: data[i][j] // 数据内容（解析完成的）
-                }
-                dataFacade.create(obj).then(doc => {
-                  this.io.emit(this.devices[e]._id + '-web', doc)
-                })
+                lib.saveData(types[i], this.devices[e]._id, j, data[i][j])
+                let oldData = this.devices[e].datas
+                this.devices[e].datas[j] = data[i][j]
+                lib.matchRule(this.devices[e]._id, this.devices[e].product._id, this.devices[e].owner._id, j, this.devices[e].datas, oldData)
               }
             }
             break
