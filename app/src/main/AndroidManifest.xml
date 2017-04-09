@@ -95,13 +95,11 @@
             android:enabled="true"
             android:exported="true"
             android:permission="net.noahgao.freeiotStandardAccess" />
-
-        <service android:name="cn.jpush.android.service.PushService"
+        <service
+            android:name="cn.jpush.android.service.PushService"
             android:process=":multiprocess"
-            tools:node="replace" >
-
-            ……
-        </service>
+            tools:node="replace">
+            ……</service>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -116,6 +114,8 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".ui.NotificationsActivity"></activity>
     </application>
 
 </manifest>

@@ -205,8 +205,11 @@ public class MainActivity extends BaseActivity
                 Toast.makeText(getApplicationContext(), "搜索功能尚未开放", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.notification:
+                startActivity(new Intent(MainActivity.this,NotificationsActivity.class));
+                /*
                 Toast.makeText(getApplicationContext(), "暂时没有未读的通知", Toast.LENGTH_SHORT).show();
                 updateHotCount(hot_number + 1);
+                */
                 break;
         }
         return super.onOptionsItemSelected(item);
