@@ -54,11 +54,11 @@ export default {
       }
       if (window.localStorage.nodev) this.$store.commit('nodev', JSON.parse(window.localStorage.nodev))
     } else {
-      this.$store.commit('error', '您的浏览器不支持HTML5特性,可能造成使用不便')
+      if (!this.route_unless()) this.$store.commit('error', '您的浏览器不支持HTML5特性,可能造成使用不便')
     }
-    this.$store.dispatch('getMods')
-    if (!this.route_unless() && (!this.$store.user && !localLogined)) {
-      this.$router.push('/login')
+    if (!this.route_unless()) {
+      this.$store.dispatch('getMods')
+      if ((!this.$store.user && !localLogined)) this.$router.push('/login')
     }
   },
   methods: {
@@ -71,7 +71,8 @@ export default {
         'reg',
         'finish',
         'forgot',
-        'finishforgot'
+        'finishforgot',
+        'notifications'
       ]
       return a.indexOf(this.$route.name) !== -1
     }

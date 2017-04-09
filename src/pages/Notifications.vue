@@ -4,10 +4,10 @@
       <mu-icon-button
         icon="keyboard_arrow_left"
         slot="left"
-        v-if="page !== 0"
-        @click="changePage(0)"/>
+        v-if="page !== 0 || appMode"
+        @click="returnBtn"/>
       <mu-icon-menu icon="more_vert" slot="right">
-        <mu-menu-item title="通知设置"/>
+        <mu-menu-item title="通知设置" @click="menuSetting"/>
       </mu-icon-menu>
     </mu-appbar>
     <mu-list v-if="page === 0">
@@ -50,14 +50,19 @@ export default {
       sys_unread: 0,
       notifications: [],
       deleteIndex: -1,
-      dialog: false
+      dialog: false,
+      appMode: false
     }
   },
   components: {
   },
   created () {
+    if (this.$route.name === 'notifications') {
+      this.$parent.hide = true
+      this.$store.commit('login', {token: this.$route.params.token})
+      this.appMode = true
+    }
     this.getLists()
-    if (this.$route.name === 'notifications') this.$parent.hide = true
   },
   computed: {
     user: function () {
@@ -80,6 +85,14 @@ export default {
       }).catch(ex => {
         console.log('parsing failed', ex)
       })
+    },
+    returnBtn: function () {
+      if (this.appMode && this.page === 0) window.androidAPP.returnBtn()
+      else this.changePage(0)
+    },
+    menuSetting: function () {
+      if (this.appMode) window.androidAPP.pushSetting()
+      else this.changePage(0)
     },
     changePage: function (page, name) {
       this.page = page

@@ -32,8 +32,7 @@ new Vue({
   data () {
     return {
       apiurl: apiurl,
-      app: false,
-      android: false
+      app: false
     }
   },
   sockets: {
@@ -46,10 +45,6 @@ new Vue({
   created () {
     if (this.$route.path !== '/') {
       this.app = true
-    }
-    window.androidAPPInit = auth => {
-      this.android = true
-      window.localStorage.user = auth
     }
   },
   mounted () {

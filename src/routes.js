@@ -23,7 +23,7 @@ const routes = [
   { name: 'newproduct', path: '/newproduct', component: NewProduct },
   { name: 'editproduct', path: '/newproduct/:id', component: NewProduct },
   { name: 'useradmin', path: '/useradmin', component: UserAdmin },
-  { name: 'notifications', path: '/notifications', component: Notifications },
+  { name: 'notifications', path: '/notifications/:token', component: Notifications },
   { name: 'notfound', path: '*', component: NotFound }
 ]
 export default routes
