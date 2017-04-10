@@ -125,11 +125,11 @@ export default {
       })
     },
     sortCreate (a, b) {
-      if (a.created_at < b.created_at) {
-        return 1
-      }
       if (a.created_at > b.created_at) {
         return -1
+      }
+      if (a.created_at < b.created_at) {
+        return 1
       }
       // a 必须等于 b
       return 0
@@ -184,6 +184,8 @@ export default {
     },
     enterChat: function (id, name) {
       fetch(this.$root.apiurl + '/notification/chat/' + id + '?token=' + this.user.token).then(res => res.json()).then(json => {
+        console.log(json)
+        console.log(json.sort(this.sortCreate))
         this.notifications = json.sort(this.sortCreate)
         fetch(this.$root.apiurl + '/notification/unread/' + id + '?token=' + this.user.token).then(res => res.json()).then(json => {}).catch(ex => {
           console.log('parsing failed', ex)
