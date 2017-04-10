@@ -72,7 +72,7 @@ class MsgServer {
                   }
                 }
                 this.mods[e] = modsP
-                lib.sendSystemMsg(clientWillMeta[0], 'online') // Send Device Online system message
+                lib.sendSystemMsg(clientWillMeta[0], 'online', this.devices[e].owner._id) // Send Device Online system message
                 this.devices[e].datas = {}
                 doc.status = 3
                 doc.save()
@@ -100,7 +100,7 @@ class MsgServer {
         for (let e in this.devices) {
           if (this.devices[e]._id === req[0] && this.devices[e].secret === req[1]) {
             console.log(req[0] + ' removed')
-            lib.sendSystemMsg(req[0], 'offline') // Send Device Offline system message
+            lib.sendSystemMsg(req[0], 'offline', this.devices[e].owner._id) // Send Device Offline system message
             delete this.devices[e]
             deviceFacade.findByIdAndUpdate(req[0], {$set: { status: 2 }}, {new: true}).exec()
             break

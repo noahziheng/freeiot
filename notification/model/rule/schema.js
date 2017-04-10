@@ -18,8 +18,8 @@ const rSchema = new Schema({
   label: [{ type: String, required: true }],
   level: {
     type: Number,
-    default: 0
-  }, // 消息类型 0-普通消息 1-特别消息 2-紧急消息
+    default: 1
+  }, // 消息类型 0-系统消息 1-普通消息 2-特别消息 3-紧急消息
   condition: { type: String, required: true },
   template: { type: String, required: true }
 })

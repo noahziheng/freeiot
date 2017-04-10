@@ -23,8 +23,24 @@ class MQTTLibrary {
   }
 
   // 发送设备系统级消息
-  sendSystemMsg (device, content) {
+  sendSystemMsg (device, content, owner) {
     this.saveData(3, device, 'SYS', content)
+    switch (content) {
+      case 'online':
+        content = '设备已上线'
+        break
+      case 'offline':
+        content = '设备已离线'
+        break
+      default:
+        content = '未知系统消息'
+        break
+    }
+    notificationLib.sendMsg({
+      from: device,
+      to: owner,
+      content: content
+    }, 0)
   }
 
   // 保存数据

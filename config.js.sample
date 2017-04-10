@@ -23,6 +23,10 @@ const config = {
   mail: {
     user: 'noreply@noahgao.net', // user name
     pass: ''         // password
+  },
+  jpush: {
+    appKey: '',
+    masterSecret: ''
   }
 }
 

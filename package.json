@@ -20,6 +20,7 @@
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
     "helmet": "^3.1.0",
+    "jpush-sdk": "^3.4.1",
     "mongoose": "^4.7.0",
     "mongoose-timestamp": "^0.6.0",
     "morgan": "^1.7.0",

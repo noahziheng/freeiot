@@ -1,14 +1,45 @@
 const notificationFacade = require('./model/notification/facade')
 const ruleFacade = require('./model/rule/facade')
 const userFacade = require('../model/user/user-facade')
+const deviceFacade = require('../model/device/device-facade')
 const vm = require('vm')
 const mu = require('mustache')
+const config = require('../config')
+const JPush = require('jpush-sdk')
 
 class NotificationLib {
   sendMsg (meta, level, cb, catchCb) {
-    console.log('Simulate Send a Msg:', meta, level)
+    let levelArr = ['system', 'normal', 'special', 'warning']
+    let actionCb = doc => {
+      const client = JPush.buildClient(config.jpush.appKey, config.jpush.masterSecret)
+      deviceFacade.findById(doc.from).then(device => {
+        userFacade.findById(doc.to).then(user => {
+          if (user && user.setting.push[levelArr[level]]) {
+            client.push().setPlatform('android')
+              .setAudience(JPush.alias(user._id.replace('-', '@')))
+              .setNotification(JPush.android(doc.content, doc.from === 'SYS' ? '系统通知' : device.name))
+              .send(function (err, res) {
+                if (err) {
+                  if (err instanceof JPush.APIConnectionError) {
+                    console.log(err.message)
+                    // Response Timeout means your request to the server may have already received,
+                    // please check whether or not to push
+                    console.log(err.isResponseTimeout)
+                  } else if (err instanceof JPush.APIRequestError) {
+                    console.log(err.message)
+                  }
+                } else {
+                  console.log('Sendno: ' + res.sendno)
+                  console.log('Msg_id: ' + res.msg_id)
+                }
+              })
+          }
+        })
+      })
+      if (cb) cb(doc)
+    }
     return notificationFacade.create(meta)
-    .then(cb)
+    .then(actionCb)
     .catch(catchCb)
   }
 
