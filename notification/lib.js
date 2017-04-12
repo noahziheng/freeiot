@@ -23,7 +23,7 @@ class NotificationLib {
           break
       }
       let time = s * 60 * 1000
-      notificationFacade.findOne({created_at: {'$gt': new Date(new Date().getTime() - time)}})
+      notificationFacade.findOne({from: doc.from, to: doc.to, created_at: {'$gt': new Date(new Date().getTime() - time)}})
         .then(noti => {
           if (!noti) this.pushMsg(doc, level)
         })
