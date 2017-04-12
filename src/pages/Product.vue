@@ -19,12 +19,14 @@
         <mu-tab value="readme" title="产品简介"/>
         <mu-tab value="devices" title="设备列表"/>
         <mu-tab value="product" title="产品原型配置" v-if="user.role === 3 || user.id === product.owner._id"/>
+        <mu-tab value="rule" title="推送规则配置"/>
       </mu-tabs>
     </div>
     <div class="content">
       <vue-markdown v-show="tabValue === 'readme'" :source="product.readme" />
-      <NewProduct v-if="user.role === 3 || user.id === product.owner._id" v-show="tabValue === 'product'" />
       <DevicesList v-show="tabValue === 'devices'" />
+      <NewProduct v-if="user.role === 3 || user.id === product.owner._id" v-show="tabValue === 'product'" />
+      <ManageRule :product="product" v-show="tabValue === 'rule'" />
     </div>
     <mu-float-button icon="add" @click="toogleDialog" class="float-button"/>
     <NewDevice :dialog="dialog" :product="product" @close="toogleDialog"/>
@@ -37,6 +39,7 @@ import AddMod from '../components/AddMod'
 import NewDevice from '../components/NewDevice'
 import VueMarkdown from 'vue-markdown'
 import DevicesList from '../components/DevicesList'
+import ManageRule from '../components/ManageRule.vue'
 import Clipboard from 'clipboard'
 
 export default {
@@ -63,7 +66,8 @@ export default {
     NewDevice,
     AddMod,
     VueMarkdown,
-    DevicesList
+    DevicesList,
+    ManageRule
   },
   created () {
     if (this.$route.params.id) {

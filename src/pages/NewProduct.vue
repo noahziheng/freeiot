@@ -2,11 +2,11 @@
   <div class="content-row">
     <mu-card class="content-card">
       <mu-card-title :title="($route.params.id ? '编辑' : '新建') + '产品原型'"/>
-      <mu-card-text class="content-card-content"> 
+      <mu-card-text class="content-card-content">
         <mu-text-field label="产品名称" v-model="product.name" labelFloat fullWidth /><br/>
         <mu-text-field label="产品描述" v-model="product.commit" labelFloat fullWidth /><br/>
         <mu-text-field label="产品使用说明(Markdown)" v-model="product.readme" labelFloat multiLine :rows="6" :rowsMax="20" fullWidth /><br/>
-        <mu-sub-header>模块列表</mu-sub-header>
+        <mu-sub-header>模块</mu-sub-header>
         <AddMod :mods="product.mods" :newF="true" />
         <mu-raised-button class="delete-btn" label="删除产品原型及其设备(慎点)" backgroundColor="rgb(244, 67, 54)" v-if="$route.params.id" @click="delete_open">
           <mu-icon value="delete forever" color="white" style="width:24px"/>
@@ -47,7 +47,8 @@ export default {
         readme: '',
         mods: [],
         owner: ''
-      }
+      },
+      rules: []
     }
   },
   props: ['changeF'],
@@ -136,13 +137,13 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .content-row {
   margin-top: 1.5%;
 }
 @media screen and (min-width:800px) {
   .content-card {
-    margin: 2.5% 25%;
+    margin: 2.5% 10%;
   }
 }
 @media screen and (max-width:800px) {
