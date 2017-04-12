@@ -21,23 +21,23 @@
               </mu-td>
             </mu-tr>
           </mu-tbody>
-          <mu-raised-button class="rule-add-btn" slot="footer" label="添加新规则" @click="open" />
+          <mu-raised-button v-if="roleCheck" class="rule-add-btn" slot="footer" label="添加新规则" @click="open" />
         </mu-table>
       </mu-card-text>
     </mu-card>
     <mu-dialog :open="dialog" :title="(rule.name === '' ? '添加' : '编辑') + '推送规则'" scrollable>
-      <mu-text-field class="rule-field" label="规则名称" v-model="rule.name" labelFloat fullWidth /><br/>
-      <mu-text-field class="rule-field" label="可触发规则标志符(以英文逗号,隔断，留空不能触发)" v-model="rule.label" labelFloat fullWidth /><br/>
-      <mu-select-field class="rule-field" v-model="rule.level" label="消息级别">
+      <mu-text-field class="rule-field" label="规则名称" v-model="rule.name" labelFloat fullWidth :disabled="!roleCheck" /><br/>
+      <mu-text-field class="rule-field" label="可触发规则标志符(以英文逗号,隔断，留空不能触发)" v-model="rule.label" labelFloat fullWidth :disabled="!roleCheck" /><br/>
+      <mu-select-field class="rule-field" v-model="rule.level" label="消息级别" :disabled="!roleCheck">
         <mu-menu-item :value="0" title="系统消息"/>
         <mu-menu-item :value="1" title="一般消息"/>
         <mu-menu-item :value="2" title="特别消息"/>
         <mu-menu-item :value="3" title="警告消息"/>
       </mu-select-field><br/>
-      <mu-text-field class="rule-field" label="触发条件表达式" v-model="rule.condition" labelFloat fullWidth /><br/>
-      <mu-text-field class="rule-field" label="消息模板" v-model="rule.template" labelFloat fullWidth multiLine :rows="3" :rowsMax="8" /><br/>
+      <mu-text-field class="rule-field" label="触发条件表达式" v-model="rule.condition" labelFloat fullWidth :disabled="!roleCheck" /><br/>
+      <mu-text-field class="rule-field" label="消息模板" v-model="rule.template" labelFloat fullWidth multiLine :rows="3" :rowsMax="8" :disabled="!roleCheck" /><br/>
       <mu-flat-button label="关闭" slot="actions" @click="close" primary/>
-      <mu-flat-button label="确定" slot="actions" @click="submit" primary/>
+      <mu-flat-button v-if="roleCheck" label="确定" slot="actions" @click="submit" primary/>
     </mu-dialog>
   </div>
 </template>
@@ -116,32 +116,32 @@ export default {
       this.ruleIndex = -1
     },
     submit () {
-      let obj = this.rule
-      let index = this.ruleIndex
-      console.log(obj.label)
-      if (typeof obj.label === 'string') obj.label = obj.label.split(',')
-      console.log(obj.label)
-      if (obj.name !== '') {
-        fetch(this.$root.apiurl + '/notification/rule' + (obj._id === '' ? '' : '/' + obj._id) + '?token=' + this.user.token, {
-          method: obj._id !== '' ? 'PUT' : 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(obj)
-        }).then(res => res.json()).then(json => {
-          if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
-          else {
-            if (obj._id === '') {
-              this.rules.push(obj)
-            } else {
-              this.rules.splice(index, 1, obj)
+      if (this.roleCheck) {
+        let obj = this.rule
+        let index = this.ruleIndex
+        if (typeof obj.label === 'string') obj.label = obj.label.split(',')
+        if (obj.name !== '') {
+          fetch(this.$root.apiurl + '/notification/rule' + (obj._id === '' ? '' : '/' + obj._id) + '?token=' + this.user.token, {
+            method: obj._id !== '' ? 'PUT' : 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+          }).then(res => res.json()).then(json => {
+            if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
+            else {
+              if (obj._id === '') {
+                this.rules.push(obj)
+              } else {
+                this.rules.splice(index, 1, obj)
+              }
             }
-          }
-        }).catch(ex => {
-          console.log('parsing failed', ex)
-        })
+          }).catch(ex => {
+            console.log('parsing failed', ex)
+          })
+        }
+        this.close()
       }
-      this.close()
     },
     viewRule (item, index) {
       this.rule = item
