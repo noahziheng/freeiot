@@ -404,7 +404,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .product-header {
-  margin-top: -10px;
+  margin-top: -15px;
   background-color: #eee;
 }
 .hello-tabs {
