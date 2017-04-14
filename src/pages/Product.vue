@@ -23,7 +23,7 @@
       </mu-tabs>
     </div>
     <div class="content">
-      <vue-markdown v-show="tabValue === 'readme'" :source="product.readme" />
+      <div v-show="tabValue === 'readme'" v-html="product.readme"></div>
       <DevicesList v-show="tabValue === 'devices'" />
       <NewProduct v-if="user.role === 3 || user.id === product.owner._id" v-show="tabValue === 'product'" />
       <ManageRule :product="product" v-show="tabValue === 'rule'" />
@@ -37,10 +37,10 @@
 import NewProduct from './NewProduct'
 import AddMod from '../components/AddMod'
 import NewDevice from '../components/NewDevice'
-import VueMarkdown from 'vue-markdown'
 import DevicesList from '../components/DevicesList'
 import ManageRule from '../components/ManageRule.vue'
 import Clipboard from 'clipboard'
+import showdown from 'showdown'
 
 export default {
   name: 'product',
@@ -65,7 +65,6 @@ export default {
     NewProduct,
     NewDevice,
     AddMod,
-    VueMarkdown,
     DevicesList,
     ManageRule
   },
@@ -94,7 +93,10 @@ export default {
     getProduct () {
       fetch(this.$root.apiurl + '/product/' + this.$route.params.id + '?token=' + this.user.token).then(res => res.json()).then(json => {
         if (json.msg !== undefined) this.$store.commit('error', '提交失败（ ' + json.msg + ' ）')
-        else this.product = json
+        else {
+          this.product = json
+          this.product.readme = new showdown.Converter().makeHtml(this.product.readme)
+        }
       }).catch(ex => {
         console.log('parsing failed', ex)
       })

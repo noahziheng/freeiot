@@ -9,8 +9,10 @@ var env = process.env.NODE_ENV
 var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
 var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
+var Visualizer = require('webpack-visualizer-plugin')
 
 module.exports = {
+  plugins: [new Visualizer()],
   entry: {
     promise: 'promise-polyfill',
     fetch: 'whatwg-fetch',
