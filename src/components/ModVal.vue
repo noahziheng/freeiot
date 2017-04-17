@@ -31,7 +31,7 @@ export default {
     if (this.old) this.d_value = this.old
   },
   methods: {
-    handleVarChange (newVal) {
+    handleVarChange (e, newVal) {
       this.d_value = newVal
       this.$emit('change', this.data.label, newVal)
     }
