@@ -5,7 +5,7 @@ FreeIOT Firmware是FreeIOT官方实现的嵌入式客户端，并有自己的协
 
 | 设备名称 | 状态 | Github仓库 |
 | ---------- | --- |
-|  [**ESP8266**](esp8266.md) | 支持中 | https://github.com/noahziheng/freeiot-esp8266 |
+|  [**ESP8266**](esp8266.md) | 支持中 | https://github.com/noahziheng/freeiot-firmware-esp8266 |
 
 ## 组成
 FreeIOT Firmware通常包括三个主要部分：

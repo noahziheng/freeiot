@@ -10,3 +10,6 @@
 [submodule "firmware/esp8266"]
 	path = firmware/esp8266
 	url = git@github.com:noahziheng/freeiot-firmware-esp8266.git
+[submodule "firmware/nodejs"]
+	path = firmware/nodejs
+	url = git@github.com:noahziheng/freeiot-firmware-nodejs.git
