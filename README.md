@@ -18,7 +18,8 @@ FreeIOT是一个自由、开源的物联网开发套件/平台，项目致力于
 - [FreeIOT API](https://github.com/noahziheng/freeiot-api)
 - [FreeIOT Web](https://github.com/noahziheng/freeiot-web)
 - [FreeIOT Android](https://github.com/noahziheng/freeiot-android)
-- [FreeIOT Firmware For ESP8266](https://github.com/noahziheng/freeiot-esp8266)
+- [FreeIOT Firmware For ESP8266](https://github.com/noahziheng/freeiot-firmware-esp8266)
+- [FreeIOT Firmware For Node.js](https://github.com/noahziheng/freeiot-firmware-nodejs)
 
 ## 捐赠
 
