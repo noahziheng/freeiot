@@ -25,12 +25,10 @@ class NotificationLib {
       let time = s * 60 * 1000
       notificationFacade.findOne({from: doc.from, to: doc.to, level: level, created_at: {'$gt': new Date(new Date().getTime() - time)}})
         .then(noti => {
-          console.log(noti)
-          console.log(doc)
           if (!noti || noti._id === doc._id) this.pushMsg(doc, level)
         })
         .catch(err => {
-          console.console.error(err)
+          console.error(err)
         })
       if (cb) cb(doc)
     }

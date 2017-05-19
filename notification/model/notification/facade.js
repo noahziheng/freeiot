@@ -58,7 +58,6 @@ class NotificationModel extends Model {
     .exec()
     .then(doc => {
       for (let index in doc) {
-        console.log(doc[index].unread)
         if (doc[index].from === null && !t['SYS']) {
           t['SYS'] = r.push({
             _id: 'SYS',
