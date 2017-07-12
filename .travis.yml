@@ -1,10 +1,12 @@
 language: node_js
+dist: trusty
+sudo: false
 node_js:
   - "6"
 git:
     submodules: false
 install:
-  - npm install gitbook-cli -g
+  - yarn global add gitbook-cli
 script:
   - gitbook build ./docs ./docs-build
 deploy:
