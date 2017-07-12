@@ -7,6 +7,9 @@ git:
     submodules: false
 install:
   - yarn global add gitbook-cli
+  - npm install gitbook@3.2.2
+  - mkdir -p ~/.gitbook/versions
+  - cp node_modules/gitbook ~/.gitbook/versions/3.2.2
   - cd ~/.gitbook/versions/3.2.2 && npm i
   - cd $TRAVIS_BUILD_DIR
 script:
