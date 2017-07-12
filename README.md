@@ -1,6 +1,6 @@
 # FreeIOT
 > English documention on the way,but we only provide chinese version now.
-![](https://api.travis-ci.org/noahziheng/freeiot.svg)(文档)
+![](https://api.travis-ci.org/noahziheng/freeiot.svg) （文档）
 FreeIOT是一个自由、开源的物联网开发套件/平台，项目致力于提高物联网开发者的开发体验，降低物联网设备的开发门槛，将在保证性能的前提下提供最优的体验。
 
 ## 线上地址
