@@ -6,6 +6,7 @@ node_js:
 git:
     submodules: false
 install:
+  - npm install -g npm
   - yarn global add gitbook-cli
 script:
   - gitbook build ./docs ./docs-build
