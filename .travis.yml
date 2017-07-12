@@ -1,0 +1,13 @@
+language: node_js
+install:
+  - npm install gitbook-cli -g
+script:
+  - gitbook build ./docs ./docs-build
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  local_dir: docs-build
+  fqdn: doc.iot.noahgao.net
+  on:
+    branch: master
