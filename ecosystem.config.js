@@ -25,7 +25,7 @@ module.exports = {
    */
   deploy : {
     production : {
-      user : 'node',
+      user : 'root',
       host : '121.42.231.226',
       ref  : 'origin/master',
       repo : 'git@github.com:noahziheng/freeiot-api.git',
@@ -33,7 +33,7 @@ module.exports = {
       'post-deploy' : 'cp config.js.sample config.js && yarn install && pm2 reload ecosystem.config.js --env production'
     },
     dev : {
-      user : 'node',
+      user : 'root',
       host : '121.42.231.226',
       ref  : 'origin/master',
       repo : 'git@github.com:noahziheng/freeiot-api.git',
