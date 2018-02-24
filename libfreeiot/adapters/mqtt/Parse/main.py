@@ -29,10 +29,18 @@ def main(client, topic, payload):
     else:
         if not before_check(ObjectId(topic[0])):
             return
-        mongo.db.datas.insert_one({
-            "device": DBRef("device", topic[0], "="),
+        res = mongo.db.datas.insert_one({
+            "device": DBRef("devices", topic[0]),
             "topic": topic[1],
             "flag": topic[2],
             "content": payload
+        })
+        mongo.db.devices.update_one({"_id": ObjectId(topic[0])},
+        {
+            "$set": {
+                "lastdata": {
+                    topic[1]: DBRef("datas", res.inserted_id)
+                }
+            }
         })
         print(topic, payload)

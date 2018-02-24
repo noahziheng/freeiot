@@ -1,3 +1,4 @@
+""" Constant Module of device status """
 STATUS_BROKEN=-1
 STATUS_UNKNOWN=0
 STATUS_WAIT=1

@@ -4,6 +4,7 @@ Author: Noah Gao
 Updated at: 2018-2-2
 """
 import os
+import json
 from bson import ObjectId
 from .. import Constant
 from . import mongo
@@ -19,8 +20,7 @@ def online(client, device):
     })
     client.publish(dict(device).get("id") + "/status/u", Constant.Status.STATUS_WAIT)
     if "TOPICS_NEED" in os.environ:
-        topics_need = os.environ.get("TOPICS_NEED")
-        print(topics_need)
+        topics_need = json.loads(os.environ.get("TOPICS_NEED"))
         for item in topics_need:
             client.subscribe(dict(device).get("id") + "/" + item + "/u")
     print(dict(device).get("id") + " Online")
@@ -37,7 +37,7 @@ def offline(client, device):
         })
     client.publish(dict(device).get("id") + "/status/u", Constant.Status.STATUS_UNKNOWN)
     if "TOPICS_NEED" in os.environ:
-        topics_need = os.environ.get("TOPICS_NEED")
+        topics_need = json.loads(os.environ.get("TOPICS_NEED"))
         print(topics_need)
         for item in topics_need:
             client.unsubscribe(dict(device).get("id") + "/" + item + "/u")

@@ -19,11 +19,13 @@ class Data(Resource):
     def parse_args(self):
         """ Message Parse Method """
         parser = reqparse.RequestParser()
-        parser.add_argument('device', type=DBRef.__call__, help='ObjectId(str) of the message\'s original device')
+        parser.add_argument('device', type=str, help='ObjectId(str) of the message\'s original device')
         parser.add_argument('topic', type=str, help='The message\'s topic')
         parser.add_argument('flag', type=str, help='The message\'s flag')
         parser.add_argument('content', type=json.loads, help='The message\'s content of JSON Encode')
-        return parser.parse_args()
+        args = parser.parse_args()
+        args["device"] = DBRef("devices", args["device"])
+        return args
 
     @jwt_required
     def get(self, data_id=None):
