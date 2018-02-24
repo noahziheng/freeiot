@@ -19,4 +19,4 @@ def run(port, host = "0.0.0.0", adapters = None, app = None):
         adapters = [] # Create adapter group if not provided
     for adapter in adapters:
         adapter.run() # Run all adapters
-    app.run(debug=False) # Start API services
+    app.run(debug=False, port=port) # Start API services
