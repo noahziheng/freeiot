@@ -7,4 +7,4 @@ from libfreeiot import app
 from libfreeiot.adapters.mqtt import MQTTAdapter
 
 if __name__ == '__main__':
-    app.run(os.environ.get("PORT"), adapters = [ MQTTAdapter() ])
+    app.run(int(os.environ.get("PORT")), adapters = [ MQTTAdapter() ])
