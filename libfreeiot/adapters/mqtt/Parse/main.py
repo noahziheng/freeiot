@@ -39,7 +39,11 @@ def main(client, topic, payload):
         {
             "$set": {
                 "lastdata": {
-                    topic[1]: DBRef("datas", res.inserted_id)
+                    topic[1]: {
+                        "flag": topic[2],
+                        "content": payload,
+                        "original": DBRef("datas", res.inserted_id)
+                    }
                 }
             }
         })
