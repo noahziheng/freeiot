@@ -38,12 +38,10 @@ def main(client, topic, payload):
         mongo.db.devices.update_one({"_id": ObjectId(topic[0])},
         {
             "$set": {
-                "lastdata": {
-                    topic[1]: {
-                        "flag": topic[2],
-                        "content": payload,
-                        "original": DBRef("datas", res.inserted_id)
-                    }
+                "lastdata." + topic[1]: {
+                    "flag": topic[2],
+                    "content": payload,
+                    "original": DBRef("datas", res.inserted_id)
                 }
             }
         })
