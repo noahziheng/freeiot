@@ -30,5 +30,5 @@ class MQTTAdapter(BaseAdapter):
 
     # The callback for when a PUBLISH message is received from the server.
     def on_message(self, client, userdata, msg):
-        """ Callback while received message """
+        """ Callback while received messageA """
         Parse.main(client, msg.topic.split('/'), json.loads(msg.payload.decode()))
