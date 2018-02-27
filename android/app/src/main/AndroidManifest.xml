@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="net.noahgao.freeiot">
+
+    <!-- Required -->
+    <permission
+        android:name="net.noahgao.freeiot.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <!-- Required -->
+    <uses-permission android:name="net.noahgao.freeiot.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络通信 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址 -->
+    <!-- Dangerous -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- *Need Runtime* -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- *Need Runtime* -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- *Need Runtime* -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 获取设备信息 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- *Need Runtime* -->
+
+
+    <!-- Debug -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <application
+        android:name=".MainApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".InitializeActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="https://iot.noahgao.net" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="@string/settings" />
+        <activity
+            android:name=".ui.NotificationSettingsActivity"
+            android:label="@string/notification_settings" />
+        <activity
+            android:name=".ui.AccountActivity"
+            android:label="@string/account_settings" />
+        <activity
+            android:name=".ui.ModifyPasswordActivity"
+            android:label="@string/modify_password" />
+        <activity
+            android:name=".ui.ProductActivity"
+            android:label="@string/title_activity_product"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.ReadmeActivity" />
+        <activity
+            android:name=".ui.DeviceActivity"
+            android:label="@string/title_activity_device" />
+        <activity android:name=".ui.InitDeviceActivity" />
+        <activity android:name=".ui.AboutActivity" />
+
+        <service
+            android:name=".service.UpdateService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="net.noahgao.freeiotStandardAccess" />
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:process=":multiprocess"
+            tools:node="replace">
+            ……</service>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="net.noahgao.freeiot.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".ui.NotificationsActivity"></activity>
+    </application>
+
+</manifest>
