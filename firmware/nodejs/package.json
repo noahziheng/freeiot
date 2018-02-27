@@ -1,0 +1,22 @@
+{
+  "name": "freeiot-firmware-nodejs",
+  "version": "0.1.0",
+  "description": "FreeIOT Firmware For Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github/noahziheng/freeiot-firmware-nodejs"
+  },
+  "keywords": [
+    "IOT",
+    "firmware"
+  ],
+  "author": "Noah Gao",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "mqtt": "^2.7.2"
+  }
+}
