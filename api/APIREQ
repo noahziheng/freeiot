@@ -1,0 +1,83 @@
+GET http://api.freeiot.dev/
+###
+GET http://api.freeiot.dev/user
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJrYk5qa2l3OGwiLCJlbWFpbCI6Im5vYWhnYW9jbkBnbWFpbC5jb20iLCJyb2xlIjowLCJpYXQiOjE0ODQzOTg2MzIsImV4cCI6MTQ4NTAwMzQzMn0.-2Zd86vJbXHlFpAtVietttc63rCMjPLj8XKWri06XA0
+###
+POST http://api.freeiot.dev/user
+content-type: application/json
+
+{
+  "email":"noahgaocn@gmail.com",
+  "password":"adzd1005"
+}
+###
+POST https://api.iot.noahgao.net/user/auth
+content-type: application/json
+
+{
+  "email":"noahgaocn@gmail.com",
+  "password":"adzd1005"
+}
+###
+POST https://api.iot.noahgao.net/product
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlMxMC03cWJEZyIsImVtYWlsIjoibm9haGdhb2NuQGdtYWlsLmNvbSIsInJvbGUiOjMsImlhdCI6MTQ4NTIyODE5NCwiZXhwIjoxNDg1ODMyOTk0fQ.xhK8GwdhT8EwSCc72ePiZQayMHFHTDK2ScTE5fGBVjo
+content-type: application/json
+
+{
+  "name": "TEST1",
+  "owner": "rkbNjkiw8l",
+  "mods": [{
+    "origin": "simple_down",
+    "remark": "TEST1",
+    "vars": {
+      "label": "K",
+      "format_type": "int",
+      "format_unit": ""
+    },
+    "hidden": [1]
+  },{
+    "origin": "simple_up",
+    "remark": "TEST2",
+    "vars": {
+      "label": "T",
+      "format_type": "int",
+      "format_unit": "℃",
+      "label_2": "S",
+      "format_type_2": "float",
+      "format_unit_2": "%",
+      "format_round_2": 0
+    },
+    "hidden": []
+  }]
+}
+###
+GET http://api.freeiot.dev/product
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkhKUDZLZGhVbCIsImVtYWlsIjoibm9haGdhb2NuQGdtYWlsLmNvbSIsInJvbGUiOjIsImlhdCI6MTQ4NDgyMjE1NiwiZXhwIjoxNDg1NDI2OTU2fQ.9LGE5bbRECxktZZf5aGMarPnjVpPkLagYTEip6xz2N0
+###
+POST http://api.freeiot.dev/device
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InIxT05IemM4ZSIsImVtYWlsIjoibm9haGdhb2NuQG91dGxvb2suY29tIiwicm9sZSI6MywiaWF0IjoxNDg0ODIyMzMwLCJleHAiOjE0ODU0MjcxMzB9.HAiQSEX50yydoU4iV8y0vCaudi8UfojwgBVUgnscjs4
+content-type: application/json
+
+{
+  "name": "TEST1",
+  "owner": "r1ONHzc8e",
+  "product": "Ske6RWTIe"
+}
+###
+GET http://api.freeiot.dev/device/ryiCIMAUx
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InIxT05IemM4ZSIsImVtYWlsIjoibm9haGdhb2NuQG91dGxvb2suY29tIiwicm9sZSI6MywiaWF0IjoxNDg0ODIyMzMwLCJleHAiOjE0ODU0MjcxMzB9.HAiQSEX50yydoU4iV8y0vCaudi8UfojwgBVUgnscjs4
+###
+POST http://localhost/device/B1HeNqZDg/data
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlMxMC03cWJEZyIsImVtYWlsIjoibm9haGdhb2NuQGdtYWlsLmNvbSIsInJvbGUiOjMsImlhdCI6MTQ4NTA5Nzg3OCwiZXhwIjoxNDg1NzAyNjc4fQ.afgFBDvwzkn8QQnAmoBN6MExJv_iEagEeDo0su_jqCU
+content-type: application/json
+
+{
+  "type": 1,
+  "M": 0
+}
+###
+POST http://api.freeiot.dev/mod/simple_down
+    ?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InIxT05IemM4ZSIsImVtYWlsIjoibm9haGdhb2NuQG91dGxvb2suY29tIiwicm9sZSI6MywiaWF0IjoxNDg0ODIyMzMwLCJleHAiOjE0ODU0MjcxMzB9.HAiQSEX50yydoU4iV8y0vCaudi8UfojwgBVUgnscjs4
+content-type: application/json
+
+{"format_type":"string","controll_select":"{\"smart\":\"智能模式\",\"manual\":\"手动模式\"}","controll_type":"select","controll_default":"smart","label":"MODE","name":"工作模式","hidden":[]}

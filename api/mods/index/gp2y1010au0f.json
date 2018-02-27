@@ -1,0 +1,97 @@
+{
+  "name":"GP2Y1010AU0F PM2.5传感器",
+  "vars": [
+    {
+      "remark": "AQI空气质量数据点",
+      "content": [
+        {
+          "label": "name",
+          "type": "text",
+          "remark": "AQI数据名称",
+          "default": "AQI"
+        },
+        {
+          "label": "label",
+          "type": "text",
+          "remark": "AQI数据标志",
+          "default": "AQI"
+        },
+        {
+          "label": "show_max",
+          "type": "number",
+          "remark": "AQI最大值",
+          "default": -1
+        },
+        {
+          "label": "show_min",
+          "type": "number",
+          "remark": "AQI最小值",
+          "default": -1
+        },
+        {
+          "label": "format_round",
+          "type": "number",
+          "remark": "AQI保留小数",
+          "default": 0,
+          "vars": {
+            "max": 9,
+            "min": 1,
+            "step": 1
+          }
+        }
+      ]
+    },
+    {
+      "remark": "PM2.5浓度数据点",
+      "content": [
+        {
+          "label": "name_2",
+          "type": "text",
+          "remark": "PM2.5浓度数据名称",
+          "default": "PM2.5浓度"
+        },
+        {
+          "label": "label_2",
+          "type": "text",
+          "remark": "PM2.5浓度数据标志",
+          "default": "PM"
+        },
+        {
+          "label": "show_max_2",
+          "type": "number",
+          "remark": "PM2.5浓度最大值",
+          "default": -1
+        },
+        {
+          "label": "show_min_2",
+          "type": "number",
+          "remark": "PM2.5浓度最小值",
+          "default": -1
+        },
+        {
+          "label": "format_round_2",
+          "type": "number",
+          "remark": "PM2.5浓度保留小数",
+          "default": 0,
+          "vars": {
+            "max": 9,
+            "min": 1,
+            "step": 1
+          }
+        }
+      ]
+    }
+  ],
+  "global": [
+    {
+      "label": "driver",
+      "type": "select",
+      "remark": "驱动程序",
+      "default": "simple",
+      "vars": [
+        "simple",
+        "json"
+      ]
+    }
+  ]
+}

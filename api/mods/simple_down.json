@@ -1,0 +1,23 @@
+{
+  "driver": "{{driver}}{{^driver}}simple{{/driver}}",
+  "downlink": [
+    {
+      "name": "{{name}}",
+      "label": "{{label}}",
+      "controll": {
+        "type": "{{controll_type}}{{^controll_type}}text{{/controll_type}}",
+        "default": "{{controll_default}}",
+        "vars": {
+          "max": {{controll_max}}{{^controll_max}}-1{{/controll_max}},
+          "min": {{controll_min}}{{^controll_min}}-1{{/controll_min}},
+          "step": {{controll_step}}{{^controll_step}}1{{/controll_step}}
+        }
+      },
+      "format": {
+        "type": "{{format_type}}",
+        "unit": "{{format_unit}}",
+        "round": {{format_round}}{{^format_round}}0{{/format_round}}
+      }
+    }
+  ]
+}

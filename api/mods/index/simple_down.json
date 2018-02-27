@@ -1,0 +1,98 @@
+{
+  "name":"标准单点控制器",
+  "vars": [
+    {
+      "remark": "数据点0",
+      "content": [
+        {
+          "label": "name",
+          "type": "text",
+          "remark": "数据量名称"
+        },
+        {
+          "label": "label",
+          "type": "text",
+          "remark": "数据上传标志"
+        },
+        {
+          "label": "controll_default",
+          "type": "text",
+          "remark": "开机默认值"
+        },
+        {
+          "label": "controll_type",
+          "type": "select",
+          "remark": "控制点类型",
+          "vars": ["text", "number", "switch"]
+        },
+        {
+          "label": "controll_max",
+          "type": "number",
+          "remark": "控制点最大值",
+          "default": -1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "controll_min",
+          "type": "number",
+          "remark": "控制点最小值",
+          "default": -1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "controll_step",
+          "type": "number",
+          "remark": "控制点步长",
+          "default": 1,
+          "vars": {
+            "max": 500,
+            "min": -500,
+            "step": 0.1
+          }
+        },
+        {
+          "label": "format_type",
+          "type": "select",
+          "remark": "数据点格式类型",
+          "vars": ["int", "float", "boolean", "string"]
+        },
+        {
+          "label": "format_unit",
+          "type": "text",
+          "remark": "数据点单位"
+        },
+        {
+          "label": "format_round",
+          "type": "number",
+          "remark": "数据点小数点后数字位数(仅float类型生效)",
+          "default": 0,
+          "vars": {
+            "max": 9,
+            "min": 1,
+            "step": 1
+          }
+        }
+      ]
+    }
+  ],
+  "global": [
+    {
+      "label": "driver",
+      "type": "select",
+      "remark": "驱动程序",
+      "default": "simple",
+      "vars": [
+        "simple",
+        "json"
+      ]
+    }
+  ]
+}
