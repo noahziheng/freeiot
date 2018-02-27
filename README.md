@@ -9,7 +9,7 @@ For improving developement experience and reducing development threshold.
 </h3>
 <p align="center">
     <img alt="Documentation Build" src="https://api.travis-ci.org/noahziheng/freeiot.svg">
-    <img alt="Release Version" src="https://img.shields.io/badge/release-v1.1.0-brightgreen.svg">
+    <img alt="Release Version" src="https://img.shields.io/badge/release-v0.9.0-brightgreen.svg">
     <img alt="GPLv3" src="https://img.shields.io/badge/license-GPLv3-red.svg">
 </p>
 
