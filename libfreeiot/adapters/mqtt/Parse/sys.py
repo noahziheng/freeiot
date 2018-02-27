@@ -18,11 +18,12 @@ def online(client, device):
             "version": dict(device).get("version")
         }
     })
-    client.publish(dict(device).get("id") + "/status/u", Constant.Status.STATUS_WAIT)
+    client.publish(dict(device).get("id") + "/status/d", Constant.Status.STATUS_WAIT)
     if "TOPICS_NEED" in os.environ:
         topics_need = json.loads(os.environ.get("TOPICS_NEED"))
         for item in topics_need:
             client.subscribe(dict(device).get("id") + "/" + item + "/u")
+            client.subscribe(dict(device).get("id") + "/" + item + "/d")
     print(dict(device).get("id") + " Online")
 
 def offline(client, device):
@@ -35,10 +36,11 @@ def offline(client, device):
             "power": -1
             }
         })
-    client.publish(dict(device).get("id") + "/status/u", Constant.Status.STATUS_UNKNOWN)
+    client.publish(dict(device).get("id") + "/status/d", Constant.Status.STATUS_UNKNOWN)
     if "TOPICS_NEED" in os.environ:
         topics_need = json.loads(os.environ.get("TOPICS_NEED"))
         print(topics_need)
         for item in topics_need:
             client.unsubscribe(dict(device).get("id") + "/" + item + "/u")
+            client.unsubscribe(dict(device).get("id") + "/" + item + "/d")
     print(dict(device).get("id") + " Offline")
