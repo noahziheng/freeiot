@@ -1,8 +1,19 @@
-# FreeIOT
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/noahziheng/freeiot/master/icons/playstore/icon.png" width="128">
+  <br/>
+  FreeIOT
+</h1>
+<h3 align="center">
+FreeIOT is a free, open-source Internet-Of-Thing Framework.
+For improving developement experience and reducing development threshold.
+</h3>
+<center>
+    <img alt="Documentation Build" src="https://api.travis-ci.org/noahziheng/freeiot.svg">
+    <img alt="Release Version" src="https://img.shields.io/badge/release-v1.1.0-brightgreen.svg">
+    <img alt="GPLv3" src="https://img.shields.io/badge/license-GPLv3-red.svg">
+</center>
 
-[中文文档在此](https://github.com/noahziheng/freeiot) ![Documentation](https://api.travis-ci.org/noahziheng/freeiot.svg)
-
-FreeIOT is a free, open-source Internet-Of-Thing Developer Suite.For improving developement experience and reducing development threshold.
+[中文说明在此](https://github.com/noahziheng/freeiot)
 
 ## Documentation
 
