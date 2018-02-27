@@ -1,15 +1,3 @@
-[submodule "api"]
-	path = api
-	url = git@github.com:noahziheng/freeiot-api.git
-[submodule "web"]
-	path = web
-	url = git@github.com:noahziheng/freeiot-web.git
 [submodule "android"]
 	path = android
 	url = git@github.com:noahziheng/freeiot-android.git
-[submodule "firmware/esp8266"]
-	path = firmware/esp8266
-	url = git@github.com:noahziheng/freeiot-firmware-esp8266.git
-[submodule "firmware/nodejs"]
-	path = firmware/nodejs
-	url = git@github.com:noahziheng/freeiot-firmware-nodejs.git
