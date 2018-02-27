@@ -1,0 +1,98 @@
+{
+  "name":"DHT11温湿度传感器",
+  "vars": [
+    {
+      "remark": "温度数据点",
+      "required": true,
+      "content": [
+        {
+          "label": "name",
+          "type": "text",
+          "remark": "温度数据名称",
+          "default": "温度"
+        },
+        {
+          "label": "label",
+          "type": "text",
+          "remark": "温度数据标志",
+          "default": "T"
+        },
+        {
+          "label": "show_max",
+          "type": "number",
+          "remark": "温度最大值",
+          "default": -1
+        },
+        {
+          "label": "show_min",
+          "type": "number",
+          "remark": "温度最小值",
+          "default": -1
+        },
+        {
+          "label": "format_round",
+          "type": "number",
+          "remark": "温度保留小数",
+          "default": 0,
+          "vars": {
+            "max": 9,
+            "min": 1,
+            "step": 1
+          }
+        }
+      ]
+    },
+    {
+      "remark": "湿度数据点",
+      "content": [
+        {
+          "label": "name_2",
+          "type": "text",
+          "remark": "湿度数据名称",
+          "default": "湿度"
+        },
+        {
+          "label": "label_2",
+          "type": "text",
+          "remark": "湿度数据标志",
+          "default": "H"
+        },
+        {
+          "label": "show_max_2",
+          "type": "number",
+          "remark": "湿度最大值",
+          "default": -1
+        },
+        {
+          "label": "show_min_2",
+          "type": "number",
+          "remark": "湿度最小值",
+          "default": -1
+        },
+        {
+          "label": "format_round_2",
+          "type": "number",
+          "remark": "湿度保留小数",
+          "default": 0,
+          "vars": {
+            "max": 9,
+            "min": 1,
+            "step": 1
+          }
+        }
+      ]
+    }
+  ],
+  "global": [
+    {
+      "label": "driver",
+      "type": "select",
+      "remark": "驱动程序",
+      "default": "simple",
+      "vars": [
+        "simple",
+        "json"
+      ]
+    }
+  ]
+}
