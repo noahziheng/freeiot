@@ -7,11 +7,11 @@
 FreeIOT is a free, open-source Internet-Of-Thing Framework.
 For improving developement experience and reducing development threshold.
 </h3>
-<center>
+<p align="center">
     <img alt="Documentation Build" src="https://api.travis-ci.org/noahziheng/freeiot.svg">
     <img alt="Release Version" src="https://img.shields.io/badge/release-v1.1.0-brightgreen.svg">
     <img alt="GPLv3" src="https://img.shields.io/badge/license-GPLv3-red.svg">
-</center>
+</p>
 
 [中文说明在此](https://github.com/noahziheng/freeiot)
 
