@@ -4,7 +4,7 @@
   FreeIOT
 </h1>
 <h3 align="center">
-FreeIOT is a free, open-source Internet-Of-Thing Framework.
+A free, open-source Internet-Of-Thing Framework.<br>
 For improving developement experience and reducing development threshold.
 </h3>
 <p align="center">
