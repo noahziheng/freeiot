@@ -5,12 +5,11 @@ Updated at: 2018-2-2
 """
 import os
 import datetime
-from flask import request, jsonify, redirect, url_for
+from flask import request, jsonify
 from flask_restful import Api
 from flask_jwt_simple import JWTManager, create_jwt
 from .resources.device import Device
 from .resources.data import Data
-from . import mongo
 
 JWT_EXPIRES = 7 * 24 * 3600
 
@@ -46,17 +45,6 @@ def create_routes(app):
             return jsonify({"msg": "Bad username or password"}), 401
 
         return jsonify({'jwt': create_jwt(identity=username)}), 200
-
-    @app.route('/uploads/<path:filename>', methods=['POST'])
-    def save_upload(filename):
-        """ File Upload POST Route """
-        mongo.save_file(filename, request.files['file'], base = "datas")
-        return redirect(url_for('get_upload', filename=filename))
-
-    @app.route('/uploads/<path:filename>')
-    def get_upload(filename):
-        """ File Upload GET Route """
-        return mongo.send_file(filename, base = "datas")
 
     # RESTFul API Routes definition
     api = Api(app)

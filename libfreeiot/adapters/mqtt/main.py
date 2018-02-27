@@ -20,6 +20,7 @@ class MQTTAdapter(BaseAdapter):
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
         self.client.connect(self.server_address, self.server_port, 60) # 连接服务器（TCP）
+        self.scope["mqttClient"] = self.client # 将 client 代入 Adapter 作用域
         self.client.loop_start()
         print('Hello from MQTTAdapter')
 

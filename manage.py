@@ -2,9 +2,9 @@
 """
     Sample script for create a FreeIOT Application
 """
-import os
 from libfreeiot import app
 from libfreeiot.adapters.mqtt import MQTTAdapter
+from libfreeiot.adapters.file import FileAdapter
 
 if __name__ == '__main__':
-    app.run(int(os.environ.get("PORT")), adapters = [ MQTTAdapter() ])
+    app.run(adapters = [ MQTTAdapter(), FileAdapter() ])
