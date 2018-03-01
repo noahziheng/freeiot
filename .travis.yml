@@ -20,6 +20,7 @@ install:
 script:
     # 自定义输出目录 gitbook build src dest
   - gitbook build ./docs ./build
+  - touch ./build/.nojekyll
 
 # 分支白名单
 branches:
