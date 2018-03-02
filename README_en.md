@@ -16,6 +16,7 @@
 ### Via Package Manager
 
 ```shell
+
  pip install libfreeiot
 ```
 
