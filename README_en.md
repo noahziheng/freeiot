@@ -2,7 +2,7 @@
 
 # FreeIOT
 
-> 一个轻巧灵活的开源物联网中间件框架
+> A lightweight, flexible and open-source Middleware Internet-Of-Thing Framework.
 
 ![Documentation Build](https://api.travis-ci.org/noahziheng/freeiot.svg)
 [![pypi](https://img.shields.io/pypi/v/libfreeiot.svg)](https://pypi.org/project/libfreeiot/)
@@ -11,40 +11,40 @@
 
 [English Introduction](./README_en.md)
 
-## 安装
+## Installation
 
-### 通过包管理器安装
+### Via Package Manager
 
 ```shell
  pip install libfreeiot
 ```
 
-### 构建安装
+### Build Setup
 
 ```shell
 git clone https://github.com/noahziheng/freeiot.git
 cd freeiot
-python3 setup.py install --user # *nix 类系统使用
-python setup.py install --user # Windows 系统使用
+python3 setup.py install --user # On *nix-like system
+python setup.py install --user # On Windows system
 ```
 
-## 文档
+## Documentation
 
-[点击进入文档中心](https://noahziheng.github.io/freeiot)
+[Documentation Here](https://noahziheng.github.io/freeiot)
 
-## 相关项目
+## Related Project
 
 - [Flask](https://github.com/pallets/flask)
 - [PyMongo](https://github.com/mongodb/mongo-python-driver)
 - [Eclipse Paho](https://www.eclipse.org/paho/)
 
-## 捐助
+## Donation
 
-支付宝：noahgaocn@outlook.com (\*梓恒)
+Alipay: noahgaocn@outlook.com (\*梓恒)
 
-> 如果我的工作对您有所帮助，欢迎您对本项目进行捐助。
+> If you feel that my job is good for you, then you can donate operating expenses for the project.
 
-## 开源授权
+## License
 
   Copyright (C) 2017 Noah Gao <noahgaocn@gmail.com>
 
