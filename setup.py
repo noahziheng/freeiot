@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "libfreeiot",
-    version = "0.9",
+    version = "0.9.1",
     description = 'A free, open-source IoT Framework',
     author = 'Noah Gao',
     author_email = 'noahgaocn@outlook.com',
