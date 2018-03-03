@@ -18,36 +18,32 @@ FreeIOT是一个开源的物联网中间件框架，致力于提高物联网开�
 
 ## 主要特性
 
-高效：基于MQTT和Node.js开发的消息服务框架效率很高，足够保证您的物联网设备稳定接入；
+高效：核心库只用于建立服务，消息处理效率很高，力保物联网设备稳定接入；
 
-安全：独立的用户机制和全站HTTPS保证了开发、使用过程中的安全；
+易用：基于 Adapter 驱动框架，开发轻快易懂；
 
-易用：精心制作的各种引导、齐全的文档帮助您以最快的速度完成物联网设备的开发与接入；
+灵活：除核心库外，各外部组件均可自主选用；
 
-灵活：基于模块驱动，开发轻快易懂，性能优越；
+接口友好：采用行业通用的 MQTT 协议和 RESTFul API 作为接口，文档及代码全部开放，兼容性优秀；
 
-API友好：API文档及代码全部开放，轻松进行周边开发；
-
-开放：完全开源的项目，不受任何商业协议、项目掣肘。
-
+开放：开源项目，不受任何商业协议掣肘，亦不用担心安全性问题。
 
 ## 版权申明
 
-发布本资料须遵守开放出版许可协议 1.0 或者更新版本。
+[![license](https://img.shields.io/github/license/noahziheng/freeiot.svg?style=flat-square)](https://github.com/noahziheng/freeiot/blob/master/LICENSE.txt)
+[![知识共享许可协议](https://i.creativecommons.org/l/by-nc/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc/4.0/)
 
-未经版权所有者明确授权，禁止发行本文档及其被实质上修改的版本。
+FreeIOT 项目使用 MIT 开源许可证，有关协议信息参照 [协议正文](https://github.com/noahziheng/freeiot/blob/master/LICENSE.txt)
 
-未经版权所有者事先授权，禁止将此作品及其衍生作品以标准（纸质）书籍形式发行。
+本文档内内容采用 [知识共享署名-非商业性使用 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc/4.0/) 进行许可。
 
-如果有兴趣再发行或再版本手册的全部或部分内容，不论修改过与否，或者有任何问题，请联系版权所有者 noahgaocn@gmail.com。
+对 FreeIOT 项目及本文档有任何疑问或者建议，请访问项目 [Github 仓库](https://github.com/noahziheng/freeiot) 发布 Issue 询问。
 
-对ThinkPHP有任何疑问或者建议，请进入前往主项目Github仓库 [ https://github.com/noahziheng/freeiot ] 发布issue询问。
+有关 FreeIOT 项目及本文档的最新进展，请及时访问项目 [Github 仓库](https://github.com/noahziheng/freeiot) 获取。
 
-有关FreeIOT项目及本文档的最新进展，请及时访问FreeIOT项目主站 https://iot.noahgao.net。
-
-> 本文档的版权归FreeIOT文档小组所有，本文档及其描述的内容受有关法律的版权保护，对本文档内容的任何形式的非法复制，泄露或散布，将导致相应的法律责任。
+> 本文档的版权归 FreeIOT 文档小组所有，本文档及其描述的内容受有关法律的版权保护，对本文档内容的任何形式的非法复制，泄露或散布，将导致相应的法律责任。
 
 ## 捐赠我们
 
 如果您对我的成果表示认同并且觉得对你有所帮助我愿意接受来自各方面的捐赠^\_^。
-支付宝转账：noahgaocn@outlook.com(高梓恒)
+支付宝：noahgaocn@outlook.com（\*梓恒）
