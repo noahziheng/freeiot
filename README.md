@@ -23,7 +23,8 @@
 ### 通过包管理器安装
 
 ```shell
- pip install libfreeiot
+ pip3 install libfreeiot # *nix 类系统使用
+ pip install libfreeiot # Windows 系统使用
 ```
 
 ### 构建安装
