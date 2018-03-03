@@ -13,7 +13,7 @@
 
 ## Features
 
-- :loop: A lightweight and reliable structure, suitable for the development of custom.
+- :loop: A lightweight and reliable structure, suitable for the development of custom.
 - :bulb: Based on Adapter design, strong scalability here.
 - :unlock: Open-source implementation，safe and controllable. Welcome join us.
 - :pencil: Document is complete and easy to understand.(WIP)
