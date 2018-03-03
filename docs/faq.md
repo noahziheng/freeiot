@@ -12,7 +12,7 @@
 ### RESTFul API 只能依据数据 ObjectId 单条提取数据吗？
 
 <span id="core-1"></span>
-是的，数据信息的 REST API 接口我们仅建议小规模使用，较大规模查询建议使用 `GraphQLAdapter(WIP)` 或开发专项的 Adapter 进行数据分析后提供特定的 API 接口。
+是的，数据信息的 REST API 接口我们仅建议小规模使用，较大规模查询建议使用 `GraphQLAdapter(WIP)` 或开发专门的 Adapter 进行数据分析后提供特定的 API 接口。
 
 ## Adapter 常见问题
 

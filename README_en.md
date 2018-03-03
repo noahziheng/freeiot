@@ -20,6 +20,8 @@
 
 ## Installation
 
+> FreeIOT require Python3.5+
+
 ### Via Package Manager
 
 ```shell

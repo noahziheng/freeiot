@@ -20,6 +20,8 @@
 
 ## 安装
 
+> FreeIOT 使用 Python3 开发，您应在安装 FreeIOT 之前先行安装 Python3.5 以上版本。
+
 ### 通过包管理器安装
 
 ```shell

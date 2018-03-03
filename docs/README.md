@@ -35,7 +35,7 @@ FreeIOT是一个开源的物联网中间件框架，致力于提高物联网开�
 
 FreeIOT 项目使用 MIT 开源许可证，有关协议信息参照 [协议正文](https://github.com/noahziheng/freeiot/blob/master/LICENSE.txt)
 
-本文档内内容采用 [知识共享署名-非商业性使用 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc/4.0/) 进行许可。
+本文档内容采用 [知识共享署名-非商业性使用 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc/4.0/) 进行许可。
 
 对 FreeIOT 项目及本文档有任何疑问或者建议，请访问项目 [Github 仓库](https://github.com/noahziheng/freeiot) 发布 Issue 询问。
 

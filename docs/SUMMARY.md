@@ -4,6 +4,7 @@
 - [快速指南](howtouse/README.md)
   - [开发者快速指南](howtouse/README.md)
   - [实例1：MQTT 方案保存温度数据](howtouse/ex1.md)
+- [配置文件详解](config.md)
 - [RESTFul API](api/README.md)
 - [Adapter 开发](adapter/README.md)
 - [常见问题解答(FAQ)](faq.md)
