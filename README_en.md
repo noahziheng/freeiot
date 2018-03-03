@@ -54,7 +54,7 @@ Alipay: noahgaocn@outlook.com (\*梓恒)
 
 ## License
 
-  Copyright (C) 2017 Noah Gao <noahgaocn@gmail.com>
+    Copyright (C) 2018 Noah Gao <noahgaocn@gmail.com>
 
-  Licensed under the GNU General Public License (GPL) v3.
-  For more information see LICENSE.txt.
+    Licensed under the MIT License.
+    For more information see LICENSE.txt.

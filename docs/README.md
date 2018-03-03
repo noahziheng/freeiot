@@ -4,19 +4,17 @@
   FreeIOT
 </h1>
 <h3 align="center">
-开源免费的物联网中间件框架<br>
+轻巧灵活的开源物联网中间件框架<br>
 更好的开发体验，更低的开发门槛
 </h3>
-<p align="center">
-    <img alt="Documentation Build" src="https://api.travis-ci.org/noahziheng/freeiot.svg">
-    <img alt="Release Version" src="https://img.shields.io/badge/release-v0.9.0-brightgreen.svg">
-    <img alt="GPLv3" src="https://img.shields.io/badge/license-GPLv3-red.svg">
-</p>
 
-# FreeIOT 文档中心
-FreeIOT是一个自由、开源的物联网开发套件/平台，项目致力于提高物联网开发者的开发体验，降低物联网设备的开发门槛，将在保证性能的前提下提供最优的体验。项目完全基于GPLv3开源，您可在任一开源项目内使用来自FreeIOT的代码或开放资源。
+# 简介
 
-> 本文档正在寻找文档编写志愿者，如您由能力和时间帮助我，请邮件noahgaocn@gmail.com与我联系 :)
+FreeIOT是一个开源的物联网中间件框架，致力于提高物联网开发者的开发体验，降低物联网设备的开发门槛，将在保证性能的前提下提供最优的体验。
+
+项目完全基于 MIT 开源，您可在任一项目内使用来自 FreeIOT 的代码或开放资源。
+
+> 本项目正在寻找合作开发者、文档编写志愿者、社区运营志愿者，如您有能力和时间帮助我，请邮件noahgaocn@gmail.com 与我联系 :)
 
 ## 主要特性
 

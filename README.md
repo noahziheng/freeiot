@@ -63,7 +63,7 @@ FreeIOT v1 是全端支持的物联网开放平台，本人于 2016 年进行开
 
 ## 开源授权
 
-  Copyright (C) 2017 Noah Gao <noahgaocn@gmail.com>
+    Copyright (C) 2018 Noah Gao <noahgaocn@gmail.com>
 
-  Licensed under the GNU General Public License (GPL) v3.
-  For more information see LICENSE.txt.
+    Licensed under the MIT License.
+    For more information see LICENSE.txt.
