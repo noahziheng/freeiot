@@ -18,19 +18,23 @@
 
 <span id="adapter"></span>
 
-### 问题1
+### MQTTAdapter 能否使用其他的 MQTT Broker？
 
 <span id="adapter-1"></span>
 
-### 问题2
+符合 MQTT 3 协议的都可以，不过仍然建议使用支持更完善的 MQTT 3.1.1 协议的 Broker。
+
+### MQTTAdapter 已上线的设备在 FreeIOT 系统重启后需要重新上线才能正常工作。
 
 <span id="adapter-2"></span>
+
+这是正常现象，正在开发的状态更新功能将解决这一问题，通过定时发送状态更新包来维持在线状态。
 
 ## 系统开发常见问题
 
 <span id="system"></span>
 
-### 我能不能使用 MongoDB 以外的其他数据库
+### 我能不能使用 MongoDB 以外的其他数据库？
 
 <span id="system-1"></span>
 抱歉，目前版本的核心库只支持 MongoDB，未来将引入数据库驱动机制，是 MySQL, PostgreSQL, Redis 等可作为数据存储系统。

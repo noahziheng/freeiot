@@ -11,11 +11,6 @@ FreeIOT 采用 [dotenv](https://github.com/motdotla/dotenv) 作为配置的读�
 | MONGO_PORT        | 27017          | MongoDB 数据库端口                                                            |
 | MONGO_DBNAME      | freeiot        | MongoDB 数据库名                                                              |
 | ADMIN_PASSWORD    | admin          | `WIP` 核心 API 鉴权服务 admin 用户密码                                        |
-| MQTT_HOST         | localhost      | MQTT Broker 地址（MQTTAdapter 专用）                                          |
-| MQTT_PORT         | 1883           | MQTT Broker 地址（MQTTAdapter 专用）                                          |
-| MQTT_CLIENTID     | "mqtt-adapter" | 连接到 MQTT Broker 时使用的 clientID（MQTTAdapter 专用）                      |
-| TOPIC_NEEDS       | []             | MQTT 服务需关注的 topic，使用 JSON 数组表示（MQTTAdapter 专用）               |
-| MQTT_PARSE_DRIVER | json           | `WIP` MQTT 服务消息解析驱动，可选 json, msgpack, protobuf（MQTTAdapter 专用） |
 
 注1：核心库对 MongoDB 支持更多配置，如认证等，可参照 [Flask-PyMongo 文档](https://flask-pymongo.readthedocs.io/en/latest/) 配置
 注2：`.env` 文件应放置在当前运行路径（CWD）的同目录或上层目录
