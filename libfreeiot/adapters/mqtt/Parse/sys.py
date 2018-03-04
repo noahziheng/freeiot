@@ -24,6 +24,7 @@ def online(client, device):
         for item in topics_need:
             client.subscribe(dict(device).get("id") + "/" + item + "/u")
             client.subscribe(dict(device).get("id") + "/" + item + "/d")
+            print("Auto subscribing", dict(device).get("id") + "/" + item + "/(u|d)")
     print(dict(device).get("id") + " Online")
 
 def offline(client, device):

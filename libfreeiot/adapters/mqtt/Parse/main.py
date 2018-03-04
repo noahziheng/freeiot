@@ -19,6 +19,7 @@ def before_check(d_id):
 
 def main(client, topic, payload):
     """ Parse Engine Main Function """
+    print("Parsing ", topic, payload)
     if topic[0]=='SYS':
         if not before_check(ObjectId(payload["id"])):
             return

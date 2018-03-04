@@ -43,7 +43,7 @@ MQTT_HOST = localhost
 MQTT_PORT = 1883
 MQTT_CLIENTID = "mqtt-guide"
 MQTT_PARSE_DRIVER = json
-TOPIC_NEEDS = ["tempature"]
+TOPICS_NEED = ["tempature"]
 ```
 
 再建立一个 `manage.py` 启动脚本：
@@ -113,3 +113,52 @@ app.run(adapters = [ MQTTAdapter() ])
 
 我们主要是修改了 ClientId 来保证设备唯一，修改了 MQTT Broker 的连接地址，并配置了一份“遗嘱（will）”来让 FreeIOT 知悉设备的离线。
 
+接下来，新建一个 Publisher，用于向 FreeIOT 宣示设备上线。
+
+![Online](../images/howtouse/4.png)
+
+如果一切正常，在 FreeIOT 的运行窗口中将可以看到：
+
+![Online Result](../images/howtouse/6.png)
+
+然后，我们来上传数据，新建一个 Publisher，向 `<your device objectid>/tempature/u` 这一 topic 推送一个“假”温度（注意此处的温度数据本质上是 JSON，只不过 JSON 规定不加修饰符的就是数字）
+
+![Data](../images/howtouse/5.png)
+
+最后，我们来检验一下成果，运行：
+
+```shell
+ curl http://127.0.0.1:3000/api/device/<your device objectid>\
+    -H "Accept: application/json"\
+    -H "Content-type: application/json"\
+    -H "Authorization:Bearer <your jwt token>"\
+```
+
+可以看到
+
+```json
+{
+    "_id": {
+        "$oid": "5a9a8e31baf04c21194069d3"
+    },
+    "remark": "\u6d4b\u8bd5\u6837\u673a",
+    "status": 1,
+    "version": "test version",
+    "lastdata": {
+        "tempature": {
+            "flag": "u",
+            "content": 20,
+            "original": {
+                "$ref": "datas",
+                "$id": {
+                    "$oid": "5a9b71a4baf04c3898fc9a2c"
+                }
+            }
+        }
+    }
+}
+```
+
+可以清晰地看到，“假”温度已经正常存入了系统，至此，实例完成~
+
+本文只是大概的介绍了 MQTTAdapter 的简单用法和协议格式，深入了解仍需参见 [MQTTAdapter 说明文档](../adapter/mqtt.md)。
