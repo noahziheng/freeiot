@@ -142,6 +142,8 @@ DataRef 类型（FreeIOT）用于记录某个数据主题的状态，详细参�
 
 ## RESTFul API
 
+<span id="api"></span>
+
 由于 FreeIOT 对于 `设备` 和 `数据` 的操作支持集成在核心库内，所以，我们现在已经可以通过 HTTP API 进行读写操作了。
 
 FreeIOT 采用 RESTFul API 作为主接口，使用 Flask 提供服务，集成 Flask-RESTFul 进行参数处理，并引入 [JWT](https://jwt.io) 作为认证手段。
@@ -192,6 +194,8 @@ FreeIOT 采用 RESTFul API 作为主接口，使用 Flask 提供服务，集成 
 
 ## Adapter
 
+<span id="adapter"></span>
+
 `Adapter` 是使用 FreeIOT 开发物联网系统的最主要形式，可用于建立新的查询接口、建立操作界面、兼容新的数据类型以及最关键的使用“物联网”方式收集、发送数据。
 
 RESTFul API 方式并不适合在设备侧使用，有 HTTP 资源消耗较大，开发繁琐，接口需要鉴权一类的缺点。而专为物联网而生的 MQTT 协议就完全解决了这些问题。
@@ -214,5 +218,7 @@ MQTTAdpter 是 FreeIOT 官方支持的，包含在 libfreeiot 包内，它的使
 我们还提供了一些其他的 Adapter，它们的介绍与使用说明参见 [Adapter](../adapter) 一章。
 
 ## 写在最后
+
+<span id="end"></span>
 
 以上我们简单介绍了 FreeIOT 的基本概念、用法，FreeIOT 的设计目标是一个框架，我们对开发接口（Adapter）、核心接口（RESTFul API）的描述将贯穿整个文档，希望大家能利用 FreeIOT提供的接口方案轻松打造出自己的物联网产品。

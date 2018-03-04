@@ -31,10 +31,7 @@ def offline(client, device):
     d_id = dict(device).get("id")
     mongo.db.devices.update_one(
         {"_id": ObjectId(d_id)},
-        { "$set": {
-            "status":  Constant.Status.STATUS_UNKNOWN,
-            "power": -1
-            }
+        { "$set": { "status":  Constant.Status.STATUS_UNKNOWN }
         })
     client.publish(dict(device).get("id") + "/status/d", Constant.Status.STATUS_UNKNOWN)
     if "TOPICS_NEED" in os.environ:

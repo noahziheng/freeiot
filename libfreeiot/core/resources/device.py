@@ -35,12 +35,16 @@ class Device(Resource):
         """
         parser = reqparse.RequestParser()
         parser.add_argument('remark', type=str, help='Remark of the device')
+        parser.add_argument('status', type=int, help='Status of the device')
+        parser.add_argument('version', type=str, help='Version of the device')
         args = parser.parse_args()
         if device_id is None:
             data = args
             data['_id'] = ObjectId()
         else:
             data["remark"] = args["remark"]
+            data["status"] = args["status"]
+            data["version"] = args["version"]
         res = mongo.db.devices.save(data)
         return Response(
             json_util.dumps(data),
