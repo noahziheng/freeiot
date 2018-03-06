@@ -23,8 +23,8 @@ def create_routes(app):
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
     jwt = JWTManager(app)
 
-    @app.route('/')
-    def catch_all():
+    @app.route('/hello')
+    def say_hello():
         '''
           Index Route
         '''
