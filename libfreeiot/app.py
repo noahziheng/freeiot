@@ -27,4 +27,4 @@ def run(port = int(os.environ.get("PORT")), host = "0.0.0.0", adapters = None, a
         adapter.init(app, scope) # Initialize all adapters
         adapter.run() # Run all adapters
 
-    app.run(debug=os.environ.get("DEBUG") == "true", port=port) # Start API services
+    app.run(debug=os.environ.get("DEBUG") == "true", port=port, host=os.environ.get('HOST', '127.0.0.1')) # Start API services
