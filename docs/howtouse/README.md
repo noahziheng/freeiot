@@ -37,8 +37,8 @@ FreeIOT 需要使用 MongoDB 数据库，我们在以下的实例中使用在本
 建立 `.env` 文件如下：（可参考项目 Github 仓库中的 [`.env.sample`](https://github.com/noahziheng/freeiot/blob/master/.env.sample) 文件）
 
 ```dotenv
-PORT = 3000
-DEBUG = true
+APP_PORT = 3000
+APP_DEBUG = true
 FLASK_CONFIG = development
 MONGO_HOST = localhost
 MONGO_PORT = 27017

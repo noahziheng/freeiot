@@ -4,8 +4,9 @@ FreeIOT 采用 [dotenv](https://github.com/motdotla/dotenv) 作为配置的读�
 
 | 配置项            | 默认值         | 描述                                                                          |
 | ----------------- | -------------- | ----------------------------------------------------------------------------- |
-| PORT              | 3000           | 核心 API 服务端口                                                             |
-| DEBUG             | true           | 调试模式开关（布尔值，全小写）                                                |
+| APP_HOST              | 127.0.0.1  | 核心 API 服务地址                                                      |
+| APP_PORT              | 3000           | 核心 API 服务端口                                                             |
+| APP_DEBUG             | true           | 调试模式开关（布尔值，全小写）                                                |
 | FLASK_CONFIG      | development    | Flask 配置项，可选production,development,testing                              |
 | MONGO_HOST        | localhost      | MongoDB 数据库地址                                                            |
 | MONGO_PORT        | 27017          | MongoDB 数据库端口                                                            |
