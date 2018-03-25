@@ -31,8 +31,8 @@ MQTTAdapter 建议使用 [Eclipse Mosquitto](https://mosquitto.org/)，这是兼
 
 ```dotenv
 # 全局配置
-PORT = 3000
-DEBUG = false
+APP_PORT = 3000
+APP_DEBUG = false
 FLASK_CONFIG = development
 MONGO_HOST = localhost
 MONGO_PORT = 27017
