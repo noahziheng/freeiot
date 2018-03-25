@@ -42,6 +42,7 @@ class Device(Resource):
             data = args
             data['_id'] = ObjectId()
         else:
+            data = {}
             data["remark"] = args["remark"]
             data["status"] = args["status"]
             data["version"] = args["version"]
