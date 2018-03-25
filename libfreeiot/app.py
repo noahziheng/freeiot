@@ -11,7 +11,10 @@ def create_flask_app():
     """ Function for create flask application instance """
     return create_app(os.getenv('FLASK_CONFIG') or 'default')
 
-def run(port = int(os.environ.get("PORT")), host = "0.0.0.0", adapters = None, app = None):
+def run(port = int(os.environ.get("APP_PORT")),
+    host = os.environ.get('APP_HOST', '127.0.0.1'),
+    adapters = None,
+    app = None):
     """ Main Method for running application """
     if app is None:
         app = create_flask_app() # Create Flask Application
@@ -27,4 +30,4 @@ def run(port = int(os.environ.get("PORT")), host = "0.0.0.0", adapters = None, a
         adapter.init(app, scope) # Initialize all adapters
         adapter.run() # Run all adapters
 
-    app.run(debug=os.environ.get("DEBUG") == "true", port=port, host=os.environ.get('HOST', '127.0.0.1')) # Start API services
+    app.run(debug=os.environ.get("APP_DEBUG") == "true", port=port, host=host) # Start API services
