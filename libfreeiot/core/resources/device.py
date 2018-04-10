@@ -4,7 +4,7 @@
     Author: Noah Gao
     Updated at: 2018-02-23
 """
-from flask import Response
+from flask import Response, abort
 from flask_restful import Resource, reqparse
 from flask_jwt_simple import jwt_required
 from bson import json_util, ObjectId
@@ -40,13 +40,22 @@ class Device(Resource):
         args = parser.parse_args()
         if device_id is None:
             data = args
-            data['_id'] = ObjectId()
+            res = mongo.db.devices.insert_one(data)
         else:
             data = {}
-            data["remark"] = args["remark"]
-            data["status"] = args["status"]
-            data["version"] = args["version"]
-        res = mongo.db.devices.save(data)
+            if not args["remark"] is None:
+                data["remark"] = args["remark"]
+            if not args["status"] is None:
+                data["status"] = args["status"]
+            if not args["version"] is None:
+                data["version"] = args["version"]
+            if not ObjectId.is_valid(device_id):
+                return abort(400)
+            if(len(data) < 1):
+                return abort(400)
+            mongo.db.devices.update_one({"_id": ObjectId(device_id)},{
+                "$set": data
+            })
         return Response(
             json_util.dumps(data),
             mimetype='application/json'
