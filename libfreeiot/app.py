@@ -30,4 +30,4 @@ def run(port = int(os.environ.get("APP_PORT")),
         adapter.init(app, scope) # Initialize all adapters
         adapter.run() # Run all adapters
 
-    app.run(debug=os.environ.get("APP_DEBUG") == "true", port=port, host=host) # Start API services
+    app.run(debug=os.environ.get("APP_DEBUG") == "true", port=port, host=host, threaded=True) # Start API services
