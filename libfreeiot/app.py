@@ -4,7 +4,12 @@
     Author: Noah Gao
     Updated at: 2018-02-23
 """
+
+# Load environment
 import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv(usecwd=True), override=True)
+
 from libfreeiot.core import create_app
 
 def create_flask_app():
