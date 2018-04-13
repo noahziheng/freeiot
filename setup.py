@@ -5,12 +5,12 @@ from setuptools import setup, find_packages
 
 setup(
     name = "libfreeiot",
-    version = "0.9.10",
+    version = "0.9.11",
     description = 'A free, open-source IoT Framework',
     author = 'Noah Gao',
     author_email = 'noahgaocn@outlook.com',
     url = 'https://github.com/noahziheng/freeiot',
-    download_url = 'https://github.com/noahziheng/freeiot/archive/0.9.10.tar.gz',
+    download_url = 'https://github.com/noahziheng/freeiot/archive/0.9.11.tar.gz',
     packages = find_packages(),
     install_requires=[    # 依赖列表
         'Flask>=0.12.2',

@@ -42,6 +42,9 @@ class MQTTAdapter(BaseAdapter):
         if self.parse_driver == 'msgpack':
             raise OSError("Parse driver 'msgpack' under development.")
         elif self.parse_driver == 'json':
-            return json.loads(data)
+            try:
+                return json.loads(data)
+            except json.JSONDecodeError as e:
+                print("Parsing failed, reason: ", e)
         else:
             raise OSError("Parse driver '" + self.parse_driver + "' under development.")
