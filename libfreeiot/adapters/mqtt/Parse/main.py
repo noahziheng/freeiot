@@ -4,6 +4,7 @@ Author: Noah Gao
 Updated at: 2018-2-2
 """
 from bson import DBRef, ObjectId
+from datetime import datetime
 from .. import Constant
 from . import sys, mongo
 
@@ -39,7 +40,8 @@ def main(client, topic, payload):
             "device": DBRef("devices", topic[0]),
             "topic": topic[1],
             "flag": topic[2],
-            "content": payload
+            "content": payload,
+            "created_at": datetime.now()
         })
         mongo.db.devices.update_one({"_id": ObjectId(topic[0])},
         {
@@ -47,7 +49,8 @@ def main(client, topic, payload):
                 "lastdata." + topic[1]: {
                     "flag": topic[2],
                     "content": payload,
-                    "original": DBRef("datas", res.inserted_id)
+                    "original": DBRef("datas", res.inserted_id),
+                    "created_at": datetime.now()
                 }
             }
         })
