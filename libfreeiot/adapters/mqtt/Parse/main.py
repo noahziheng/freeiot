@@ -54,4 +54,4 @@ def main(client, topic, payload):
                 }
             }
         })
-        print(topic, payload)
+        print(topic, payload, "Created at:", datetime.now())
