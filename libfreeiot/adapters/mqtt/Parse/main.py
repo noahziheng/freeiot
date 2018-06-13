@@ -41,7 +41,7 @@ def main(client, topic, payload):
             "topic": topic[1],
             "flag": topic[2],
             "content": payload,
-            "created_at": datetime.now()
+            "created_at": datetime.utcnow()
         })
         mongo.db.devices.update_one({"_id": ObjectId(topic[0])},
         {
@@ -50,7 +50,7 @@ def main(client, topic, payload):
                     "flag": topic[2],
                     "content": payload,
                     "original": DBRef("datas", res.inserted_id),
-                    "created_at": datetime.now()
+                    "created_at": datetime.utcnow()
                 }
             }
         })
