@@ -9,7 +9,7 @@ test:
 	$(SETUP) test
 
 clean:
-	rm -fr build/ dist/ src/*.egg-info/
+	rm -fr build/ dist/ *.egg-info/
 	find . | grep __pycache__ | xargs rm -fr
 	find . | grep .pyc | xargs rm -f
 
