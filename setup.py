@@ -2,15 +2,21 @@
     Library's Setuptools Script
 """
 from setuptools import setup, find_packages
+import imp, os
+
+here = os.path.abspath(os.path.dirname(__file__))
+
+PACKAGE_NAME = 'libfreeiot'
+VERSION = imp.load_source('version', os.path.join(here, '%s/version.py' % PACKAGE_NAME)).__version__
 
 setup(
     name = "libfreeiot",
-    version = "0.9.12",
+    version = VERSION,
     description = 'A free, open-source IoT Framework',
     author = 'Noah Gao',
     author_email = 'noahgaocn@outlook.com',
     url = 'https://github.com/noahziheng/freeiot',
-    download_url = 'https://github.com/noahziheng/freeiot/archive/0.9.12.tar.gz',
+    download_url = 'https://github.com/noahziheng/freeiot/archive/' + VERSION + '.tar.gz',
     packages = find_packages(),
     install_requires=[    # 依赖列表
         'Flask>=0.12.2',
