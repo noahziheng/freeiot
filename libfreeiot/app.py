@@ -8,9 +8,12 @@
 # Load environment
 import os
 from dotenv import load_dotenv, find_dotenv
+from libfreeiot.core import create_app
+from libfreeiot import version
+
 load_dotenv(find_dotenv(usecwd=True), override=True)
 
-from libfreeiot.core import create_app
+print('FreeIOT Version: %s' % version.__version__)
 
 def create_flask_app():
     """ Function for create flask application instance """
