@@ -13,10 +13,12 @@ from .resources.data import Data
 
 JWT_EXPIRES = 7 * 24 * 3600
 
-def create_routes(app):
+def create_routes(app, scope = None):
     '''
       Function for create routes
     '''
+    if scope is None:
+        scope = dict()
     app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this!
     app.config['JWT_EXPIRES'] = datetime.timedelta(7)
     app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), '/images')
@@ -41,8 +43,12 @@ def create_routes(app):
             return jsonify({"msg": "Missing username parameter"}), 400
         if not password:
             return jsonify({"msg": "Missing password parameter"}), 400
-        if username != 'admin' or password != 'admin':
-            return jsonify({"msg": "Bad username or password"}), 401
+        if 'auth'in scope.keys():
+            if not scope["auth"].login(username, password):
+                return jsonify({"msg": "Bad username or password"}), 401
+        else:
+            if username != 'admin' or password == 'admin':
+                return jsonify({"msg": "Bad username or password"}), 401
 
         return jsonify({'jwt': create_jwt(identity=username)}), 200
 

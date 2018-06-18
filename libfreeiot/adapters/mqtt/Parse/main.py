@@ -3,8 +3,8 @@ Message Parse Module
 Author: Noah Gao
 Updated at: 2018-2-2
 """
-from bson import DBRef, ObjectId
 from datetime import datetime
+from bson import DBRef, ObjectId
 from .. import Constant
 from . import sys, mongo
 

@@ -1,8 +1,9 @@
 """
     Library's Setuptools Script
 """
+import imp
+import os
 from setuptools import setup, find_packages
-import imp, os
 
 here = os.path.abspath(os.path.dirname(__file__))
 

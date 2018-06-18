@@ -10,10 +10,12 @@ from libfreeiot.config import CONFIG
 
 mongo = PyMongo()
 
-def create_app(config_name):
+def create_app(config_name, scope = None):
     """
         Function for create Flask App instance
     """
+    if scope is None:
+        scope = dict()
     app = Flask(__name__) # Initialize app
 
     # Import project config
@@ -24,5 +26,5 @@ def create_app(config_name):
     mongo.init_app(app)
 
     from libfreeiot.core.routes import create_routes
-    app, api = create_routes(app) # Initialize api services with Routes definition
+    app, api = create_routes(app, scope) # Initialize api services with Routes definition
     return app

@@ -15,18 +15,22 @@ load_dotenv(find_dotenv(usecwd=True), override=True)
 
 print('FreeIOT Version: %s' % version.__version__)
 
+scope = dict()
+
 def create_flask_app():
     """ Function for create flask application instance """
-    return create_app(os.getenv('FLASK_CONFIG') or 'default')
+    global scope
+    return create_app(os.getenv('FLASK_CONFIG') or 'default', scope)
 
 def run(port = int(os.environ.get("APP_PORT")),
     host = os.environ.get('APP_HOST', '127.0.0.1'),
     adapters = None,
     app = None):
     """ Main Method for running application """
+    global scope
+
     if app is None:
         app = create_flask_app() # Create Flask Application
-    scope = dict()
 
     # 代入数据库句柄到 Adapter 作用域
     from .core import mongo
