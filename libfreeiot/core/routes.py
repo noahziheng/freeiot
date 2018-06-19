@@ -5,7 +5,8 @@ Updated at: 2018-2-2
 """
 import os
 import datetime
-from flask import request, jsonify
+from bson import json_util
+from flask import request, jsonify, Response
 from flask_restful import Api
 from flask_jwt_simple import JWTManager, create_jwt
 from .resources.device import Device
@@ -44,13 +45,18 @@ def create_routes(app, scope = None):
         if not password:
             return jsonify({"msg": "Missing password parameter"}), 400
         if 'auth'in scope.keys():
-            if not scope["auth"].login(username, password):
+            authr = scope["auth"].login(username, password)
+            if not authr:
                 return jsonify({"msg": "Bad username or password"}), 401
         else:
             if username != 'admin' or password == 'admin':
                 return jsonify({"msg": "Bad username or password"}), 401
-
-        return jsonify({'jwt': create_jwt(identity=username)}), 200
+        res = authr or {}
+        res["jwt"] = create_jwt(identity=username)
+        return Response(
+            json_util.dumps(res),
+            mimetype='application/json'
+        ), 200
 
     # RESTFul API Routes definition
     api = Api(app)
