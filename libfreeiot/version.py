@@ -4,4 +4,4 @@ Version Info
 """
 
 script_name = 'libfreeiot'
-__version__ = '0.9.16'
+__version__ = '0.9.17'
