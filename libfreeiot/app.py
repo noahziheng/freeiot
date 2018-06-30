@@ -14,6 +14,8 @@ from libfreeiot import version
 load_dotenv(find_dotenv(usecwd=True), override=True)
 
 print('FreeIOT Version: %s' % version.__version__)
+print('Web Service: %s:%s' % (os.environ.get('APP_HOST'), os.environ.get('APP_PORT')))
+print('MongoDB Service: %s:%s/%s' % (os.environ.get('MONGO_HOST'), os.environ.get('MONGO_PORT'), os.environ.get('MONGO_DBNAME')))
 
 scope = dict()
 
