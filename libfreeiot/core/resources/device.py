@@ -9,6 +9,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt_simple import jwt_required
 from bson import json_util, ObjectId
 from libfreeiot.core import mongo
+from libfreeiot.app import scope
 
 class Device(Resource):
     """
