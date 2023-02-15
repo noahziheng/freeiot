@@ -18,5 +18,5 @@ pymongo==3.6.0
 python-dotenv==0.7.1
 pytz==2018.3
 six==1.11.0
-Werkzeug==0.15.3
+Werkzeug==2.2.3
 wrapt==1.10.11
