@@ -48,12 +48,6 @@ python setup.py install --user # On Windows system
 - [PyMongo](https://github.com/mongodb/mongo-python-driver)
 - [Eclipse Paho](https://www.eclipse.org/paho/)
 
-## Donation
-
-Alipay: noahgaocn@outlook.com (\*梓恒)
-
-> If you feel that my job is good for you, then you can donate operating expenses for the project.
-
 ## License
 
     Copyright (C) 2018 Noah Gao <noahgaocn@gmail.com>

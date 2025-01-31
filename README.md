@@ -58,12 +58,6 @@ FreeIOT v1 是全端支持的物联网开放平台，本人于 2016 年进行开
 - [PyMongo](https://github.com/mongodb/mongo-python-driver)
 - [Eclipse Paho](https://www.eclipse.org/paho/)
 
-## 捐助
-
-支付宝：noahgaocn@outlook.com (\*梓恒)
-
-> 如果我的工作对您有所帮助，欢迎您对本项目进行捐助。
-
 ## 开源授权
 
     Copyright (C) 2018 Noah Gao <noahgaocn@gmail.com>
